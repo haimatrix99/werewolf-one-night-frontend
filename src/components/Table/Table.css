@@ -1,0 +1,34 @@
+.Table {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+.Left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.Right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.Center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.Top {
+    display: flex;
+    justify-content: center;
+}
+
+.ThreeRemainCard {
+    display: flex;
+    justify-content: center;
+}

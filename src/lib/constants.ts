@@ -1,0 +1,4 @@
+const MIN_PLAYERS = 3;
+const MAX_PLAYERS = 10;
+
+export { MIN_PLAYERS, MAX_PLAYERS };

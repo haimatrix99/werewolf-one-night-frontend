@@ -1,0 +1,38 @@
+.Role {
+    display: flex;
+    width: 300px;
+}
+
+.RoleName {
+    width: 200px;
+    background-color: gray;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding-left: 15px;
+    margin: 5px 0px;
+    list-style-type: none;
+}
+
+.Number {
+    background-color: gray;
+    width: 40px;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin: 5px 5px;
+    text-align: center;
+}
+
+
+.btn {
+    display: flex;
+    margin: 7px 0px 0px;
+}
+
+.iconBtn {
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.iconBtn:hover {
+    transform: scale(1.1);
+}
