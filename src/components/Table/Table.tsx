@@ -6,7 +6,7 @@ import PlayerCard from "./Card/PlayerCard";
 import { User } from "../../lib/types";
 import { Role } from "../../lib/enums";
 import { splitUser } from "../../handlers/splitUser";
-import { BiSolidRightArrowSquare } from "react-icons/bi"
+import { BiSolidRightArrowSquare } from "react-icons/bi";
 import Roles from "./Roles/Roles";
 
 type TableProps = {
@@ -44,25 +44,39 @@ export default function Table({
 
   const [showListRoles, setShowListRoles] = useState(false);
 
-  
   return (
     <div className="Table">
-      <button className="ShowTableButton" onClick={() => {setShowListRoles(!showListRoles)}}>
+      <button
+        className="ShowTableButton"
+        onClick={() => {
+          setShowListRoles(!showListRoles);
+        }}
+      >
         <BiSolidRightArrowSquare />
       </button>
-      {
-        showListRoles ? <Roles roles={roles} /> : null
-      }
+      {showListRoles ? <Roles roles={roles} /> : null}
       <div className="Left">
-        <PlayerCard position="Left" users={leftUsers.map((user) => user)} hidden={false}/>
+        <PlayerCard
+          position="Left"
+          users={leftUsers.map((user) => user)}
+          hidden={false}
+        />
       </div>
       <div className="Center">
-        <PlayerCard position="Top" users={topUsers.map((user) => user)} hidden={false}/>
-        <ThreeRemainCard roles={threeRemainCard} hidden={false}/>
-        <UserCard role={currentUser.role} hidden={true}/>
+        <PlayerCard
+          position="Top"
+          users={topUsers.map((user) => user)}
+          hidden={false}
+        />
+        <ThreeRemainCard roles={threeRemainCard} hidden={false} />
+        <UserCard role={currentUser.role} hidden={true} />
       </div>
       <div className="Right">
-        <PlayerCard position="Right" users={rightUsers.map((user) => user)} hidden={false}/>
+        <PlayerCard
+          position="Right"
+          users={rightUsers.map((user) => user)}
+          hidden={false}
+        />
       </div>
     </div>
   );

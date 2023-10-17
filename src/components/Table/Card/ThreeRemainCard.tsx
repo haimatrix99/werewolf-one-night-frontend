@@ -11,7 +11,7 @@ export default function ThreeRemainCard({ roles, hidden }: ThreeRemainCardProps)
   return (
     <div className="ThreeRemainCard">
       {roles.map((role, index) => (
-        <div>
+        <div key={index}>
           <img
             className="CardImage ThreeRemainCardImageSize"
             src={require(`../../../assets/roles/${role}.jpg`)}

@@ -9,7 +9,7 @@ type UserCardProps = {
 
 export default function UserCard({ role, hidden }: UserCardProps) {
   return (
-    <div className="User">
+    <div>
       <img
         className="CardImage PlayerCardImageSize"
         src={require(`../../../assets/roles/${role}.jpg`)}

@@ -11,8 +11,8 @@ type PlayerCardProps = {
 export default function PlayerCard({ position, users, hidden }: PlayerCardProps) {
   return (
     <div className={position}>
-      {users.map((user) => (
-        <div>
+      {users.map((user, index) => (
+        <div key={index}>
           <img
             className="CardImage PlayerCardImageSize"
             src={require(`../../../assets/roles/${user.role}.jpg`)}

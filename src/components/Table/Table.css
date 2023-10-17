@@ -2,7 +2,6 @@
     height: 100%;
     display: flex;
     justify-content: center;
-    flex: 1;
 }
 
 .Left {
@@ -39,11 +38,12 @@
     font-size: 50px;
     position: absolute;
     top: 50%;
-    left: 0;
+    transform: translateY(-50%);
+    left: -20px;
     background: rgba(0,0,0,0);
-    border: none; /* Remove borders */
-    color: gray; /* White text */
-    cursor: pointer; /* Mouse pointer on hover */
+    border: none;
+    color: gray;
+    cursor: pointer;
 }
 
 .ShowTableButton:hover {

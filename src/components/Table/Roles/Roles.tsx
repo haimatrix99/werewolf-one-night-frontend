@@ -9,7 +9,7 @@ type RolesProps = {
 export default function Roles({ roles }: RolesProps) {
   return (
     <div className="Roles">
-      <p className="RolesListTitle">Danh sách chức năng</p>
+      {/* <p className="RolesListTitle">Danh sách chức năng</p> */}
       <ul className="RolesList">
         {roles.map((role, index) => (
           <div className="Role">
