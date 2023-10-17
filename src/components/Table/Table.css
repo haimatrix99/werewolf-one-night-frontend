@@ -21,6 +21,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .Top {
@@ -31,4 +32,20 @@
 .ThreeRemainCard {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+}
+
+.ShowTableButton {
+    font-size: 50px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    background: rgba(0,0,0,0);
+    border: none; /* Remove borders */
+    color: gray; /* White text */
+    cursor: pointer; /* Mouse pointer on hover */
+}
+
+.ShowTableButton:hover {
+    opacity: 0.8;
 }

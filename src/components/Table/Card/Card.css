@@ -1,0 +1,44 @@
+.CardImage {
+    border-radius: 10%;
+    border-color: gray;
+    transition: transform 0.4s;
+}
+
+.Name {
+    color: #fff;
+    border: 2px solid black;
+    background-color: gray;
+    border-radius: 30px;
+    max-width: 150px;
+    font-weight: 500;
+}
+
+.PlayerCardImageSize {
+    width: 125px;
+    height: 175px;
+    margin: 10px;
+}
+
+.PlayerName {
+    font-size: 20px;
+}
+
+.ThreeRemainCard {
+    margin: 75px 200px;
+}
+
+.ThreeRemainCardImageSize {
+    width: 75px;
+    height: 100px;
+    margin: 0px 30px;
+}
+
+.ThreeRemainName {
+    font-size: 15px;
+    margin-top: 8px;
+}
+
+.CardImage:hover,
+.ThreeRemainCardImage:hover {
+    transform: scale(1.05);
+}
