@@ -22,10 +22,15 @@
 .MessageInput {
     flex: 1;
     border-radius: 0px 0px 0px 10px;
+    border: 0px solid white;
     border-left: 2px solid white;
-    border-top: 0px solid white;
-    border-right: 0px solid white;
-    border-bottom: 0px solid white;
+    padding-left: 10px;
+    outline: none;
+}
+
+.MessageInput:focus::placeholder {
+    color: transparent;
+    border-color: rgb(82, 81, 81);
 }
 
 .MessageSendButton {
@@ -39,8 +44,12 @@
 }
 
 .MessageBody {
-    flex: 1;
     overflow: auto;
+    flex: 1;
+}
+
+.MessageBody::-webkit-scrollbar {
+    display: none;
 }
 
 .Message {

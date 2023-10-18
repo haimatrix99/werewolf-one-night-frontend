@@ -4,34 +4,15 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 
 import "./Messages.css";
 
-export default function Messages() {
-  const name = "test";
-  const messages = [
-    {
-      user: "test",
-      text: "Hello 1",
-    },
-    {
-      user: "test2",
-      text: "Hello 2",
-    },
-    {
-      user: "test3",
-      text: "Hello 3",
-    },
-    {
-      user: "test4",
-      text: "Hello 4",
-    },
-    {
-      user: "test",
-      text: "Hello 5"
-    },
-    {
-      user: "test",
-      text: "Hello 6"
-    }
-  ];
+type MessagesProps = {
+  messages: {
+    user: string;
+    text: string;
+  }[]
+  name: string;
+}
+
+export default function Messages({messages, name}: MessagesProps) {
   return (
     <div className="Messages">
       <div className="MessageBody">

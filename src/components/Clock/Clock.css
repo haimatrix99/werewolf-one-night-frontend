@@ -12,16 +12,25 @@
 .ClockIcon {
     color: white;
     font-size: 20px;
-    padding: 10px 10px 6px 10px;
     cursor: pointer;
     transition: transform 0.5s;
     background: rgba(0, 0, 0, 0);
     border: none;
+    position: absolute; 
+}
+
+.ClockIconLeft {
+    padding: 12px 8px;
+}
+
+.ClockIconRight {
+    padding: 12px 120px;
 }
 
 .Time {
     font-size: 30px;
     font-weight: 500;
     color: white;
-    margin-right: 60px;
+    margin: auto;
+    padding-bottom: 5px;
 }

@@ -9,7 +9,6 @@ import Sound from "../Sound/Sound";
 import Clock from "../Clock/Clock";
 import Messages from "../Messages/Messages";
 
-
 const rolesPool: Role[] = [
   Role.Werewolf,
   Role.Werewolf,
@@ -30,14 +29,26 @@ const users: User[] = rolesPlayerPool.map((role, index) => {
   };
 });
 
+const name = "test";
+const messages = [
+  {
+    user: "test",
+    text: "Hello 1",
+  },
+  {
+    user: "test2",
+    text: "Hello 2",
+  },
+];
+
 export default function Game() {
   return (
     <div className="Game">
       <div className="bg-image"></div>
-      <Voice/>
-      <Sound/>
-      <Clock counter={30}/>
-      <Messages/>
+      <Voice />
+      <Sound />
+      <Clock counter={0} />
+      <Messages messages={messages} name={name} />
       <Table
         users={users}
         currentUser={users[3]}

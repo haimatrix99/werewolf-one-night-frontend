@@ -8,12 +8,14 @@ type ClockProps = {
 
 export default function Clock({ counter }: ClockProps) {
   const [second, setSecond] = useState(counter);
+  const [done, setDone] = useState(false);
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (second > 0) {
       timer = setTimeout(() => setSecond((c) => c - 1), 1000);
+    } else {
+      setDone(true)
     }
-
     return () => {
       if (timer) {
         clearTimeout(timer);
@@ -22,10 +24,13 @@ export default function Clock({ counter }: ClockProps) {
   }, [second]);
   return (
     <div className="Clock">
-      <button className="ClockIcon">
+      <button className="ClockIcon ClockIconLeft">
         <AiFillClockCircle />
       </button>
-      <span className="Time">{second}</span>
+      <span className="Time">{!done ? second : "Done"}</span>
+      <button className="ClockIcon ClockIconRight">
+        <AiFillClockCircle />
+      </button>
     </div>
   );
 }
