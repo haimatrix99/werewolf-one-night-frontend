@@ -1,0 +1,41 @@
+.MessageContainer {
+    height: 30px;
+    width: 100%;
+    display: flex;
+}
+
+.MessageText {
+    border: 2px solid gray;
+    border-radius: 5px;
+    background-color: greenyellow;
+    min-width: 70px;
+    width: fit-content;
+    padding: 0 5px;
+    margin-right: 10px;
+    margin-top: 10px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.RightMessage {
+    justify-content: flex-end;
+}
+
+.RightMessageText {
+    margin-left: 10px;
+}
+
+.LeftMessage {
+    justify-content: flex-start;
+}
+
+.LeftMessageText {
+    background-color: violet;
+}
+
+.UserMessage {
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 10px;
+}

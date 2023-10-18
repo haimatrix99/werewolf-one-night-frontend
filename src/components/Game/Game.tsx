@@ -7,6 +7,7 @@ import "./Game.css";
 import Voice from "../Voice/Voice";
 import Sound from "../Sound/Sound";
 import Clock from "../Clock/Clock";
+import Messages from "../Messages/Messages";
 
 
 const rolesPool: Role[] = [
@@ -36,6 +37,7 @@ export default function Game() {
       <Voice/>
       <Sound/>
       <Clock counter={30}/>
+      <Messages/>
       <Table
         users={users}
         currentUser={users[3]}

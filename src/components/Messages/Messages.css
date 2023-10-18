@@ -1,0 +1,48 @@
+.Messages {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: gray;
+    width: 400px;
+    height: 200px;
+    margin-top: 10px;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+.MessageFooter {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px;
+    background-color: gray;
+}
+
+.MessageInput {
+    flex: 1;
+    border-radius: 0px 0px 0px 10px;
+    border-left: 2px solid white;
+    border-top: 0px solid white;
+    border-right: 0px solid white;
+    border-bottom: 0px solid white;
+}
+
+.MessageSendButton {
+    color: white;
+    font-size: 14px;
+    padding: 10px 10px 6px 10px;
+    cursor: pointer;
+    transition: transform 0.5s;
+    background: rgba(0, 0, 0, 0);
+    border: none;
+}
+
+.MessageBody {
+    flex: 1;
+    overflow: auto;
+}
+
+.Message {
+    display: flex;
+}
