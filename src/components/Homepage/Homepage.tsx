@@ -13,7 +13,7 @@ export default function Homepage() {
           ></img>
           <h1 className="HomepageTitle">Werewolf One Night</h1>
         </div>
-        <div>
+        <div className="HomepageInfo">
           <div className="HomepageName">
             <input
               type="text"

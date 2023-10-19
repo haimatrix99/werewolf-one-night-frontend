@@ -8,7 +8,7 @@
   width: 600px;
   margin: auto;
   background-color: gray;
-  border: 2px sonlid white;
+  border: 2px solid white;
   border-radius: 20px;
 }
 
@@ -36,8 +36,15 @@
   }
 }
 
+.HomepageInfo {
+  padding: 20px 0px;
+  margin: 0px 30px;
+  border: 2px solid white;
+  border-radius: 10px;
+}
+
 .HomepageInput {
-  border: 2px solid gray;
+  border: 2px solid white;
   border-radius: 10px;
   font-size: 20px;
   padding: 10px;
@@ -62,7 +69,7 @@
 
 .HomepageButton {
   font-size: 20px;
-  border: 2px solid gray;
+  border: 2px solid white;
   border-radius: 10px;
   padding: 10px;
   color: gray;
