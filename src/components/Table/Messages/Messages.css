@@ -1,39 +1,39 @@
-.Messages {
+.MessagesInGame {
     position: absolute;
+    width: 400px;
+    height: 200px;
     top: 0;
     right: 0;
     background-color: gray;
-    width: 400px;
-    height: 200px;
     margin-top: 10px;
     margin-right: 10px;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
+    border: 2px solid white;
 }
 
-.MessageFooter {
+.MessagesInGameFooter {
     display: flex;
     justify-content: space-between;
     border-radius: 10px;
     background-color: gray;
 }
 
-.MessageInput {
+.MessagesInGameInput {
     flex: 1;
-    border-radius: 0px 0px 0px 10px;
+    border-radius: 0px 0px 0px 8px;
     border: 0px solid white;
     border-left: 2px solid white;
     padding-left: 10px;
     outline: none;
 }
 
-.MessageInput:focus::placeholder {
-    color: transparent;
+.MessagesInGameInput:focus::placeholder {
     border-color: rgb(82, 81, 81);
 }
 
-.MessageSendButton {
+.MessagesInGameSendButton {
     color: white;
     font-size: 14px;
     padding: 10px 10px 6px 10px;
@@ -43,15 +43,17 @@
     border: none;
 }
 
-.MessageBody {
+.MessagesInGameBody {
     overflow: auto;
     flex: 1;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
-.MessageBody::-webkit-scrollbar {
+.MessagesInGameBody::-webkit-scrollbar {
     display: none;
 }
 
-.Message {
+.MessagesInGame {
     display: flex;
 }

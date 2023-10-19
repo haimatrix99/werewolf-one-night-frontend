@@ -8,6 +8,10 @@ import { Role } from "../../lib/enums";
 import { splitUser } from "../../handlers/splitUser";
 import { BiSolidRightArrowSquare } from "react-icons/bi";
 import Roles from "./Roles/Roles";
+import Clock from "./Clock/Clock";
+import Voice from "../Voice/Voice";
+import Messages from "./Messages/Messages";
+import Sound from "../Sound/Sound";
 
 type TableProps = {
   users: User[];
@@ -24,6 +28,14 @@ const roles = [
   Role.Robber,
   Role.Troublemaker,
   Role.Seer,
+];
+
+const name = "test";
+const messages = [
+  {
+    user: "test",
+    text: "Hello 1",
+  },
 ];
 
 export default function Table({
@@ -46,6 +58,12 @@ export default function Table({
 
   return (
     <div className="Table">
+      <div className="RoomIDInfo">
+        <span className="RoomIDInfoText">Room ID: WEW272</span>
+      </div>
+      <Voice />
+      <Sound />
+      <Messages messages={messages} name={name} />
       <button
         className="ShowTableButton"
         onClick={() => {
@@ -69,6 +87,8 @@ export default function Table({
           hidden={false}
         />
         <ThreeRemainCard roles={threeRemainCard} hidden={false} />
+        <Clock counter={0} />
+
         <UserCard role={currentUser.role} hidden={true} />
       </div>
       <div className="Right">

@@ -1,18 +1,4 @@
 .Game {
-    height: 100%;
     display: flex;
-    justify-content: space-around;
     position: relative;
-}
-
-.bg-image {
-    width: 100%;
-    height: 100%;
-    background-image: url('../../assets/werewolf-one-night.jpg');
-    background-position: center;
-    background-size: cover;
-    filter: blur(3px);
-    -webkit-filter: blur(3px);
-    position: absolute;
-    z-index: -1;
 }

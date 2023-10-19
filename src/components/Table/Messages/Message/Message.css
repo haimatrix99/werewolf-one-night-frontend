@@ -1,0 +1,42 @@
+.MessageInGameContainer {
+    display: flex;
+    margin: 5px;
+    align-items: center;
+}
+
+.MessageInGameText {
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 5px;
+    background-color: #2fd5ff;
+    max-width: 250px;
+    width: fit-content;
+    height: fit-content;    
+    padding: 2px 5px;
+    text-align: left;
+    word-wrap: break-word;
+    line-height: 20px;
+}
+
+.RightMessageInGame {
+    justify-content: flex-end;
+}
+
+.RightMessageInGameText {
+    margin-left: 5px;
+}
+
+.LeftMessageInGame {
+    justify-content: flex-start;
+}
+
+.LeftMessageInGameText {
+    background-color: violet;
+    margin-right: 5px;
+}
+
+.UserMessageInGame {
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+}

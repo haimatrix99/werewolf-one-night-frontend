@@ -1,41 +1,42 @@
-.MessageContainer {
+.MessageInRoomContainer {
     display: flex;
-    margin: 5px;
+    margin: 10px 20px;
     align-items: center;
 }
 
-.MessageText {
-    font-size: 14px;
+.MessageInRoomText {
+    font-size: 24px;
     font-weight: 400;
     border-radius: 5px;
     background-color: #2fd5ff;
     max-width: 250px;
     width: fit-content;
     height: fit-content;    
-    padding: 0px 5px;
+    padding: 5px 20px;
     text-align: left;
     word-wrap: break-word;
     line-height: 20px;
 }
 
-.RightMessage {
+.RightMessageInRoom {
     justify-content: flex-end;
 }
 
-.RightMessageText {
+.RightMessageInRoomText {
     margin-left: 5px;
 }
 
-.LeftMessage {
+.LeftMessageInRoom {
     justify-content: flex-start;
 }
 
-.LeftMessageText {
+.LeftMessageInRoomText {
     background-color: violet;
     margin-right: 5px;
 }
 
-.UserMessage {
-    font-size: 14px;
+.UserMessageInRoom {
+    font-size: 20px;
     font-weight: 400;
+    color: white;
 }

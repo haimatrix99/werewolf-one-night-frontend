@@ -1,5 +1,6 @@
 .Table {
-    height: 100%;
+    position: absolute;
+    width: 100%;
     display: flex;
     justify-content: center;
 }
@@ -19,6 +20,7 @@
 .Center {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
     flex-wrap: wrap;
 }
@@ -34,18 +36,23 @@
     flex-wrap: wrap;
 }
 
-.ShowTableButton {
-    font-size: 50px;
+.RoomIDInfo {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: -20px;
-    background: rgba(0,0,0,0);
-    border: none;
-    color: gray;
-    cursor: pointer;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: fit-content;
+    height: 60px;
+    margin: 30px;
+    background-color: gray;
+    border: 2px solid white;
+    border-radius: 10px;
+    align-items: center;
 }
 
-.ShowTableButton:hover {
-    opacity: 0.8;
+.RoomIDInfoText {
+    padding: 0px 30px;
+    font-size: 24px;
+    font-weight: 500;
+    color: white;
 }

@@ -7,7 +7,7 @@
     margin: auto 30px;
     position: absolute;
     left: 0;
-    z-index: 9999;
+    z-index: 1;
 }
 
 .RolesList {
@@ -62,4 +62,20 @@
 .IconButton:hover {
     opacity: 0.8;
     transform: scale(1.05);
+}
+
+.ShowTableButton {
+    font-size: 50px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -20px;
+    background: rgba(0,0,0,0);
+    border: none;
+    color: gray;
+    cursor: pointer;
+}
+
+.ShowTableButton:hover {
+    opacity: 0.8;
 }
