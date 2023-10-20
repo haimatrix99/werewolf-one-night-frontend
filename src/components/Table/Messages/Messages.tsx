@@ -21,7 +21,7 @@ export default function MessagesInGame({ messages, name }: MessagesProps) {
       event.preventDefault();
     }
     
-    const users = ['test', 'test2', 'test3']
+    const users = ['test', 'test2', 'test3', 'test4']
     const message = {
       user: users[Math.floor(Math.random()*users.length)],
       text: messageToSend,

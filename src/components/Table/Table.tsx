@@ -14,21 +14,12 @@ import Messages from "./Messages/Messages";
 import Sound from "../Sound/Sound";
 
 type TableProps = {
+  code: string;
+  roles: Role[];
   users: User[];
   currentUser: User;
   threeRemainCard: Role[];
 };
-
-const roles = [
-  Role.Werewolf,
-  Role.Werewolf,
-  Role.Villager,
-  Role.Villager,
-  Role.Insomniac,
-  Role.Robber,
-  Role.Troublemaker,
-  Role.Seer,
-];
 
 const name = "test";
 const messages = [
@@ -39,6 +30,8 @@ const messages = [
 ];
 
 export default function Table({
+  code,
+  roles,
   users,
   currentUser,
   threeRemainCard,
@@ -59,7 +52,7 @@ export default function Table({
   return (
     <div className="Table">
       <div className="RoomIDInfo">
-        <span className="RoomIDInfoText">Room ID: WEW272</span>
+        <span className="RoomIDInfoText">Room ID: {code}</span>
       </div>
       <Voice />
       <Sound />

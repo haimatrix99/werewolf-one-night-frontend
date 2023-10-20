@@ -10,9 +10,10 @@ type MessagesProps = {
     text: string;
   }[];
   name: string;
+  code: string | undefined;
 };
 
-export default function MessagesInRoom({ messages, name }: MessagesProps) {
+export default function MessagesInRoom({ messages, name, code }: MessagesProps) {
   const [messageToSend, setMessage] = useState("");
   const [sendButton, setSendButton] = useState(false);
 
@@ -33,7 +34,7 @@ export default function MessagesInRoom({ messages, name }: MessagesProps) {
   return (
     <div className="MessagesInRoom">
       <div className="RoomInfo">
-        <span className="RoomInfoText">Room ID: 1SFAT2</span>
+        <span className="RoomInfoText">Room ID: {code}</span>
       </div>
       <div className="MessagesInRoomBody">
         {messages.map((message, index) => (
