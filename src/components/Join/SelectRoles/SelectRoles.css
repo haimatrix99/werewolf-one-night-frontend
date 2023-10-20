@@ -1,0 +1,78 @@
+.SelectRoles {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto 30px;
+}
+
+.SelectRolesListTitle {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 500;
+    color: white;
+    padding: 20px;
+    background-color: gray;
+    border-radius: 10px;
+    border: 2px solid white;
+}
+
+.SelectRolesList {
+    font-weight: 500;
+    font-size: 20px;
+    text-align: left;
+    background-color: gray;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.SelectRole {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.SelectRoleInfo {
+    color: white;
+    border: 2px solid white;
+    background-color: gray;
+    border-radius: 5px;
+}
+
+.SelectRoleName {
+    flex: 1;
+    padding: 0px 15px;
+    margin: 5px 0px;
+    list-style-type: none;
+}
+
+.NumberCard {
+    color: white;
+    min-width: 40px;
+    margin: 5px 5px;
+    text-align: center;
+    border-radius: 5px;
+    border: 2px solid white;
+}
+
+.SelectRoleButton {
+    color: white;
+    font-size: 20px;
+    margin: 0 3px;
+    margin-top: 3px;
+    cursor: pointer;
+    transition: all 0.5s;
+    background: rgba(0, 0, 0, 0);
+    border: none;
+}
+
+.SelectRoleButton:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+
+.SelectRoleButton:disabled {
+    opacity: 0.3;
+}

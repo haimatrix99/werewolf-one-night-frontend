@@ -82,7 +82,7 @@ export default function Table({
         <ThreeRemainCard roles={threeRemainCard} hidden={false} />
         <Clock counter={0} />
 
-        <UserCard role={currentUser.role} hidden={true} />
+        <UserCard role={currentUser?.role} hidden={true} />
       </div>
       <div className="Right">
         <PlayerCard

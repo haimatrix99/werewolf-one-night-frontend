@@ -1,10 +1,5 @@
 import { Role } from "./enums";
 
-export type User = {
-  name: string;
-  role: Role;
-};
-
 export type RoleCard = {
   Doppelganger: 1;
   Drunk: 1;
@@ -21,10 +16,26 @@ export type RoleCard = {
 };
 
 export type Action = {
+  roles: string[]
+  index: number;
   type: "plus" | "minus";
-  role: string;
 };
 
-export type NumberCards = {
-  [key: string]: number
+export type State = {
+  rolesPool: string[];
+  numbers: number[];
+};
+
+export type User =  {
+  id: string;
+  name: string;
+  code: string;
+  master: boolean;
+  role: Role;
+  error?: string;
 }
+
+export type MessageInfo = {
+  user: string;
+  text: string;
+};

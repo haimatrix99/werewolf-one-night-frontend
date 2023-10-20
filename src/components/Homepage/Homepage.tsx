@@ -2,17 +2,22 @@ import React, { useState } from "react";
 import "./Homepage.css";
 import randomCodeGenerate from "../../handlers/randomCodeGenerator";
 import { useNavigate } from "react-router-dom";
+import { useSocket } from "../../providers/socket-provider";
+import { User } from "../../lib/types";
 
 export default function Homepage() {
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const navigate = useNavigate();
-  
+  const { socket } = useSocket();
+
   const handleButtonCreate = () => {
     if (name === "") {
       alert("Usename must not be empty");
     } else {
-      navigate(`/room?code=${randomCodeGenerate(6)}`, { replace: true });
+      const code = randomCodeGenerate(6);
+      socket.emit("create-room", { name, code }, (result: User) => {});
+      navigate(`/room?code=${code}&name=${name}`, { replace: true });
     }
   };
 
@@ -20,7 +25,13 @@ export default function Homepage() {
     if (name === "" || code === "") {
       alert("Usename or code must not be empty");
     } else {
-      navigate(`/room?code=${code}`, { replace: true });
+      socket.emit("join", { name, code }, (result: User | string) => {
+        if (result === "Username is taken.") {
+          alert(result);
+          navigate("/", {replace: true})
+        }
+      });
+      navigate(`/room?code=${code}&name=${name}`, { replace: true });
     }
   };
 
