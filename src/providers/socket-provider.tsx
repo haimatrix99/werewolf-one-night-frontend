@@ -23,7 +23,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     const socketInstance = new (ClientIO as any)(
       process.env.REACT_APP_ENDPOINT || "http://localhost:5000",
       {
-        path: "/",
+        path: "/api/socket/io",
         addTrailingSlash: false,
       }
     );

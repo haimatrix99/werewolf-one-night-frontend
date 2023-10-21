@@ -19,7 +19,6 @@ export const useUserSocket = ({ userKey }: UserSocketProps) => {
       return;
     }
     socket.on(userKey, (users: Users) => {
-      console.log(users)
       setUsersOnline(users);
     });
     return () => {

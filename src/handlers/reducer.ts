@@ -1,8 +1,9 @@
+import { Role } from "../lib/enums";
 import { Action, State } from "../lib/types";
 
 export function reducer(state: State, action: Action) {
   if (action.type === "plus") {
-    state.rolesPool.push(action.roles[action.index])
+    state.rolesPool.push(action.roles[action.index] as Role)
     return {
       rolesPool: state.rolesPool,
       numbers: state.numbers.map((number, index) =>

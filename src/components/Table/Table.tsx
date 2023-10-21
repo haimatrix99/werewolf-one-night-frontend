@@ -10,8 +10,8 @@ import { BiSolidRightArrowSquare } from "react-icons/bi";
 import Roles from "./Roles/Roles";
 import Clock from "./Clock/Clock";
 import Voice from "../Voice/Voice";
-import Messages from "./Messages/Messages";
 import Sound from "../Sound/Sound";
+import MessagesInGame from "./Messages/Messages";
 
 type TableProps = {
   code: string;
@@ -20,14 +20,6 @@ type TableProps = {
   currentUser: User;
   threeRemainCard: Role[];
 };
-
-const name = "test";
-const messages = [
-  {
-    user: "test",
-    text: "Hello 1",
-  },
-];
 
 export default function Table({
   code,
@@ -56,7 +48,7 @@ export default function Table({
       </div>
       <Voice />
       <Sound />
-      <Messages messages={messages} name={name} />
+      <MessagesInGame name={currentUser.name} />
       <button
         className="ShowTableButton"
         onClick={() => {

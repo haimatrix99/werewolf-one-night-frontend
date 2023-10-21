@@ -22,7 +22,7 @@ export type Action = {
 };
 
 export type State = {
-  rolesPool: string[];
+  rolesPool: Role[];
   numbers: number[];
 };
 

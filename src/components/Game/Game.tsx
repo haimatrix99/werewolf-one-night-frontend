@@ -1,38 +1,34 @@
 import React from "react";
-import Table from "../Table/Table";
-import { Role } from "../../lib/enums";
 import "./Game.css";
-import { pickRandomItems } from "../../handlers/pickRandomItems";
 import queryString from "query-string";
-import { useGameSocket } from "../../hooks/use-game-socket";
+import Table from "../Table/Table";
+import { useRoleGameSocket } from "../../hooks/use-role-game-socket";
+import { shuffle } from "../../handlers/shuffleArray";
 
 export default function Game() {
   const params = queryString.parse(window.location.search);
   const code = params.code as string;
   const name = params.name as string;
 
-  const rolesPool: Role[] = [
-    Role.Werewolf,
-    Role.Werewolf,
-    Role.Villager,
-    Role.Villager,
-    Role.Insomniac,
-    Role.Robber,
-    Role.Troublemaker,
-    Role.Seer,
-  ];
+  const { rolesPlayer, threeRemainCard } = useRoleGameSocket({
+    roleKey: "game-info",
+    code: code.toLowerCase(),
+  });
 
-  // useGameSocket({gameKey: "game"})
+
+  const roles = shuffle([...threeRemainCard, ...rolesPlayer.map((user) => user.role)])
 
   return (
     <div className="Game">
-      {/* <Table
-        code={code}
-        roles={rolesPool}
-        users={users}
-        currentUser={}
-        threeRemainCard={threeRemainCard}
-      /> */}
+      {rolesPlayer.length > 0 && (
+        <Table
+          code={code}
+          roles={roles}
+          users={rolesPlayer}
+          currentUser={rolesPlayer.filter((user) => user.name === name)[0]}
+          threeRemainCard={threeRemainCard}
+        />
+      )}
     </div>
   );
 }

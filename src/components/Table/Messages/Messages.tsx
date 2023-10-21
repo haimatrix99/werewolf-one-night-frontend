@@ -3,32 +3,29 @@ import MessageInGame from "./Message/Message";
 import { BiMessageSquareDetail } from "react-icons/bi";
 
 import "./Messages.css";
+import { useChatSocket } from "../../../hooks/use-chat-socket";
+import { useSocket } from "../../../providers/socket-provider";
 
 type MessagesProps = {
-  messages: {
-    user: string;
-    text: string;
-  }[];
   name: string;
 };
 
-export default function MessagesInGame({ messages, name }: MessagesProps) {
+export default function MessagesInGame({ name }: MessagesProps) {
   const [messageToSend, setMessage] = useState("");
   const [sendButton, setSendButton] = useState(false);
-
+  const { socket } = useSocket();
+  
   const sendMessage = (event: React.KeyboardEvent<HTMLInputElement> | null) => {
     if (event) {
       event.preventDefault();
     }
     
-    const users = ['test', 'test2', 'test3', 'test4']
-    const message = {
-      user: users[Math.floor(Math.random()*users.length)],
-      text: messageToSend,
-    };
-    messages.unshift(message);
-    setMessage("");
+    if (messageToSend) {
+      socket.emit("user-message", messageToSend, () => setMessage(""));
+    }
   };
+
+  const { messages } = useChatSocket({ messageKey: "message" });
 
   return (
     <div className="MessagesInGame">

@@ -51,7 +51,7 @@
 }
 
 .MessagesInGameBody::-webkit-scrollbar {
-    /* display: none; */
+    display: none;
 }
 
 .MessagesInGame {
