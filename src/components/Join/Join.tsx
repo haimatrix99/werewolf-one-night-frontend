@@ -47,6 +47,7 @@ export default function Join() {
         return {
           ...user,
           role: rolesPlayerPool[index],
+          firstRole: rolesPlayerPool[index],
         };
       });
       setRolesPlayer(rolesPlayer);

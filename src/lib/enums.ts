@@ -8,7 +8,7 @@ export enum Role {
   Insomniac = "Insomniac",
   Robber = "Robber",
   Tanner = "Tanner",
-  Minion = "Minion",
-  Mason = "Mason",
-  Doppelganger = "Doppelganger",
+  // Minion = "Minion",
+  // Mason = "Mason",
+  // Doppelganger = "Doppelganger",
 }

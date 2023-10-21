@@ -15,9 +15,10 @@ export default function Game() {
     code: code.toLowerCase(),
   });
 
-
-  const roles = shuffle([...threeRemainCard, ...rolesPlayer.map((user) => user.role)])
-
+  const roles = shuffle([
+    ...threeRemainCard,
+    ...rolesPlayer.map((user) => user.role),
+  ]);
   return (
     <div className="Game">
       {rolesPlayer.length > 0 && (

@@ -5,11 +5,12 @@ import "./Card.css";
 type UserCardProps = {
   role: Role;
   hidden: boolean
+  onClick: (action: any) => void;
 };
 
-export default function UserCard({ role, hidden }: UserCardProps) {
+export default function UserCard({ role, hidden, onClick }: UserCardProps) {
   return (
-    <div>
+    <div onClick={() => onClick(role)}>
       <img
         className="CardImage PlayerCardImageSize"
         src={require(`../../../assets/roles/${role}.jpg`)}

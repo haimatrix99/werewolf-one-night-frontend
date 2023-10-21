@@ -6,13 +6,19 @@ type PlayerCardProps = {
   position: string;
   users: User[];
   hidden: boolean;
+  onClick: (action: any) => void;
 };
 
-export default function PlayerCard({ position, users, hidden }: PlayerCardProps) {
+export default function PlayerCard({
+  position,
+  users,
+  hidden,
+  onClick,
+}: PlayerCardProps) {
   return (
     <div className={position}>
       {users.map((user, index) => (
-        <div key={index}>
+        <div key={index} onClick={() => onClick(user)}>
           <img
             className="CardImage PlayerCardImageSize"
             src={require(`../../../assets/roles/${user.role}.jpg`)}

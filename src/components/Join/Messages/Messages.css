@@ -52,7 +52,7 @@
 }
 
 .MessagesInRoomBody::-webkit-scrollbar {
-    /* display: none; */    
+    /* display: none; */
 }
 
 .MessagesInRoom {
@@ -72,4 +72,14 @@
     font-weight: 500;
     padding-left: 20px;
     color: white;
+}
+
+.ClipboardIcon {
+    color: white;
+    font-size: 20px;
+    padding: 10px 10px 6px 10px;
+    cursor: pointer;
+    transition: transform 0.5s;
+    background: rgba(0, 0, 0, 0);
+    border: none;
 }

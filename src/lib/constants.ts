@@ -2,12 +2,12 @@ const MIN_PLAYERS = 1;
 const MAX_PLAYERS = 10;
 
 const ROLE_CARD: { [key: string]: number }  = {
-  "Doppelganger": 1,
+  // "Doppelganger": 1,
   "Drunk": 1,
   "Hunter": 1,
   "Insomniac": 1,
-  "Mason": 2,
-  "Minion": 1,
+  // "Mason": 2,
+  // "Minion": 1,
   "Robber": 1,
   "Seer": 1,
   "Tanner": 1,

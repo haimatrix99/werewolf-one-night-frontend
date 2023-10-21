@@ -14,7 +14,7 @@ export default function Clock({ counter }: ClockProps) {
     if (second > 0) {
       timer = setTimeout(() => setSecond((c) => c - 1), 1000);
     } else {
-      setDone(true)
+      setDone(true);
     }
     return () => {
       if (timer) {

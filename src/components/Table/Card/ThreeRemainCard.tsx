@@ -5,13 +5,18 @@ import "./Card.css";
 type ThreeRemainCardProps = {
   roles: Role[];
   hidden: boolean;
+  onClick: (action: any) => void;
 };
 
-export default function ThreeRemainCard({ roles, hidden }: ThreeRemainCardProps) {
+export default function ThreeRemainCard({
+  roles,
+  hidden,
+  onClick,
+}: ThreeRemainCardProps) {
   return (
     <div className="ThreeRemainCard">
       {roles.map((role, index) => (
-        <div key={index}>
+        <div key={index} onClick={() => onClick(index)}>
           <img
             className="CardImage ThreeRemainCardImageSize"
             src={require(`../../../assets/roles/${role}.jpg`)}
