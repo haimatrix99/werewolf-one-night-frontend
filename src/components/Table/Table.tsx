@@ -19,6 +19,7 @@ import {
   handleActionTroublemaker,
 } from "../../handlers/actions";
 import { useClock } from "../../providers/clock-provider";
+import { confirm } from "../../util/confirm";
 
 type TableProps = {
   code: string;
@@ -63,13 +64,13 @@ export default function Table({
   const werewolfCanDo =
     roles.filter((role) => role === Role.Werewolf).length === 1;
 
-  const handleClick = (card: any) => {
+  const handleClick = async (card: any) => {
     if (!currentUser.action) {
       if (currentUser.firstRole === Role.Robber && turn === 3) {
         if (typeof card === "object") {
-          alert(`Bạn đã chọn người chơi ${card.name}`);
+          // alert(`Bạn đã chọn người chơi ${card.name}`);
           if (
-            window.confirm(
+            await confirm(
               "Bạn xác nhận muốn đổi lá bài với người chơi này không?"
             )
           ) {
@@ -78,15 +79,15 @@ export default function Table({
             return;
           }
         } else {
-          alert(`Bạn không thể chọn bài này`);
+          return;
         }
       } else if (currentUser.firstRole === Role.Troublemaker && turn === 4) {
         if (setPlayerTroublemaker.size < 2 && typeof card === "object") {
-          alert(`Bạn đã chọn người chơi ${card.name}`);
+          // alert(`Bạn đã chọn người chơi ${card.name}`);
           setPlayerTroublemaker.add(card as User);
           if (setPlayerTroublemaker.size === 2) {
             if (
-              window.confirm(
+              await confirm(
                 "Bạn xác nhận muốn đối vị trí của 2 người chơi này không?"
               )
             ) {
@@ -101,18 +102,18 @@ export default function Table({
             }
           }
         } else {
-          alert(`Bạn không thể chọn bài này`);
+          return;
         }
       } else if (currentUser.firstRole === Role.Drunk) {
         if (typeof card === "number") {
-          alert(`Bạn đã chọn người chơi Card ${card + 1}`);
-          if (window.confirm("Bạn xác nhận muốn đổi lá bài này không?")) {
+          // alert(`Bạn đã chọn người chơi Card ${card + 1}`);
+          if (await confirm("Bạn xác nhận muốn đổi lá bài này không?")) {
             handleActionDrunk(socket, currentUser, code, card);
           } else {
             return;
           }
         } else {
-          alert(`Bạn không thể chọn bài này`);
+          return;
         }
       } else if (
         currentUser.firstRole === Role.Werewolf &&
@@ -120,8 +121,8 @@ export default function Table({
         turn === 1
       ) {
         if (typeof card === "number") {
-          if (window.confirm("Bạn xác nhận muốn xem lá bài này không?")) {
-            alert(`Chức năng của Card ${card + 1} là ${threeRemainCard[card]}`);
+          if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
+            // alert(`Chức năng của Card ${card + 1} là ${threeRemainCard[card]}`);
             socket.emit("update-status-action", {
               code: code.toLowerCase(),
               user: currentUser,
@@ -130,12 +131,11 @@ export default function Table({
             return;
           }
         } else {
-          alert(`Bạn không thể chọn bài này`);
+          return;
         }
       } else if (currentUser.firstRole === Role.Seer && turn === 2) {
         if (typeof card === "number") {
-          if (window.confirm("Bạn xác nhận muốn xem lá bài này không?")) {
-            alert(`Chức năng của Card ${card + 1} là ${threeRemainCard[card]}`);
+          if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
             ref.current = ref.current + 1;
             if (ref.current === 2) {
               socket.emit("update-status-action", {
@@ -148,8 +148,8 @@ export default function Table({
           }
         } else if (typeof card === "object" && card.name !== currentUser.name) {
           if (ref.current === 0) {
-            if (window.confirm("Bạn xác nhận muốn xem lá bài này không?")) {
-              alert(`Chức năng của Player ${card.name} là ${card.role}`);
+            if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
+              // alert(`Chức năng của Player ${card.name} là ${card.role}`);
               socket.emit("update-status-action", {
                 code: code.toLowerCase(),
                 user: currentUser,
@@ -159,17 +159,17 @@ export default function Table({
             }
           }
         } else {
-          alert(`Bạn không thể chọn bài này`);
+          return;
         }
       } else if (currentUser.firstRole === Role.Insomniac) {
         if (typeof card === "string") {
-          alert(`Chức năng của bạn là ${card}`);
+          // alert(`Chức năng của bạn là ${card}`);
           socket.emit("update-status-action", {
             code: code.toLowerCase(),
             user: currentUser,
           });
         } else {
-          alert(`Bạn không thể chọn bài này`);
+          return;
         }
       }
     }

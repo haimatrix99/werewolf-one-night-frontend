@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 type ClockContextType = {
   counter: number;
@@ -48,8 +41,8 @@ export const ClockProvider = ({
   totalTurn: number;
 }) => {
   const initialTimer = 15;
-  const [counter, setCounter] = useState(initialTimer);
   const [turn, setTurn] = useState(0);
+  const [counter, setCounter] = useState(initialTimer);
   const [done, setDone] = useState(false);
 
   useInterval(() => {

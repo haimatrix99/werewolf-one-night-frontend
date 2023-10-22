@@ -9,7 +9,7 @@ const ROLE_CARD: { [key: string]: number }  = {
   // "Mason": 2,
   // "Minion": 1,
   "Robber": 1,
-  "Seer": 1,
+  "Seer": 3,
   "Tanner": 1,
   "Troublemaker": 1,
   "Villager": 3,
