@@ -4,6 +4,7 @@ import queryString from "query-string";
 import Table from "../Table/Table";
 import { useRoleGameSocket } from "../../hooks/use-role-game-socket";
 import { shuffle } from "../../handlers/shuffleArray";
+import { ClockProvider } from "../../providers/clock-provider";
 
 export default function Game() {
   const params = queryString.parse(window.location.search);
@@ -19,17 +20,20 @@ export default function Game() {
     ...threeRemainCard,
     ...rolesPlayer.map((user) => user.role),
   ]);
+
   return (
-    <div className="Game">
-      {rolesPlayer.length > 0 && (
-        <Table
-          code={code}
-          roles={roles}
-          users={rolesPlayer}
-          currentUser={rolesPlayer.filter((user) => user.name === name)[0]}
-          threeRemainCard={threeRemainCard}
-        />
-      )}
-    </div>
+    <ClockProvider totalTurn={4}>
+      <div className="Game">
+        {rolesPlayer.length > 0 && (
+          <Table
+            code={code}
+            roles={roles}
+            users={rolesPlayer}
+            currentUser={rolesPlayer.filter((user) => user.name === name)[0]}
+            threeRemainCard={threeRemainCard}
+          />
+        )}
+      </div>
+    </ClockProvider>
   );
 }

@@ -18,6 +18,7 @@ import {
   handleActionRobber,
   handleActionTroublemaker,
 } from "../../handlers/actions";
+import { useClock } from "../../providers/clock-provider";
 
 type TableProps = {
   code: string;
@@ -26,6 +27,14 @@ type TableProps = {
   currentUser: User;
   threeRemainCard: Role[];
 };
+
+const TURNS = [
+  "Check card",
+  "Turn Werewolf",
+  "Turn Seer",
+  "Turn Robber",
+  "Turn Troublemaker",
+];
 
 export default function Table({
   code,
@@ -46,6 +55,8 @@ export default function Table({
   const [leftUsers, topUsers, rightUsers] = splitUser(userRemain);
 
   const { socket } = useSocket();
+  const { turn, done, counter } = useClock();
+
   const [showListRoles, setShowListRoles] = useState(false);
   const ref = useRef(0);
   const setPlayerTroublemaker = new Set<User>();
@@ -54,7 +65,7 @@ export default function Table({
 
   const handleClick = (card: any) => {
     if (!currentUser.action) {
-      if (currentUser.firstRole === Role.Robber) {
+      if (currentUser.firstRole === Role.Robber && turn === 3) {
         if (typeof card === "object") {
           alert(`Bạn đã chọn người chơi ${card.name}`);
           if (
@@ -69,7 +80,7 @@ export default function Table({
         } else {
           alert(`Bạn không thể chọn bài này`);
         }
-      } else if (currentUser.firstRole === Role.Troublemaker) {
+      } else if (currentUser.firstRole === Role.Troublemaker && turn === 4) {
         if (setPlayerTroublemaker.size < 2 && typeof card === "object") {
           alert(`Bạn đã chọn người chơi ${card.name}`);
           setPlayerTroublemaker.add(card as User);
@@ -103,7 +114,11 @@ export default function Table({
         } else {
           alert(`Bạn không thể chọn bài này`);
         }
-      } else if (currentUser.firstRole === Role.Werewolf && werewolfCanDo) {
+      } else if (
+        currentUser.firstRole === Role.Werewolf &&
+        werewolfCanDo &&
+        turn === 1
+      ) {
         if (typeof card === "number") {
           if (window.confirm("Bạn xác nhận muốn xem lá bài này không?")) {
             alert(`Chức năng của Card ${card + 1} là ${threeRemainCard[card]}`);
@@ -117,7 +132,7 @@ export default function Table({
         } else {
           alert(`Bạn không thể chọn bài này`);
         }
-      } else if (currentUser.firstRole === Role.Seer) {
+      } else if (currentUser.firstRole === Role.Seer && turn === 2) {
         if (typeof card === "number") {
           if (window.confirm("Bạn xác nhận muốn xem lá bài này không?")) {
             alert(`Chức năng của Card ${card + 1} là ${threeRemainCard[card]}`);
@@ -132,21 +147,21 @@ export default function Table({
             return;
           }
         } else if (typeof card === "object" && card.name !== currentUser.name) {
-          if (window.confirm("Bạn xác nhận muốn xem lá bài này không?")) {
-            alert(`Chức năng của Player ${card.name} là ${card.role}`);
-            socket.emit("update-status-action", {
-              code: code.toLowerCase(),
-              user: currentUser,
-            });
-          } else {
-            return;
+          if (ref.current === 0) {
+            if (window.confirm("Bạn xác nhận muốn xem lá bài này không?")) {
+              alert(`Chức năng của Player ${card.name} là ${card.role}`);
+              socket.emit("update-status-action", {
+                code: code.toLowerCase(),
+                user: currentUser,
+              });
+            } else {
+              return;
+            }
           }
         } else {
           alert(`Bạn không thể chọn bài này`);
         }
-      } else if (
-        currentUser.firstRole === Role.Insomniac
-      ) {
+      } else if (currentUser.firstRole === Role.Insomniac) {
         if (typeof card === "string") {
           alert(`Chức năng của bạn là ${card}`);
           socket.emit("update-status-action", {
@@ -192,12 +207,15 @@ export default function Table({
           hidden={true}
           onClick={handleClick}
         />
+        <div className="Turn">
+          <span className="TurnText">{TURNS[turn]}</span>
+        </div>
         <ThreeRemainCard
           roles={threeRemainCard}
           hidden={true}
           onClick={handleClick}
         />
-        <Clock counter={0} />
+        <Clock done={done} second={counter} />
         <UserCard
           role={currentUser?.role}
           hidden={false}

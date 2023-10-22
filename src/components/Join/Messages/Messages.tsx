@@ -31,7 +31,7 @@ export default function MessagesInRoom({ name, code }: MessagesProps) {
 
   const copy = () => {
     navigator.clipboard.writeText(code as string);
-    alert(`Copied roomId`);
+    alert("Copied!")
   };
 
   return (

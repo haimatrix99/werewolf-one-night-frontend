@@ -56,3 +56,21 @@
     font-weight: 500;
     color: white;
 }
+
+.Turn {
+    display: flex;
+    width: fit-content;
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: gray;
+    margin-top: 20px;
+    margin-bottom: 0;
+    align-items: center;
+    padding: 5px 40px;
+}
+
+.TurnText {
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
+}

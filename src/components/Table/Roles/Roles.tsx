@@ -3,17 +3,17 @@ import "./Roles.css";
 import { Role } from "../../../lib/enums";
 
 type RolesProps = {
-  roles: Role[]
-}
+  roles: Role[];
+};
 
 export default function Roles({ roles }: RolesProps) {
   return (
     <div className="Roles">
       <ul className="RolesList">
         {roles.map((role, index) => (
-          <div className="Role">
+          <div className="Role" key={index}>
             <div className="RoleInfo RoleName">
-              <li key={index}>{role}</li>
+              <li>{role}</li>
             </div>
           </div>
         ))}

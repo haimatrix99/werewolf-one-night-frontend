@@ -24,7 +24,11 @@
 }
 
 .ThreeRemainCard {
-    margin: 75px 200px;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 20px;
+    margin-bottom: 73px;
+
 }
 
 .ThreeRemainCardImageSize {
