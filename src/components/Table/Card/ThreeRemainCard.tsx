@@ -7,6 +7,7 @@ type ThreeRemainCardProps = {
   hidden: boolean;
   onClick: (action: any) => void;
   indexesFlip: number[];
+  done: boolean;
 };
 
 export default function ThreeRemainCard({
@@ -14,6 +15,7 @@ export default function ThreeRemainCard({
   hidden,
   onClick,
   indexesFlip,
+  done
 }: ThreeRemainCardProps) {
   return (
     <div className="ThreeRemainCard">
@@ -30,7 +32,7 @@ export default function ThreeRemainCard({
           />
           <img
             className={
-              indexesFlip.includes(index)
+              indexesFlip.includes(index) || done
                 ? "CardImageFlipped CardImage ThreeRemainCardImageSize"
                 : "CardImage ThreeRemainCardImageSize"
             }

@@ -7,13 +7,15 @@ type UserCardProps = {
   hidden: boolean;
   onClick: (action: any) => void;
   flipped?: boolean;
+  done: boolean
 };
 
 export default function UserCard({
   role,
   hidden,
   onClick,
-  flipped = false,
+  flipped,
+  done,
 }: UserCardProps) {
   return (
     <div onClick={() => onClick(role)}>
@@ -25,7 +27,7 @@ export default function UserCard({
       />
       <img
         className={
-          flipped
+          flipped || done
             ? "CardImageFlipped CardImage PlayerCardImageSize"
             : "CardImage PlayerCardImageSize"
         }

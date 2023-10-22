@@ -202,6 +202,7 @@ export default function Table({
           hidden={true}
           onClick={handleClick}
           userFlipped={useFlipped}
+          done={done}
         />
       </div>
       <div className="Center">
@@ -211,6 +212,7 @@ export default function Table({
           hidden={true}
           onClick={handleClick}
           userFlipped={useFlipped}
+          done={done}
         />
         <div className="Turn">
           <span className="TurnText">
@@ -222,6 +224,7 @@ export default function Table({
           hidden={true}
           onClick={handleClick}
           indexesFlip={Array.from(indexesFlip.current.values())}
+          done={done}
         />
         <Clock done={done} second={counter} />
         <UserCard
@@ -229,6 +232,7 @@ export default function Table({
           hidden={false}
           onClick={handleClick}
           flipped={flipped}
+          done={done}
         />
       </div>
       <div className="Right">
@@ -238,6 +242,7 @@ export default function Table({
           hidden={true}
           onClick={handleClick}
           userFlipped={useFlipped}
+          done={done}
         />
       </div>
     </div>

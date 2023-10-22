@@ -8,6 +8,7 @@ type PlayerCardProps = {
   hidden: boolean;
   onClick: (action: any) => void;
   userFlipped?: User;
+  done: boolean;
 };
 
 export default function PlayerCard({
@@ -16,6 +17,7 @@ export default function PlayerCard({
   hidden,
   onClick,
   userFlipped,
+  done
 }: PlayerCardProps) {
   return (
     <div className={position}>
@@ -32,7 +34,7 @@ export default function PlayerCard({
           />
           <img
             className={
-              userFlipped?.name === user.name
+              userFlipped?.name === user.name || done
                 ? "CardImageFlipped CardImage PlayerCardImageSize"
                 : "CardImage PlayerCardImageSize"
             }
