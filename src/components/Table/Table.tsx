@@ -77,6 +77,9 @@ export default function Table({
       }
     }
     if (!currentUser.action) {
+      const turnTroublemaker = turnCall.length - 3;
+      const turnDrunk = turnCall.length - 2;
+      const turnInsomniac = turnCall.length - 1;
       if (currentUser.firstRole === Role.Robber && turn === 3) {
         if (typeof card === "object") {
           if (
@@ -91,7 +94,10 @@ export default function Table({
           }
         } else {
         }
-      } else if (currentUser.firstRole === Role.Troublemaker && turn === 4) {
+      } else if (
+        currentUser.firstRole === Role.Troublemaker &&
+        turn === turnTroublemaker
+      ) {
         if (setPlayerTroublemaker.size < 2 && typeof card === "object") {
           setPlayerTroublemaker.add(card as User);
           if (setPlayerTroublemaker.size === 2) {
@@ -112,7 +118,7 @@ export default function Table({
           }
         } else {
         }
-      } else if (currentUser.firstRole === Role.Drunk && turn === 5) {
+      } else if (currentUser.firstRole === Role.Drunk && turn === turnDrunk) {
         if (typeof card === "number") {
           if (await confirm("Bạn xác nhận muốn đổi lá bài này không?")) {
             handleActionDrunk(socket, currentUser, code, card);
@@ -165,7 +171,10 @@ export default function Table({
           }
         } else {
         }
-      } else if (currentUser.firstRole === Role.Insomniac && turn === 6) {
+      } else if (
+        currentUser.firstRole === Role.Insomniac &&
+        turn === turnInsomniac
+      ) {
         if (typeof card === "string") {
           socket.emit("update-status-action", {
             code: code.toLowerCase(),
