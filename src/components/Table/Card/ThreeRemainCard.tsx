@@ -6,19 +6,34 @@ type ThreeRemainCardProps = {
   roles: Role[];
   hidden: boolean;
   onClick: (action: any) => void;
+  indexesFlip: number[];
 };
 
 export default function ThreeRemainCard({
   roles,
   hidden,
   onClick,
+  indexesFlip,
 }: ThreeRemainCardProps) {
   return (
     <div className="ThreeRemainCard">
       {roles.map((role, index) => (
-        <div key={index} onClick={() => onClick(index)}>
+        <div
+          key={index}
+          onClick={() => onClick(index)}
+        >
           <img
-            className="CardImage ThreeRemainCardImageSize"
+            className="CardImageCover ThreeRemainCardImageSize"
+            src={require("../../../assets/cover.png")}
+            alt="Card"
+            title={hidden ? "Card" : role}
+          />
+          <img
+            className={
+              indexesFlip.includes(index)
+                ? "CardImageFlipped CardImage ThreeRemainCardImageSize"
+                : "CardImage ThreeRemainCardImageSize"
+            }
             src={require(`../../../assets/roles/${role}.jpg`)}
             alt="Card"
             title={hidden ? "Card" : role}

@@ -49,10 +49,13 @@ export const ClockProvider = ({
     setCounter(counter - 1);
     if (counter === 0) {
       setTurn(turn + 1);
-      if (turn === totalTurn) {
+      if (turn === totalTurn - 1) {
+        setCounter(300);
+      } else if (turn === totalTurn) {
         setDone(true);
+      } else {
+        setCounter(initialTimer);
       }
-      setCounter(initialTimer);
     }
   }, 1000);
 

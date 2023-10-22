@@ -4,6 +4,17 @@
     transition: transform 0.4s;
 }
 
+.CardImageCover {
+    position: absolute;
+    border-radius: 10%;
+    border-color: gray;
+    transition: transform 0.4s;
+}
+
+.CardImageFlipped {
+    transform: rotateY(0deg);
+}
+
 .Name {
     color: #fff;
     border: 2px solid white;
@@ -43,6 +54,7 @@
 }
 
 .CardImage:hover,
-.ThreeRemainCardImage:hover {
+.ThreeRemainCardImage:hover,
+.CardImageCover:hover {
     transform: scale(1.05);
 }

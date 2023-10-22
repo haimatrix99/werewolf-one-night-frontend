@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSocket } from "../../providers/socket-provider";
 import ThreeRemainCard from "./Card/ThreeRemainCard";
 import UserCard from "./Card/UserCard";
@@ -27,15 +27,8 @@ type TableProps = {
   users: User[];
   currentUser: User;
   threeRemainCard: Role[];
+  turnCall: string[];
 };
-
-const TURNS = [
-  "Check card",
-  "Turn Werewolf",
-  "Turn Seer",
-  "Turn Robber",
-  "Turn Troublemaker",
-];
 
 export default function Table({
   code,
@@ -43,6 +36,7 @@ export default function Table({
   users,
   currentUser,
   threeRemainCard,
+  turnCall,
 }: TableProps) {
   let currentUserIndex = users.findIndex(
     (user) => user.name === currentUser.name
@@ -57,38 +51,53 @@ export default function Table({
 
   const { socket } = useSocket();
   const { turn, done, counter } = useClock();
-
   const [showListRoles, setShowListRoles] = useState(false);
   const ref = useRef(0);
+
+  const [flipped, setFlipped] = useState(false);
+  const [useFlipped, setUserFlipped] = useState<User>();
+  const indexesFlip = useRef(new Set<number>());
+
   const setPlayerTroublemaker = new Set<User>();
   const werewolfCanDo =
     roles.filter((role) => role === Role.Werewolf).length === 1;
 
+  useEffect(() => {
+    if (turn !== 0) {
+      setFlipped(false);
+      indexesFlip.current = new Set<number>();
+      setUserFlipped(undefined);
+    }
+  }, [turn]);
+
   const handleClick = async (card: any) => {
+    if (turn === 0) {
+      if (typeof card === "string") {
+        setFlipped(true);
+      }
+    }
     if (!currentUser.action) {
       if (currentUser.firstRole === Role.Robber && turn === 3) {
         if (typeof card === "object") {
-          // alert(`Bạn đã chọn người chơi ${card.name}`);
           if (
             await confirm(
-              "Bạn xác nhận muốn đổi lá bài với người chơi này không?"
+              `Bạn xác nhận muốn đổi lá bài với ${card.name} không?`
             )
           ) {
+            setFlipped(true);
             handleActionRobber(socket, currentUser, code, card);
           } else {
             return;
           }
         } else {
-          return;
         }
       } else if (currentUser.firstRole === Role.Troublemaker && turn === 4) {
         if (setPlayerTroublemaker.size < 2 && typeof card === "object") {
-          // alert(`Bạn đã chọn người chơi ${card.name}`);
           setPlayerTroublemaker.add(card as User);
           if (setPlayerTroublemaker.size === 2) {
             if (
               await confirm(
-                "Bạn xác nhận muốn đối vị trí của 2 người chơi này không?"
+                "Bạn xác nhận muốn đối vị trí lá bài của 2 người chơi này không?"
               )
             ) {
               handleActionTroublemaker(
@@ -102,18 +111,15 @@ export default function Table({
             }
           }
         } else {
-          return;
         }
-      } else if (currentUser.firstRole === Role.Drunk) {
+      } else if (currentUser.firstRole === Role.Drunk && turn === 5) {
         if (typeof card === "number") {
-          // alert(`Bạn đã chọn người chơi Card ${card + 1}`);
           if (await confirm("Bạn xác nhận muốn đổi lá bài này không?")) {
             handleActionDrunk(socket, currentUser, code, card);
           } else {
             return;
           }
         } else {
-          return;
         }
       } else if (
         currentUser.firstRole === Role.Werewolf &&
@@ -122,16 +128,15 @@ export default function Table({
       ) {
         if (typeof card === "number") {
           if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
-            // alert(`Chức năng của Card ${card + 1} là ${threeRemainCard[card]}`);
             socket.emit("update-status-action", {
               code: code.toLowerCase(),
               user: currentUser,
             });
+            indexesFlip.current.add(card);
           } else {
             return;
           }
         } else {
-          return;
         }
       } else if (currentUser.firstRole === Role.Seer && turn === 2) {
         if (typeof card === "number") {
@@ -143,33 +148,31 @@ export default function Table({
                 user: currentUser,
               });
             }
+            indexesFlip.current.add(card);
           } else {
-            return;
           }
         } else if (typeof card === "object" && card.name !== currentUser.name) {
           if (ref.current === 0) {
             if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
-              // alert(`Chức năng của Player ${card.name} là ${card.role}`);
               socket.emit("update-status-action", {
                 code: code.toLowerCase(),
                 user: currentUser,
               });
+              setUserFlipped(card);
             } else {
               return;
             }
           }
         } else {
-          return;
         }
-      } else if (currentUser.firstRole === Role.Insomniac) {
+      } else if (currentUser.firstRole === Role.Insomniac && turn === 6) {
         if (typeof card === "string") {
-          // alert(`Chức năng của bạn là ${card}`);
           socket.emit("update-status-action", {
             code: code.toLowerCase(),
             user: currentUser,
           });
+          setFlipped(true);
         } else {
-          return;
         }
       }
     }
@@ -198,6 +201,7 @@ export default function Table({
           users={leftUsers.map((user) => user)}
           hidden={true}
           onClick={handleClick}
+          userFlipped={useFlipped}
         />
       </div>
       <div className="Center">
@@ -206,20 +210,25 @@ export default function Table({
           users={topUsers.map((user) => user)}
           hidden={true}
           onClick={handleClick}
+          userFlipped={useFlipped}
         />
         <div className="Turn">
-          <span className="TurnText">{TURNS[turn]}</span>
+          <span className="TurnText">
+            {turnCall[turn] ? turnCall[turn] : "Thảo luận"}
+          </span>
         </div>
         <ThreeRemainCard
           roles={threeRemainCard}
           hidden={true}
           onClick={handleClick}
+          indexesFlip={Array.from(indexesFlip.current.values())}
         />
         <Clock done={done} second={counter} />
         <UserCard
           role={currentUser?.role}
           hidden={false}
           onClick={handleClick}
+          flipped={flipped}
         />
       </div>
       <div className="Right">
@@ -228,6 +237,7 @@ export default function Table({
           users={rightUsers.map((user) => user)}
           hidden={true}
           onClick={handleClick}
+          userFlipped={useFlipped}
         />
       </div>
     </div>
