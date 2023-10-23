@@ -19,7 +19,6 @@ export const useClock = () => {
 function useInterval(callback: () => void, delay: number) {
   const savedCallback = useRef<any>();
 
-  // Remember the latest callback.
   useEffect(() => {
     savedCallback.current = callback;
   }, [callback]);
