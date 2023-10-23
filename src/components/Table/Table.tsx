@@ -77,10 +77,7 @@ export default function Table({
       }
     }
     if (!currentUser.action) {
-      const turnTroublemaker = turnCall.length - 3;
-      const turnDrunk = turnCall.length - 2;
-      const turnInsomniac = turnCall.length - 1;
-      if (currentUser.firstRole === Role.Robber && turn === 3) {
+      if (currentUser.firstRole === Role.Robber && turn === turnCall.indexOf(Role.Robber)) {
         if (typeof card === "object") {
           if (
             await confirm(
@@ -96,7 +93,7 @@ export default function Table({
         }
       } else if (
         currentUser.firstRole === Role.Troublemaker &&
-        turn === turnTroublemaker
+        turn === turnCall.indexOf(Role.Troublemaker)
       ) {
         if (setPlayerTroublemaker.size < 2 && typeof card === "object") {
           setPlayerTroublemaker.add(card as User);
@@ -118,7 +115,7 @@ export default function Table({
           }
         } else {
         }
-      } else if (currentUser.firstRole === Role.Drunk && turn === turnDrunk) {
+      } else if (currentUser.firstRole === Role.Drunk && turn === turnCall.indexOf(Role.Drunk)) {
         if (typeof card === "number") {
           if (await confirm("Bạn xác nhận muốn đổi lá bài này không?")) {
             handleActionDrunk(socket, currentUser, code, card);
@@ -130,7 +127,7 @@ export default function Table({
       } else if (
         currentUser.firstRole === Role.Werewolf &&
         werewolfCanDo &&
-        turn === 1
+        turn === turnCall.indexOf(Role.Werewolf)
       ) {
         if (typeof card === "number") {
           if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
@@ -144,7 +141,7 @@ export default function Table({
           }
         } else {
         }
-      } else if (currentUser.firstRole === Role.Seer && turn === 2) {
+      } else if (currentUser.firstRole === Role.Seer && turn === turnCall.indexOf(Role.Seer)) {
         if (typeof card === "number") {
           if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
             ref.current = ref.current + 1;
@@ -173,7 +170,7 @@ export default function Table({
         }
       } else if (
         currentUser.firstRole === Role.Insomniac &&
-        turn === turnInsomniac
+        turn === turnCall.indexOf(Role.Insomniac)
       ) {
         if (typeof card === "string") {
           socket.emit("update-status-action", {
@@ -225,7 +222,7 @@ export default function Table({
         />
         <div className="Turn">
           <span className="TurnText">
-            {turnCall[turn] ? turnCall[turn] : "Thảo luận"}
+            {turnCall[turn] ? "Turn " + turnCall[turn] : "Thảo luận"}
           </span>
         </div>
         <ThreeRemainCard

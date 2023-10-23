@@ -12,7 +12,7 @@ export default function Game() {
   const code = params.code as string;
   const name = params.name as string;
   let totalTurn: number = 1;
-  const turnCall: string[] = ["Check card"];
+  const turnCall: string[] = ["check card"];
 
   const { rolesPlayer, threeRemainCard } = useRoleGameSocket({
     roleKey: "game-info",
@@ -26,27 +26,27 @@ export default function Game() {
 
   if (roles.includes(Role.Werewolf)) {
     totalTurn++;
-    turnCall.push("Turn Werewolf");
+    turnCall.push("Werewolf");
   }
   if (roles.includes(Role.Seer)) {
     totalTurn++;
-    turnCall.push("Turn Seer");
+    turnCall.push("Seer");
   }
   if (roles.includes(Role.Robber)) {
     totalTurn++;
-    turnCall.push("Turn Robber");
+    turnCall.push("Robber");
   }
   if (roles.includes(Role.Troublemaker)) {
     totalTurn++;
-    turnCall.push("Turn Troublemaker");
+    turnCall.push("Troublemaker");
   }
   if (roles.includes(Role.Drunk)) {
     totalTurn++;
-    turnCall.push("Turn Drunk");
+    turnCall.push("Drunk");
   }
   if (roles.includes(Role.Insomniac)) {
     totalTurn++;
-    turnCall.push("Turn Insomniac");
+    turnCall.push("Insomniac");
   }
 
   return (
