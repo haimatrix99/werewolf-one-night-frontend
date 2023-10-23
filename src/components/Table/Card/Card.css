@@ -1,18 +1,24 @@
 .CardImage {
     border-radius: 10%;
     border-color: gray;
-    transition: transform 0.4s;
+    transition: all ease-in 0.2s;
 }
 
 .CardImageCover {
     position: absolute;
     border-radius: 10%;
     border-color: gray;
-    transition: transform 0.4s;
+    transition: all ease-in 0.2s;
+}
+
+.CardImageCoverFlipped {
+    transform: rotateY(90deg);
+    transition-delay: 0.2s;
 }
 
 .CardImageFlipped {
     transform: rotateY(0deg);
+    transition-delay: 0s;
 }
 
 .Name {

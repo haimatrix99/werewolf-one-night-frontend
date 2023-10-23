@@ -68,7 +68,10 @@ export default function Table({
       indexesFlip.current = new Set<number>();
       setUserFlipped(undefined);
     }
-  }, [turn]);
+    if (turnCall[turn] === "Werewolf") {
+      setUserFlipped(users.filter((user) => user.role === Role.Werewolf && user.name !== Role.Werewolf)[0])
+    }
+  }, [turn, turnCall, users]);
 
   const handleClick = async (card: any) => {
     if (turn === 0) {
@@ -77,7 +80,10 @@ export default function Table({
       }
     }
     if (!currentUser.action) {
-      if (currentUser.firstRole === Role.Robber && turn === turnCall.indexOf(Role.Robber)) {
+      if (
+        currentUser.firstRole === Role.Robber &&
+        turn === turnCall.indexOf(Role.Robber)
+      ) {
         if (typeof card === "object") {
           if (
             await confirm(
@@ -115,7 +121,10 @@ export default function Table({
           }
         } else {
         }
-      } else if (currentUser.firstRole === Role.Drunk && turn === turnCall.indexOf(Role.Drunk)) {
+      } else if (
+        currentUser.firstRole === Role.Drunk &&
+        turn === turnCall.indexOf(Role.Drunk)
+      ) {
         if (typeof card === "number") {
           if (await confirm("Bạn xác nhận muốn đổi lá bài này không?")) {
             handleActionDrunk(socket, currentUser, code, card);
@@ -126,8 +135,8 @@ export default function Table({
         }
       } else if (
         currentUser.firstRole === Role.Werewolf &&
-        werewolfCanDo &&
-        turn === turnCall.indexOf(Role.Werewolf)
+        turn === turnCall.indexOf(Role.Werewolf) &&
+        werewolfCanDo
       ) {
         if (typeof card === "number") {
           if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
@@ -140,8 +149,12 @@ export default function Table({
             return;
           }
         } else {
+          return;
         }
-      } else if (currentUser.firstRole === Role.Seer && turn === turnCall.indexOf(Role.Seer)) {
+      } else if (
+        currentUser.firstRole === Role.Seer &&
+        turn === turnCall.indexOf(Role.Seer)
+      ) {
         if (typeof card === "number") {
           if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
             ref.current = ref.current + 1;
@@ -205,7 +218,6 @@ export default function Table({
         <PlayerCard
           position="Left"
           users={leftUsers.map((user) => user)}
-          hidden={true}
           onClick={handleClick}
           userFlipped={useFlipped}
           done={done}
@@ -215,7 +227,6 @@ export default function Table({
         <PlayerCard
           position="Top"
           users={topUsers.map((user) => user)}
-          hidden={true}
           onClick={handleClick}
           userFlipped={useFlipped}
           done={done}
@@ -227,7 +238,6 @@ export default function Table({
         </div>
         <ThreeRemainCard
           roles={threeRemainCard}
-          hidden={true}
           onClick={handleClick}
           indexesFlip={Array.from(indexesFlip.current.values())}
           done={done}
@@ -235,7 +245,6 @@ export default function Table({
         <Clock done={done} second={counter} />
         <UserCard
           role={currentUser?.role}
-          hidden={false}
           onClick={handleClick}
           flipped={flipped}
           done={done}
@@ -245,7 +254,6 @@ export default function Table({
         <PlayerCard
           position="Right"
           users={rightUsers.map((user) => user)}
-          hidden={true}
           onClick={handleClick}
           userFlipped={useFlipped}
           done={done}

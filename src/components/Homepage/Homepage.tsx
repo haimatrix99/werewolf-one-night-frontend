@@ -13,17 +13,17 @@ export default function Homepage() {
 
   const handleButtonCreate = () => {
     if (name === "") {
-      alert("Usename must not be empty");
+      alert("Username must not be empty");
     } else {
       const code = randomCodeGenerate(6);
       socket.emit("create-room", { name, code }, (result: User) => {});
-      navigate(`/room?code=${code}&name=${name}`, { replace: true });
+      navigate(`/room?code=${code}&name=${name}`);
     }
   };
 
   const handleButtonJoin = () => {
     if (name === "" || code === "") {
-      alert("Usename or code must not be empty");
+      alert("Username or code must not be empty");
     } else {
       socket.emit("join", { name, code }, (result: User | string) => {
         if (result === "Username is taken.") {
@@ -31,7 +31,7 @@ export default function Homepage() {
           navigate("/", {replace: true})
         }
       });
-      navigate(`/room?code=${code}&name=${name}`, { replace: true });
+      navigate(`/room?code=${code}&name=${name}`);
     }
   };
 

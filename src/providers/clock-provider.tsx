@@ -46,9 +46,9 @@ export const ClockProvider = ({
   const [done, setDone] = useState(false);
 
   useInterval(() => {
-    setCounter(counter - 1);
+    setCounter(prevCounter => prevCounter - 1);
     if (counter === 0) {
-      setTurn(turn + 1);
+      setTurn(prevTurn => prevTurn + 1);
       if (turn === totalTurn - 1) {
         setCounter(300);
       } else if (turn === totalTurn) {

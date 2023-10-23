@@ -4,15 +4,13 @@ import "./Card.css";
 
 type UserCardProps = {
   role: Role;
-  hidden: boolean;
   onClick: (action: any) => void;
   flipped?: boolean;
-  done: boolean
+  done: boolean;
 };
 
 export default function UserCard({
   role,
-  hidden,
   onClick,
   flipped,
   done,
@@ -23,17 +21,15 @@ export default function UserCard({
         className="CardImageCover PlayerCardImageSize"
         src={require("../../../assets/cover.png")}
         alt="Card"
-        title={hidden ? "Card" : role}
       />
       <img
         className={
           flipped || done
-            ? "CardImageFlipped CardImage PlayerCardImageSize"
-            : "CardImage PlayerCardImageSize"
+          ? "CardImageFlipped CardImage PlayerCardImageSize"
+          : "CardImageCoverFlipped CardImage PlayerCardImageSize"
         }
         src={require(`../../../assets/roles/${role}.jpg`)}
         alt="Card"
-        title={hidden ? "Card" : role}
       />
     </div>
   );

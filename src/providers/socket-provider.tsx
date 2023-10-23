@@ -21,7 +21,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const socketInstance = new (ClientIO as any)(
-      process.env.REACT_APP_ENDPOINT || "http://localhost:5000",
+      process.env.REACT_APP_ENDPOINT || "https://werewolf-one-night-backend-j4pyzzodnq-as.a.run.app",
       {
         path: "/api/socket/io",
         addTrailingSlash: false,

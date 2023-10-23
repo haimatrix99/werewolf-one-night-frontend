@@ -5,7 +5,6 @@ import "./Card.css";
 type PlayerCardProps = {
   position: string;
   users: User[];
-  hidden: boolean;
   onClick: (action: any) => void;
   userFlipped?: User;
   done: boolean;
@@ -14,7 +13,6 @@ type PlayerCardProps = {
 export default function PlayerCard({
   position,
   users,
-  hidden,
   onClick,
   userFlipped,
   done
@@ -30,17 +28,15 @@ export default function PlayerCard({
             className="CardImageCover PlayerCardImageSize"
             src={require("../../../assets/cover.png")}
             alt="Card"
-            title={hidden ? "Card" : user.role}
           />
           <img
             className={
               userFlipped?.name === user.name || done
                 ? "CardImageFlipped CardImage PlayerCardImageSize"
-                : "CardImage PlayerCardImageSize"
+                : "CardImageCoverFlipped CardImage PlayerCardImageSize"
             }
             src={require(`../../../assets/roles/${user.role}.jpg`)}
             alt="Card"
-            title={hidden ? "Card" : user.role}
           />
           <p className="Name PlayerName">{user.name}</p>
         </div>

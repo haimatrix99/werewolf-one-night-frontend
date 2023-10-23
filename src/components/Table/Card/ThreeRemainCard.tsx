@@ -4,7 +4,6 @@ import "./Card.css";
 
 type ThreeRemainCardProps = {
   roles: Role[];
-  hidden: boolean;
   onClick: (action: any) => void;
   indexesFlip: number[];
   done: boolean;
@@ -12,7 +11,6 @@ type ThreeRemainCardProps = {
 
 export default function ThreeRemainCard({
   roles,
-  hidden,
   onClick,
   indexesFlip,
   done
@@ -28,17 +26,15 @@ export default function ThreeRemainCard({
             className="CardImageCover ThreeRemainCardImageSize"
             src={require("../../../assets/cover.png")}
             alt="Card"
-            title={hidden ? "Card" : role}
           />
           <img
             className={
               indexesFlip.includes(index) || done
                 ? "CardImageFlipped CardImage ThreeRemainCardImageSize"
-                : "CardImage ThreeRemainCardImageSize"
+                : "CardImageCoverFlipped CardImage ThreeRemainCardImageSize"
             }
             src={require(`../../../assets/roles/${role}.jpg`)}
             alt="Card"
-            title={hidden ? "Card" : role}
           />
           <p className="Name ThreeRemainName">Card {index + 1}</p>
         </div>
