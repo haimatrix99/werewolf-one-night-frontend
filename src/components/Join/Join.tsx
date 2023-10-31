@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import MessagesInRoom from "./Messages/Messages";
 import { reducer } from "../../handlers/reducer";
 import "./Join.css";

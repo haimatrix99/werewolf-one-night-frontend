@@ -1,20 +1,12 @@
 import React from "react";
 import "./Voice.css";
-import {
-  TrackToggle,
-  useMediaDeviceSelect,
-  useTracks,
-} from "@livekit/components-react";
-import { RoomEvent, Track } from "livekit-client";
+import { TrackToggle, useMediaDeviceSelect } from "@livekit/components-react";
+import { Track } from "livekit-client";
 
 export default function Voice() {
   const { devices, activeDeviceId, setActiveMediaDevice } =
     useMediaDeviceSelect({ kind: "audioinput" });
 
-  const tracks = useTracks(
-    [{ source: Track.Source.Microphone, withPlaceholder: true }],
-    { updateOnlyOn: [RoomEvent.ActiveSpeakersChanged] }
-  );
   return (
     <>
       <div className="Voice">
