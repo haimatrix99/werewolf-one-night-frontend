@@ -62,7 +62,7 @@ export default function Join() {
           name,
         };
         const response = await fetch(
-          `${process.env.REACT_APP_ENDPOINT}/api/voice/connection`,
+          `${process.env.REACT_APP_ENDPOINT || "https://werewolf-one-night-backend-j4pyzzodnq-as.a.run.app"}/api/voice/connection`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
