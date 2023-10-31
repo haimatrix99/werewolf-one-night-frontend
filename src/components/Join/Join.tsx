@@ -152,7 +152,7 @@ export default function Join() {
               </button>
             )}
           </div>
-          <Users />
+          <Users users={users}/>
         </div>
       </WebAudioContext.Provider>
     </LiveKitRoom>

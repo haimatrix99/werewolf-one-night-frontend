@@ -1,6 +1,8 @@
 import React from "react";
 import { User } from "../../../lib/types";
+import { BiMicrophone, BiSolidMicrophone } from "react-icons/bi";
 import "./Card.css";
+import { useParticipants } from "@livekit/components-react";
 
 type PlayerCardProps = {
   position: string;
@@ -15,15 +17,13 @@ export default function PlayerCard({
   users,
   onClick,
   userFlipped,
-  done
+  done,
 }: PlayerCardProps) {
+  const participants = useParticipants();
   return (
     <div className={position}>
       {users.map((user, index) => (
-        <div
-          key={index}
-          onClick={() => onClick(user)}
-        >
+        <div key={index} onClick={() => onClick(user)}>
           <img
             className="CardImageCover PlayerCardImageSize"
             src={require("../../../assets/cover.png")}
@@ -38,7 +38,18 @@ export default function PlayerCard({
             src={require(`../../../assets/roles/${user.role}.jpg`)}
             alt="Card"
           />
-          <p className="Name PlayerName">{user.name}</p>
+          <p className="Name PlayerName">
+            {user.name}
+            <span className="MicroIcon">
+              {participants.filter(
+                (participant) => participant.identity === user.name
+              )[0]?.isSpeaking ? (
+                <BiSolidMicrophone />
+              ) : (
+                <BiMicrophone />
+              )}
+            </span>
+          </p>
         </div>
       ))}
     </div>

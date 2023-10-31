@@ -17,6 +17,9 @@
     padding: 10px;
 }
 .Username {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     min-width: 200px;       
     padding: 0px 15px;
     margin: 10px 0px;

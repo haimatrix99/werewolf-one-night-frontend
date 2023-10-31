@@ -1,6 +1,6 @@
 .MessagesInRoom {
     position: absolute;
-    width: 700px;
+    width: 50%;
     height: 500px;
     top: 100px;
     left: 50%;
@@ -82,4 +82,10 @@
     transition: transform 0.5s;
     background: rgba(0, 0, 0, 0);
     border: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .MessagesInRoom {
+        display: none;
+    }
 }

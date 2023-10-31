@@ -1,16 +1,25 @@
 import React from "react";
-import "./Users.css"
+import "./Users.css";
 import { useParticipants } from "@livekit/components-react";
+import { User } from "../../../lib/types";
+import { BiMicrophone, BiSolidMicrophone } from "react-icons/bi";
 
-export default function Users() {
+type UsersProps = {
+  users: User[];
+};
+
+export default function Users({ users }: UsersProps) {
   const participants = useParticipants();
   return (
     <div className="Users">
       <p className="ListUsersTitle">Danh sách người chơi</p>
       <ul className="ListUsers">
-        {participants.map((participant, index) => (
+        {users.map((user, index) => (
           <div key={index} className="Username UsernameText">
-            <li>{participant.identity} - { participant.isSpeaking ? "speaking" : "" }</li>
+            <li>{user.name}</li>
+            {
+              participants.filter((participant) => (participant.identity === user.name))[0]?.isSpeaking ? <BiSolidMicrophone /> : <BiMicrophone />
+            }
           </div>
         ))}
       </ul>
