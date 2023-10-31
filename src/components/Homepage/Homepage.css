@@ -91,3 +91,21 @@
   font-weight: 600;
   color: white;
 }
+
+@media only screen and (max-width: 600px) {
+  .HomepageContainer {
+    width: 350px;
+    height: 500px;
+  }
+  .HomepageBody {
+    flex-direction: column;
+  }
+  
+  .HomepageJoinRoom {
+    margin-right: 0;
+  }
+
+  .HomepageButtonCreate {
+    margin: 0;
+  }
+}

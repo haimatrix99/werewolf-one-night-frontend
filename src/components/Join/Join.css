@@ -26,6 +26,28 @@
     width: fit-content;
 }
 
+.Loading {
+    margin: 0px auto;
+    background-color: gray;
+    color: white;
+    border-radius: 10px;
+    border: 2px solid white;
+    padding: 5px 10px;
+}
+
 .lk-room-container {
     height: 100%;
+}
+
+.lk-audio-conference {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .AudioSelect {
+        display: none;
+    }
+    .Join {
+        flex-direction: column;
+    }
 }

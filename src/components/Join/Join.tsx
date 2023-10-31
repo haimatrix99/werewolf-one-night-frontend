@@ -17,7 +17,7 @@ import {
 } from "../../lib/types";
 import { Role } from "../../lib/enums";
 import { useStartGameSocket } from "../../hooks/use-start-game-socket";
-import { LiveKitRoom } from "@livekit/components-react";
+import { AudioConference, LiveKitRoom } from "@livekit/components-react";
 import { WebAudioContext } from "../../providers/audio-provider";
 import Voice from "../Voice/Voice";
 
@@ -54,28 +54,29 @@ export default function Join() {
     };
   }, []);
 
-  const requestConnectionDetails = useCallback(
-    async (code: string, name: string) => {
-      const body: ConnectionDetailsBody = {
-        code,
-        name,
-      };
-      const response = await fetch(
-        `${process.env.REACT_APP_ENDPOINT}/api/voice/connection`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        }
-      );
+  useEffect(() => {
+    if (connectionDetails === null) {
+      (async (code: string, name: string) => {
+        const body: ConnectionDetailsBody = {
+          code,
+          name,
+        };
+        const response = await fetch(
+          `${process.env.REACT_APP_ENDPOINT}/api/voice/connection`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          }
+        );
 
-      if (response.status === 200) {
-        const connectionDetails = await response.json();
-        setConnectionDetails(connectionDetails);
-      }
-    },
-    []
-  );
+        if (response.status === 200) {
+          const connectionDetails = await response.json();
+          setConnectionDetails(connectionDetails);
+        }
+      })(code, name);
+    }
+  }, [code, name, connectionDetails]);
 
   const handleStartGame = () => {
     const canStartGame =
@@ -118,43 +119,42 @@ export default function Join() {
     }
   }, [startGame, code, name, navigate]);
 
-  if (connectionDetails === null) {
-    requestConnectionDetails(code, name);
+  if (!audioContext || connectionDetails === null) {
+    return (
+      <div className="Join">
+        <h1 className="Loading">Loading</h1>;
+      </div>
+    )
   }
 
-
-  
   return (
-    <>
-      {audioContext && connectionDetails && (
-        <LiveKitRoom
-          token={connectionDetails.token}
-          serverUrl={connectionDetails.ws_url}
-          connect={true}
-          audio={true}
-          video={false}
-          connectOptions={{ autoSubscribe: true }}
-          options={{ expWebAudioMix: { audioContext } }}
-        >
-          <WebAudioContext.Provider value={audioContext}>
-            <Voice />
-            <div className="Join">
-              {isRoomMaster && (
-                <SelectRoles numbers={numbers} dispatch={dispatch} />
-              )}
-              <div className="JoinCenterContainer">
-                <MessagesInRoom name={name} code={code} />
-                {isRoomMaster && (
-                  <button className="StartGameButton" onClick={handleStartGame}>
-                    Start Game
-                  </button>
-                )}
-              </div>
-              <Users />
-            </div>
-          </WebAudioContext.Provider>
-        </LiveKitRoom>
-      )}
-    </>
+    <LiveKitRoom
+      token={connectionDetails.token}
+      serverUrl={connectionDetails.ws_url}
+      connect={true}
+      audio={true}
+      video={false}
+      connectOptions={{ autoSubscribe: true }}
+      options={{ expWebAudioMix: { audioContext } }}
+    >
+      <WebAudioContext.Provider value={audioContext}>
+        <AudioConference />
+        <Voice />
+        <div className="Join">
+          {isRoomMaster && (
+            <SelectRoles numbers={numbers} dispatch={dispatch} />
+          )}
+          <div className="JoinCenterContainer">
+            <MessagesInRoom name={name} code={code} />
+            {isRoomMaster && (
+              <button className="StartGameButton" onClick={handleStartGame}>
+                Start Game
+              </button>
+            )}
+          </div>
+          <Users />
+        </div>
+      </WebAudioContext.Provider>
+    </LiveKitRoom>
   );
 }

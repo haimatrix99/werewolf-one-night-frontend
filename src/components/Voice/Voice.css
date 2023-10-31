@@ -21,3 +21,23 @@
 .Voice:hover {
     opacity: 0.8;
 }
+
+.Audio {
+    position: absolute;
+    bottom: 30px;
+    right: 90px;
+}
+
+.AudioSelect {
+    width: 300px;
+    color: white;
+    font-weight: 600;
+    border: 2px solid white;
+    background-color: gray;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.AudioSelect:focus {
+    outline: none;
+}
