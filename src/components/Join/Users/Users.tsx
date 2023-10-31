@@ -1,19 +1,16 @@
 import React from "react";
-import { User } from "../../../lib/types";
 import "./Users.css"
+import { useParticipants } from "@livekit/components-react";
 
-type UsersProps = {
-  users: User[];
-};
-
-export default function Users({ users }: UsersProps) {
+export default function Users() {
+  const participants = useParticipants();
   return (
     <div className="Users">
       <p className="ListUsersTitle">Danh sách người chơi</p>
       <ul className="ListUsers">
-        {users.map((user, index) => (
+        {participants.map((participant, index) => (
           <div key={index} className="Username UsernameText">
-            <li>{user.name}</li>
+            <li>{participant.identity} - { participant.isSpeaking ? "speaking" : "" }</li>
           </div>
         ))}
       </ul>

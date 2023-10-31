@@ -1,19 +1,12 @@
-import React, { useState } from "react";
-import { BiSolidMicrophone, BiSolidMicrophoneOff } from "react-icons/bi";
+import React from "react";
 import "./Voice.css";
+import { TrackToggle } from "@livekit/components-react";
+import { Track } from "livekit-client";
 
 export default function Voice() {
-  const [voice, setVoice] = useState(false);
   return (
     <div className="Voice">
-      <button
-        className="VoiceButton"
-        onClick={() => {
-          setVoice(!voice);
-        }}
-      >
-        {voice ? <BiSolidMicrophone /> : <BiSolidMicrophoneOff />}
-      </button>
+      <TrackToggle source={Track.Source.Microphone} className="VoiceButton" />
     </div>
   );
 }

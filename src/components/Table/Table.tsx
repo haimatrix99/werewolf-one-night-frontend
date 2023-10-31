@@ -11,7 +11,6 @@ import { BiSolidRightArrowSquare } from "react-icons/bi";
 import Roles from "./Roles/Roles";
 import Clock from "./Clock/Clock";
 import Voice from "../Voice/Voice";
-import Sound from "../Sound/Sound";
 import "./Table.css";
 import {
   handleActionDrunk,
@@ -211,7 +210,6 @@ export default function Table({
         <span className="RoomIDInfoText">Room ID: {code}</span>
       </div>
       <Voice />
-      <Sound />
       <MessagesInGame name={currentUser.name} />
       <button
         className="ShowTableButton"

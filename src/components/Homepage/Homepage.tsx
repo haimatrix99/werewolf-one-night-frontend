@@ -11,7 +11,7 @@ export default function Homepage() {
   const navigate = useNavigate();
   const { socket } = useSocket();
 
-  const handleButtonCreate = () => {
+  const handleButtonCreate = async () => {
     if (name === "") {
       alert("Username must not be empty");
     } else {
@@ -21,14 +21,14 @@ export default function Homepage() {
     }
   };
 
-  const handleButtonJoin = () => {
+  const handleButtonJoin = async () => {
     if (name === "" || code === "") {
       alert("Username or code must not be empty");
     } else {
       socket.emit("join", { name, code }, (result: User | string) => {
         if (result === "Username is taken.") {
           alert(result);
-          navigate("/", {replace: true})
+          navigate("/", { replace: true });
         }
       });
       navigate(`/room?code=${code}&name=${name}`);

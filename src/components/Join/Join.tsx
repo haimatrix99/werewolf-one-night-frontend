@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
 import MessagesInRoom from "./Messages/Messages";
 import { reducer } from "../../handlers/reducer";
 import "./Join.css";
@@ -10,9 +10,16 @@ import SelectRoles from "./SelectRoles/SelectRoles";
 import { MAX_PLAYERS, MIN_PLAYERS } from "../../lib/constants";
 import { pickRandomItems } from "../../handlers/pickRandomItems";
 import { useGameSocket } from "../../hooks/use-game-socket";
-import { User } from "../../lib/types";
+import {
+  ConnectionDetails,
+  ConnectionDetailsBody,
+  User,
+} from "../../lib/types";
 import { Role } from "../../lib/enums";
 import { useStartGameSocket } from "../../hooks/use-start-game-socket";
+import { LiveKitRoom } from "@livekit/components-react";
+import { WebAudioContext } from "../../providers/audio-provider";
+import Voice from "../Voice/Voice";
 
 const initialValue = {
   rolesPool: [],
@@ -32,6 +39,43 @@ export default function Join() {
   const [rolesPlayer, setRolesPlayer] = useState<User[]>([]);
   const [threeRemainCard, setThreeRemainCard] = useState<Role[]>([]);
   const [signal, setSignal] = useState(false);
+
+  const [connectionDetails, setConnectionDetails] =
+    useState<ConnectionDetails | null>(null);
+  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+
+  useEffect(() => {
+    setAudioContext(new AudioContext());
+    return () => {
+      setAudioContext((prev) => {
+        prev?.close();
+        return null;
+      });
+    };
+  }, []);
+
+  const requestConnectionDetails = useCallback(
+    async (code: string, name: string) => {
+      const body: ConnectionDetailsBody = {
+        code,
+        name,
+      };
+      const response = await fetch(
+        `${process.env.REACT_APP_ENDPOINT}/api/voice/connection`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      );
+
+      if (response.status === 200) {
+        const connectionDetails = await response.json();
+        setConnectionDetails(connectionDetails);
+      }
+    },
+    []
+  );
 
   const handleStartGame = () => {
     const canStartGame =
@@ -74,18 +118,43 @@ export default function Join() {
     }
   }, [startGame, code, name, navigate]);
 
+  if (connectionDetails === null) {
+    requestConnectionDetails(code, name);
+  }
+
+
+  
   return (
-    <div className="Join">
-      {isRoomMaster && <SelectRoles numbers={numbers} dispatch={dispatch} />}
-      <div className="JoinCenterContainer">
-        <MessagesInRoom name={name} code={code} />
-        {isRoomMaster && (
-          <button className="StartGameButton" onClick={handleStartGame}>
-            Start Game
-          </button>
-        )}
-      </div>
-      <Users users={users} />
-    </div>
+    <>
+      {audioContext && connectionDetails && (
+        <LiveKitRoom
+          token={connectionDetails.token}
+          serverUrl={connectionDetails.ws_url}
+          connect={true}
+          audio={true}
+          video={false}
+          connectOptions={{ autoSubscribe: true }}
+          options={{ expWebAudioMix: { audioContext } }}
+        >
+          <WebAudioContext.Provider value={audioContext}>
+            <Voice />
+            <div className="Join">
+              {isRoomMaster && (
+                <SelectRoles numbers={numbers} dispatch={dispatch} />
+              )}
+              <div className="JoinCenterContainer">
+                <MessagesInRoom name={name} code={code} />
+                {isRoomMaster && (
+                  <button className="StartGameButton" onClick={handleStartGame}>
+                    Start Game
+                  </button>
+                )}
+              </div>
+              <Users />
+            </div>
+          </WebAudioContext.Provider>
+        </LiveKitRoom>
+      )}
+    </>
   );
 }

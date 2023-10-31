@@ -26,3 +26,13 @@ export type MessageInfo = {
   user: string;
   text: string;
 };
+
+export type ConnectionDetails = {
+  token: string;
+  ws_url: string;
+};
+
+export type ConnectionDetailsBody = {
+  code: string;
+  name: string;
+};
