@@ -1,4 +1,4 @@
-const MIN_PLAYERS = 1;
+const MIN_PLAYERS = 3;
 const MAX_PLAYERS = 10;
 
 const ROLE_CARD: { [key: string]: number }  = {
