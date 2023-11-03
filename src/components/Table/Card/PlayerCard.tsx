@@ -1,8 +1,5 @@
 import React from "react";
 import { User } from "../../../lib/types";
-import { BiMicrophone, BiSolidMicrophone } from "react-icons/bi";
-import "./Card.css";
-import { useParticipants } from "@livekit/components-react";
 
 type PlayerCardProps = {
   position: string;
@@ -19,37 +16,29 @@ export default function PlayerCard({
   userFlipped,
   done,
 }: PlayerCardProps) {
-  const participants = useParticipants();
   return (
     <div className={position}>
       {users.map((user, index) => (
-        <div key={index} onClick={() => onClick(user)}>
+        <div key={index} className="relative flex flex-col justify-center items-center" onClick={() => onClick(user)}>
           <img
-            className="CardImageCover PlayerCardImageSize"
+            className={
+              !(userFlipped?.name === user.name || done)
+                ? "card-cover"
+                : "card-cover card-cover-flipped"
+            }
             src={require("../../../assets/cover.png")}
             alt="Card"
           />
           <img
             className={
               userFlipped?.name === user.name || done
-                ? "CardImageFlipped CardImage PlayerCardImageSize"
-                : "CardImageCoverFlipped CardImage PlayerCardImageSize"
+                ? "card"
+                : "card card-flipped"
             }
             src={require(`../../../assets/roles/${user.role}.jpg`)}
             alt="Card"
           />
-          <p className="Name PlayerName">
-            {user.name}
-            <span className="MicroIcon">
-              {participants.filter(
-                (participant) => participant.identity === user.name
-              )[0]?.isSpeaking ? (
-                <BiSolidMicrophone />
-              ) : (
-                <BiMicrophone />
-              )}
-            </span>
-          </p>
+          <p className="text-sm text-white  text-center font-semibold px-4 py-1 border border-solid rounded-lg bg-indigo-500">{user.name}</p>
         </div>
       ))}
     </div>

@@ -1,5 +1,4 @@
 import React from "react";
-import "./Message.css";
 
 type MessageProps = {
   message: {
@@ -9,7 +8,7 @@ type MessageProps = {
   name: string;
 };
 
-export default function MessageInRoom({
+export default function Message({
   message: { user, text },
   name,
 }: MessageProps) {
@@ -20,14 +19,16 @@ export default function MessageInRoom({
     isSentByCurrentUser = true;
   }
   return isSentByCurrentUser ? (
-    <div className="MessageInRoomContainer RightMessageInRoom">
-      <p className="UserMessageInRoom">{user}</p>
-      <span className="MessageInRoomText RightMessageInRoomText">{text}</span>
+    <div className="flex gap-2 justify-end mx-[20px] my-[4px]">
+      <p className="text-white font-semibold text-lg">{user}</p>
+      <span className="text-white border-2 border-solid rounded-lg bg-green-500 px-4 py-1 w-fit max-w-[90%] break-words">
+        {text}
+      </span>
     </div>
   ) : (
-    <div className="MessageInRoomContainer LeftMessageInRoom">
-      <span className="MessageInRoomText LeftMessageInRoomText">{text}</span>
-      <p className="UserMessageInRoom">{user}</p>
+    <div className="flex gap-2 justify-start mx-[20px] my-[4px]">
+      <span className="text-white border-2 border-solid rounded-lg bg-pink-500 px-4 py-1 w-fit max-w-[90%] break-words">{text}</span>
+      <p className="text-white font-semibold text-lg">{user}</p>
     </div>
   );
 }

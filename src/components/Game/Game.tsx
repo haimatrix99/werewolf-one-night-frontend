@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./Game.css";
 import queryString from "query-string";
 import Table from "../Table/Table";
 import { useRoleGameSocket } from "../../hooks/use-role-game-socket";
@@ -9,6 +8,7 @@ import { Role } from "../../lib/enums";
 import { ConnectionDetails, ConnectionDetailsBody } from "../../lib/types";
 import { WebAudioContext } from "../../providers/audio-provider";
 import { AudioConference, LiveKitRoom } from "@livekit/components-react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export default function Game() {
   const params = queryString.parse(window.location.search);
@@ -39,7 +39,10 @@ export default function Game() {
           name,
         };
         const response = await fetch(
-          `${process.env.REACT_APP_ENDPOINT}/api/voice/connection`,
+          `${
+            process.env.REACT_APP_ENDPOINT ||
+            "https://werewolf-one-night-backend-j4pyzzodnq-as.a.run.app"
+          }/api/voice/connection`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -92,26 +95,31 @@ export default function Game() {
 
   if (!audioContext || connectionDetails === null) {
     return (
-      <div className="Join">
-        <h1 className="Loading">Loading</h1>;
+      <div className="h-screen flex flex-col flex-1 justify-center items-center">
+        <AiOutlineLoading3Quarters className="text-3xl animation-spin"/>
+        <h1 className="text-3xl">Loading</h1>
       </div>
     );
   }
 
   return (
-    <LiveKitRoom
-      token={connectionDetails.token}
-      serverUrl={connectionDetails.ws_url}
-      connect={true}
-      audio={true}
-      video={false}
-      connectOptions={{ autoSubscribe: true }}
-      options={{ expWebAudioMix: { audioContext } }}
-    >
-      <WebAudioContext.Provider value={audioContext}>
-        <AudioConference />
-        <ClockProvider totalTurn={totalTurn}>
-          <div className="Game">
+    <div className="h-screen w-full">
+      <h1 className="py-2 text-center font-semibold text-3xl text-slate-500">
+        Werewolf One Night
+      </h1>
+      <LiveKitRoom
+        token={connectionDetails.token}
+        serverUrl={connectionDetails.ws_url}
+        connect={true}
+        audio={true}
+        video={false}
+        connectOptions={{ autoSubscribe: true }}
+        options={{ expWebAudioMix: { audioContext } }}
+        className="h-[90%] w-full"
+      >
+        <WebAudioContext.Provider value={audioContext}>
+          <AudioConference className="hidden" />
+          <ClockProvider totalTurn={totalTurn}>
             {rolesPlayer.length > 0 && (
               <Table
                 code={code}
@@ -124,9 +132,9 @@ export default function Game() {
                 turnCall={turnCall}
               />
             )}
-          </div>
-        </ClockProvider>
-      </WebAudioContext.Provider>
-    </LiveKitRoom>
+          </ClockProvider>
+        </WebAudioContext.Provider>
+      </LiveKitRoom>
+    </div>
   );
 }

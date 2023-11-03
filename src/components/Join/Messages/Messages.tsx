@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import Message from "./Message/Message";
 import { BiMessageSquareDetail } from "react-icons/bi";
-
-import "./Messages.css";
 import { useSocket } from "../../../providers/socket-provider";
 import { useChatSocket } from "../../../hooks/use-chat-socket";
-import { BsFillClipboard2Fill } from 'react-icons/bs'
+import { BsFillClipboard2Fill } from "react-icons/bs";
 
 type MessagesProps = {
   name: string;
   code: string | undefined;
 };
 
-export default function MessagesInRoom({ name, code }: MessagesProps) {
+export default function Messages({ name, code }: MessagesProps) {
   const [messageToSend, setMessage] = useState("");
   const [sendButton, setSendButton] = useState(false);
   const { socket } = useSocket();
@@ -31,29 +29,31 @@ export default function MessagesInRoom({ name, code }: MessagesProps) {
 
   const copy = () => {
     navigator.clipboard.writeText(code as string);
-    alert("Copied!")
+    alert("Copied!");
   };
 
   return (
-    <div className="MessagesInRoom">
-      <div className="RoomInfo">
-        <span className="RoomInfoText">Room ID: {code}</span>
-        <button className="ClipboardIcon" onClick={copy}>
+    <div className="flex flex-col mx-auto w-full h-[85%] min-h-[85%] bg-indigo-500 rounded-lg border-2 border-solid border-white">
+      <div className="basic-[10%] px-4 py-2 border-b-2 border-white flex gap-4">
+        <span className="text-white font-semibold text-lg">
+          Room ID: {code}
+        </span>
+        <button className="text-white text-2xl" onClick={copy}>
           <BsFillClipboard2Fill />
         </button>
       </div>
-      <div className="MessagesInRoomBody">
+      <div className="basis-full h-full flex flex-col-reverse overflow-y-scroll">
         {messages.map((message, index) => (
           <div key={index}>
             <Message message={message} name={name}></Message>
           </div>
         ))}
       </div>
-      <div className="MessagesInRoomFooter">
+      <div className="basis-[10%] flex mt-[10px]">
         <input
           type="text"
-          className="MessagesInRoomInput"
-          placeholder="Type a message..."
+          className="basis-full"
+          placeholder="Type message..."
           value={messageToSend}
           onChange={({ target: { value } }) => setMessage(value)}
           onKeyPress={(event) =>
@@ -63,7 +63,7 @@ export default function MessagesInRoom({ name, code }: MessagesProps) {
           }
         />
         <button
-          className="MessagesInRoomSendButton"
+          className="text-2xl text-white p-2"
           onClick={() => {
             setSendButton(!sendButton);
             sendMessage(null);

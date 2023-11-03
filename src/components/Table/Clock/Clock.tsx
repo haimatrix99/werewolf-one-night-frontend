@@ -1,5 +1,4 @@
 import { AiFillClockCircle } from "react-icons/ai";
-import "./Clock.css";
 
 type ClockProps = {
   done: boolean;
@@ -8,14 +7,10 @@ type ClockProps = {
 
 export default function Clock({ done, second }: ClockProps) {
   return (
-    <div className="Clock">
-      <button className="ClockIcon ClockIconLeft">
-        <AiFillClockCircle />
-      </button>
-      <span className="Time">{!done ? second : "Done"}</span>
-      <button className="ClockIcon ClockIconRight">
-        <AiFillClockCircle />
-      </button>
+    <div className="w-fit flex justify-between items-center mx-auto px-4 py-2 my-4 border border-solid rounded-lg bg-indigo-500">
+      <AiFillClockCircle className="text-2xl text-white"/>
+      <span className="text-2xl text-white text-center font-semibold mx-8">{!done ? second : "Done"}</span>
+      <AiFillClockCircle className="text-2xl text-white"/>
     </div>
   );
 }

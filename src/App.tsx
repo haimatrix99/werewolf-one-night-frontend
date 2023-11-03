@@ -8,8 +8,7 @@ import { SocketProvider } from "./providers/socket-provider";
 
 function App() {
   return (
-    <div className="App">
-      <div className="bg-image"></div>
+    <div className="relative h-screen bg-slate-200 overflow-x-hidden">
       <SocketProvider>
         <BrowserRouter>
           <Routes>

@@ -3,15 +3,9 @@ import { useSocket } from "../../providers/socket-provider";
 import ThreeRemainCard from "./Card/ThreeRemainCard";
 import UserCard from "./Card/UserCard";
 import PlayerCard from "./Card/PlayerCard";
-import MessagesInGame from "./Messages/Messages";
 import { User } from "../../lib/types";
 import { Role } from "../../lib/enums";
 import { splitUser } from "../../handlers/splitUser";
-import { BiSolidRightArrowSquare } from "react-icons/bi";
-import Roles from "./Roles/Roles";
-import Clock from "./Clock/Clock";
-import Voice from "../Voice/Voice";
-import "./Table.css";
 import {
   handleActionDrunk,
   handleActionRobber,
@@ -19,6 +13,10 @@ import {
 } from "../../handlers/actions";
 import { useClock } from "../../providers/clock-provider";
 import { confirm } from "../../util/confirm";
+import Clock from "./Clock/Clock";
+import Voice from "../Voice/Voice";
+import Messages from "./Messages/Messages";
+import Roles from "./Roles/Roles";
 
 type TableProps = {
   code: string;
@@ -44,7 +42,6 @@ export default function Table({
     currentUserIndex = users.length;
   }
 
-
   const userBeforeCurrentUser = users.slice(0, currentUserIndex);
   const userAfterCurrentUser = users.slice(currentUserIndex + 1, users.length);
   const userRemain = [...userAfterCurrentUser, ...userBeforeCurrentUser];
@@ -52,7 +49,6 @@ export default function Table({
 
   const { socket } = useSocket();
   const { turn, done, counter } = useClock();
-  const [showListRoles, setShowListRoles] = useState(false);
   const [flipped, setFlipped] = useState(false);
   const useFlipped = useRef<User>();
   const indexesFlip = useRef<Set<number>>(new Set<number>());
@@ -60,23 +56,39 @@ export default function Table({
   const refSeer = useRef(0);
 
   const werewolfCanDo =
-    users.filter((user) => user.role === Role.Werewolf).length === 1; 
-  
+    users.filter((user) => user.role === Role.Werewolf).length === 1;
+
   useEffect(() => {
-    if (turn !== 0 && turnCall[turn] !== "Robber" && turnCall[turn] !== "Insomniac" && turnCall[turn] !== "Drunk") {
+    if (
+      turn !== 0 &&
+      turnCall[turn] !== "Robber" &&
+      turnCall[turn] !== "Insomniac" &&
+      turnCall[turn] !== "Drunk"
+    ) {
       setFlipped(false);
     }
-    if (turnCall[turn] !== "Werewolf" && currentUser.firstRole === Role.Werewolf) {
+    if (
+      turnCall[turn] !== "Werewolf" &&
+      currentUser.firstRole === Role.Werewolf
+    ) {
       indexesFlip.current.clear();
     }
     if (turnCall[turn] !== "Seer" && currentUser.firstRole === Role.Seer) {
       indexesFlip.current.clear();
       useFlipped.current = undefined;
     }
-    if (turnCall[turn] === "Robber" && currentUser.firstRole === Role.Robber && currentUser.action) {
+    if (
+      turnCall[turn] === "Robber" &&
+      currentUser.firstRole === Role.Robber &&
+      currentUser.action
+    ) {
       setFlipped(true);
     }
-    if (turnCall[turn] === "Insomniac" && currentUser.firstRole === Role.Insomniac && currentUser.action) {
+    if (
+      turnCall[turn] === "Insomniac" &&
+      currentUser.firstRole === Role.Insomniac &&
+      currentUser.action
+    ) {
       setFlipped(true);
     }
     if (
@@ -203,68 +215,60 @@ export default function Table({
       }
     }
   };
-
   return (
-    <div className="Table">
-      <div className="RoomIDInfo">
-        <span className="RoomIDInfoText">Room ID: {code}</span>
-      </div>
+    <>
+      <Roles roles={roles}/>
       <Voice />
-      <MessagesInGame name={currentUser.name} />
-      <button
-        className="ShowTableButton"
-        onClick={() => {
-          setShowListRoles(!showListRoles);
-        }}
-      >
-        <BiSolidRightArrowSquare />
-      </button>
-      {showListRoles ? <Roles roles={roles} /> : null}
-      <div className="Left">
-        <PlayerCard
-          position="Left"
-          users={leftUsers.map((user) => user)}
-          onClick={handleClick}
-          userFlipped={useFlipped.current}
-          done={done}
-        />
-      </div>
-      <div className="Center">
-        <PlayerCard
-          position="Top"
-          users={topUsers.map((user) => user)}
-          onClick={handleClick}
-          userFlipped={useFlipped.current}
-          done={done}
-        />
-        <div className="Turn">
-          <span className="TurnText">
-            {turnCall[turn] ? "Turn " + turnCall[turn] : "Thảo luận"}
-          </span>
+      <Messages code={code} name={currentUser.name}/>
+      <div className="grid grid-cols-5 grid-rows-3 h-full">
+        <div className="col-span-1 col-start-1 row-span-3 row-start-1 m-auto">
+          <PlayerCard
+            position="table-left"
+            users={leftUsers.map((user) => user)}
+            onClick={handleClick}
+            userFlipped={useFlipped.current}
+            done={done}
+          />
         </div>
-        <ThreeRemainCard
-          roles={threeRemainCard}
-          onClick={handleClick}
-          indexesFlip={Array.from(indexesFlip.current.values())}
-          done={done}
-        />
-        <Clock done={done} second={counter} />
-        <UserCard
-          role={currentUser?.role}
-          onClick={handleClick}
-          flipped={flipped}
-          done={done}
-        />
+        <div className="col-span-3 m-auto">
+          <PlayerCard
+            position="table-top"
+            users={topUsers.map((user) => user)}
+            onClick={handleClick}
+            userFlipped={useFlipped.current}
+            done={done}
+          />
+        </div>
+        <div className="col-span-1 col-start-5 row-span-3 row-start-1 m-auto">
+          <PlayerCard
+            position="table-right"
+            users={rightUsers.map((user) => user)}
+            onClick={handleClick}
+            userFlipped={useFlipped.current}
+            done={done}
+          />
+        </div>
+        <div className="col-span-3 m-auto">
+          <h1 className="w-fit mx-auto my-2 text-xl text-white text-center bg-indigo-500 font-semibold px-4 py-1 border border-solid rounded-lg mt-2">
+            {turnCall[turn] ? "Turn " + turnCall[turn] : "Thảo luận"}
+          </h1>
+          <ThreeRemainCard
+            roles={threeRemainCard}
+            onClick={handleClick}
+            indexesFlip={Array.from(indexesFlip.current.values())}
+            done={done}
+          />
+          <Clock done={done} second={counter}/>
+        </div>
+        <div className="col-span-3 mt-[90px]">
+          <UserCard
+            role={currentUser?.role}
+            onClick={handleClick}
+            flipped={flipped}
+            done={done}
+          />
+        </div>
       </div>
-      <div className="Right">
-        <PlayerCard
-          position="Right"
-          users={rightUsers.map((user) => user)}
-          onClick={handleClick}
-          userFlipped={useFlipped.current}
-          done={done}
-        />
-      </div>
-    </div>
+    </>
   );
 }

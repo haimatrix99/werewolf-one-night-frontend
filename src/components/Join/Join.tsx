@@ -1,15 +1,15 @@
 import React, { useEffect, useReducer, useState } from "react";
-import MessagesInRoom from "./Messages/Messages";
+import Messages from "./Messages/Messages";
 import { reducer } from "../../handlers/reducer";
-import "./Join.css";
 import { useNavigate } from "react-router-dom";
 import queryString from "query-string";
 import { useUserSocket } from "../../hooks/use-user-socket";
 import Users from "./Users/Users";
-import SelectRoles from "./SelectRoles/SelectRoles";
+import Roles from "./Roles/Roles";
 import { MAX_PLAYERS, MIN_PLAYERS } from "../../lib/constants";
 import { pickRandomItems } from "../../handlers/pickRandomItems";
 import { useGameSocket } from "../../hooks/use-game-socket";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import {
   ConnectionDetails,
   ConnectionDetailsBody,
@@ -20,6 +20,7 @@ import { useStartGameSocket } from "../../hooks/use-start-game-socket";
 import { AudioConference, LiveKitRoom } from "@livekit/components-react";
 import { WebAudioContext } from "../../providers/audio-provider";
 import Voice from "../Voice/Voice";
+import { useMediaQuery } from "react-responsive";
 
 const initialValue = {
   rolesPool: [],
@@ -44,6 +45,8 @@ export default function Join() {
     useState<ConnectionDetails | null>(null);
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
 
+  const isMobile = useMediaQuery({ query: "(max-width: 640px)" });
+
   useEffect(() => {
     setAudioContext(new AudioContext());
     return () => {
@@ -62,7 +65,10 @@ export default function Join() {
           name,
         };
         const response = await fetch(
-          `${process.env.REACT_APP_ENDPOINT || "https://werewolf-one-night-backend-j4pyzzodnq-as.a.run.app"}/api/voice/connection`,
+          `${
+            process.env.REACT_APP_ENDPOINT ||
+            "https://werewolf-one-night-backend-j4pyzzodnq-as.a.run.app"
+          }/api/voice/connection`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -121,40 +127,74 @@ export default function Join() {
 
   if (!audioContext || connectionDetails === null) {
     return (
-      <div className="Join">
-        <h1 className="Loading">Loading</h1>;
+      <div className="h-screen flex flex-col flex-1 justify-center items-center">
+        <AiOutlineLoading3Quarters className="text-3xl animation-spin" />
+        <h1 className="text-3xl">Loading</h1>
       </div>
-    )
+    );
   }
 
   return (
-    <LiveKitRoom
-      token={connectionDetails.token}
-      serverUrl={connectionDetails.ws_url}
-      connect={true}
-      audio={true}
-      video={false}
-      connectOptions={{ autoSubscribe: true }}
-      options={{ expWebAudioMix: { audioContext } }}
-    >
-      <WebAudioContext.Provider value={audioContext}>
-        <AudioConference />
-        <Voice />
-        <div className="Join">
-          {isRoomMaster && (
-            <SelectRoles numbers={numbers} dispatch={dispatch} />
+    <div className="h-screen w-full">
+      <h1 className="py-2 text-center font-semibold text-3xl text-slate-500">
+        Werewolf One Night
+      </h1>
+      <LiveKitRoom
+        token={connectionDetails.token}
+        serverUrl={connectionDetails.ws_url}
+        connect={true}
+        audio={true}
+        video={false}
+        connectOptions={{ autoSubscribe: true }}
+        options={{ expWebAudioMix: { audioContext } }}
+        className="h-[90%] w-full flex flex-col items-center"
+      >
+        <WebAudioContext.Provider value={audioContext}>
+          <AudioConference className="hidden" />
+          {isMobile ? (
+            <>
+              <Messages name={name} code={code} />
+              {isRoomMaster && (
+                <button
+                  className="btn mt-3 text-xl text-white font-semibold"
+                  onClick={handleStartGame}
+                >
+                  Start Game
+                </button>
+              )}
+              <Roles
+                numbers={numbers}
+                dispatch={dispatch}
+                isRoomMaster={isRoomMaster}
+                isMobile={isMobile}
+              />
+              <Users users={users} isMobile={isMobile} />
+            </>
+          ) : (
+            <div className="flex h-full w-full gap-6 items-center">
+              <Roles
+                numbers={numbers}
+                dispatch={dispatch}
+                isRoomMaster={isRoomMaster}
+                isMobile={isMobile}
+              />
+              <div className="basis-[80%] h-full flex flex-col items-center">
+                <Messages name={name} code={code} />
+                {isRoomMaster && (
+                  <button
+                    className="btn mt-3 text-xl text-white font-semibold"
+                    onClick={handleStartGame}
+                  >
+                    Start Game
+                  </button>
+                )}
+              </div>
+              <Users users={users} isMobile={isMobile} />
+            </div>
           )}
-          <div className="JoinCenterContainer">
-            <MessagesInRoom name={name} code={code} />
-            {isRoomMaster && (
-              <button className="StartGameButton" onClick={handleStartGame}>
-                Start Game
-              </button>
-            )}
-          </div>
-          <Users users={users}/>
-        </div>
-      </WebAudioContext.Provider>
-    </LiveKitRoom>
+          <Voice />
+        </WebAudioContext.Provider>
+      </LiveKitRoom>
+    </div>
   );
 }

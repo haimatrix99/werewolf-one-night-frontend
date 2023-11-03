@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./Homepage.css";
 import randomCodeGenerate from "../../handlers/randomCodeGenerator";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../providers/socket-provider";
@@ -36,48 +35,39 @@ export default function Homepage() {
   };
 
   return (
-    <div className="Homepage">
-      <div className="HomepageContainer">
-        <div className="HomepageHeader">
-          <img
-            className="werewolfIcon"
-            src={require("../../assets/werewolf-clip-art-8.png")}
-            alt="Icon"
-          ></img>
-          <h1 className="HomepageTitle">Werewolf One Night</h1>
+    <div className="relative center w-full bg-slate-600 text-center border rounded-lg border-solid p-6 md:w-fit">
+      <div className="mb-[36px]">
+        <h1 className="font-semibold text-[36px] text-white">
+          Werewolf One Night
+        </h1>
+        <img
+          className="absolute left-1/2 top-[20px] h-8 icon"
+          src={require("../../assets/icon.png")}
+          alt="Icon"
+        />
+      </div>
+      <div className="flex flex-col justify-center items-center md:flex-row md:space-x-2">
+        <input
+          className="input-homepage"
+          type="text"
+          placeholder="Enter name"
+          onChange={(event) => setName(event.target.value)}
+        />
+        <div className="flex flex-col justify-center items-center">
+          <input
+            className="input-homepage"
+            type="text"
+            placeholder="Enter code"
+            onChange={(event) => setCode(event.target.value)}
+          />
+          <button className="btn" onClick={handleButtonJoin}>
+            Join
+          </button>
         </div>
-        <div className="HomepageInfo">
-          <div className="HomepageName">
-            <input
-              type="text"
-              className="HomepageInput"
-              placeholder="Enter a name"
-              onChange={(event) => setName(event.target.value)}
-            />
-          </div>
-          <div className="HomepageBody">
-            <div className="HomepageJoinRoom">
-              <input
-                type="text"
-                className="HomepageInput"
-                placeholder="Enter a code room"
-                onChange={(event) => setCode(event.target.value)}
-              />
-              <button className="HomepageButton" onClick={handleButtonJoin}>
-                Join
-              </button>
-            </div>
-            <p className="CreateOrJoinText">OR</p>
-            <div className="HomepageCreate">
-              <button
-                className="HomepageButton HomepageButtonCreate"
-                onClick={handleButtonCreate}
-              >
-                Create
-              </button>
-            </div>
-          </div>
-        </div>
+        <p className="uppercase font-semibold text-2xl text-white my-2">Or</p>
+        <button className="btn" onClick={handleButtonCreate}>
+          Create
+        </button>
       </div>
     </div>
   );

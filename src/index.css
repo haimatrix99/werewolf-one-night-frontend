@@ -1,24 +1,76 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.icon {
+  animation: shakeit 3s infinite;
+  animation-direction: alternate;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@keyframes shakeit {
+  0% {
+    transform: translate(-15px, 20px);
+  }
+
+  100% {
+    transform: translate(-15px, -20px);
+  }
 }
 
-* {
-  margin: 0px;
-  padding: 0px;
-  box-sizing: inherit;
+.flipped .card-flipped {
+  transform: rotateY(0deg);
+  transition-delay: 0s;
 }
 
-html {
-  font-size: 62.5%;
-  box-sizing: border-box;
+.card-cover-flipped {
+  transform: rotateY(90deg);
+}
+
+@layer components {
+
+  /* Homepage component */
+  .btn {
+    @apply rounded-lg px-4 py-2 bg-indigo-500 hover:bg-indigo-800 hover:scale-105;
+  }
+
+  .input-homepage {
+    @apply rounded-lg px-4 py-2 mb-4 font-semibold text-lg focus:outline-none;
+  }
+
+  .center {
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold text-lg;
+  }
+
+  /* Table components */
+  .card {
+    @apply rounded-[10%] w-16 h-24 m-2 md:w-24 md:h-32;
+  }
+
+  .card-cover {
+    @apply absolute top-0 rounded-[10%] w-16 h-24 m-2 md:w-24 md:h-32;
+  }
+
+  .table-left {
+    @apply flex flex-col-reverse justify-center;
+  }
+
+  .table-right {
+    @apply flex flex-col justify-center;
+  }
+
+  .table-center {
+    @apply flex flex-col justify-center items-center;
+  }
+
+  .table-top {
+    @apply flex justify-center;
+  }
+
+  .table-bottom {
+    @apply flex flex-col justify-center items-end;
+  }
+
+  .table-three-card {
+    @apply flex justify-center;
+  }
 }

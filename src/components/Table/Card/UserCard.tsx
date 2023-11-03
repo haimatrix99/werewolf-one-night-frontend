@@ -1,6 +1,5 @@
 import React from "react";
 import { Role } from "../../../lib/enums";
-import "./Card.css";
 
 type UserCardProps = {
   role: Role;
@@ -16,17 +15,20 @@ export default function UserCard({
   done,
 }: UserCardProps) {
   return (
-    <div onClick={() => onClick(role)}>
-      <img
-        className="CardImageCover PlayerCardImageSize"
-        src={require("../../../assets/cover.png")}
-        alt="Card"
-      />
+    <div
+      className="relative flex flex-col justify-center items-center"
+      onClick={() => onClick(role)}
+    >
+      <img className={
+          !(flipped || done)
+          ? "card-cover"
+          : "card-cover card-cover-flipped"
+        } src={require("../../../assets/cover.png")} alt="Card" />
       <img
         className={
           flipped || done
-          ? "CardImageFlipped CardImage PlayerCardImageSize"
-          : "CardImageCoverFlipped CardImage PlayerCardImageSize"
+          ? "card"
+          : "card card-flipped"
         }
         src={require(`../../../assets/roles/${role}.jpg`)}
         alt="Card"

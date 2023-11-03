@@ -18,8 +18,10 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-confirm": "^0.3.0-7",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
+    "react-responsive": "^9.0.2",
     "react-router-dom": "^6.17.0",
     "react-scripts": "5.0.1",
     "socket.io-client": "^4.7.2",
@@ -48,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.5"
   }
 }

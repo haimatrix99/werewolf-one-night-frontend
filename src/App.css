@@ -1,11 +1,4 @@
-.App {
-    text-align: center;
-    position: relative;
-    height: 100vh;
-    width: 100%;
-}
-
-.bg-image {
+/* .bg-image {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -17,4 +10,4 @@
     filter: blur(3px);
     -webkit-filter: blur(3px);
     z-index: -1;
-}
+} */
