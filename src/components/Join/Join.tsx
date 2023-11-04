@@ -33,7 +33,7 @@ export default function Join() {
   const navigate = useNavigate();
   const { users } = useUserSocket({ userKey: "users-online" });
   const roomMaster = users.filter((user) => user.master === true);
-  const isRoomMaster = roomMaster[0]?.name === name ? true : false;
+  const isRoomMaster = roomMaster[0]?.name === name.trim().toLowerCase() ? true : false;
   const [rolesPlayer, setRolesPlayer] = useState<User[]>([]);
   const [threeRemainCard, setThreeRemainCard] = useState<Role[]>([]);
   const [signal, setSignal] = useState(false);
