@@ -33,7 +33,8 @@ export default function Join() {
   const navigate = useNavigate();
   const { users } = useUserSocket({ userKey: "users-online" });
   const roomMaster = users.filter((user) => user.master === true);
-  const isRoomMaster = roomMaster[0]?.name === name.trim().toLowerCase() ? true : false;
+  const isRoomMaster =
+    roomMaster[0]?.name === name.trim().toLowerCase() ? true : false;
   const [rolesPlayer, setRolesPlayer] = useState<User[]>([]);
   const [threeRemainCard, setThreeRemainCard] = useState<Role[]>([]);
   const [signal, setSignal] = useState(false);
@@ -107,8 +108,8 @@ export default function Join() {
       >
         <WebAudioContext.Provider value={audioContext}>
           <AudioConference className="hidden" />
-          {isMobile ? (
-            <>
+          <div className="w-full h-screen md:flex md:justify-center md:items-center gap-6">
+            <div className="w-full h-full flex flex-col justify-center items-center md:order-2">
               <Messages name={name} code={code} />
               {isRoomMaster && (
                 <button
@@ -118,36 +119,15 @@ export default function Join() {
                   Start Game
                 </button>
               )}
-              <Setup
-                numbers={numbers}
-                dispatch={dispatch}
-                isRoomMaster={isRoomMaster}
-                isMobile={isMobile}
-              />
-              <Users users={users} isMobile={isMobile} />
-            </>
-          ) : (
-            <div className="flex h-full w-full gap-6 items-center">
-              <Setup
-                numbers={numbers}
-                dispatch={dispatch}
-                isRoomMaster={isRoomMaster}
-                isMobile={isMobile}
-              />
-              <div className="basis-[80%] h-full flex flex-col items-center">
-                <Messages name={name} code={code} />
-                {isRoomMaster && (
-                  <button
-                    className="btn mt-3 text-xl text-white font-semibold"
-                    onClick={handleStartGame}
-                  >
-                    Start Game
-                  </button>
-                )}
-              </div>
-              <Users users={users} isMobile={isMobile} />
             </div>
-          )}
+            <Setup
+              numbers={numbers}
+              dispatch={dispatch}
+              isRoomMaster={isRoomMaster}
+              isMobile={isMobile}
+            />
+            <Users users={users} isMobile={isMobile} />
+          </div>
           <Voice />
         </WebAudioContext.Provider>
       </LiveKitRoom>
