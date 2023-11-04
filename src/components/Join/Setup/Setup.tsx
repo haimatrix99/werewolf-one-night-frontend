@@ -4,23 +4,22 @@ import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { FaUserSecret } from "react-icons/fa";
 import { Role } from "../../../lib/enums";
 import { Action } from "../../../lib/types";
-import { isMobile } from "livekit-client/dist/src/room/utils";
 
 const roles: string[] = Object.values(Role);
 
-type RolesProps = {
+type SetupProps = {
   numbers: number[];
   dispatch: React.Dispatch<Action>;
   isRoomMaster: boolean;
   isMobile: boolean;
 };
 
-export default function Roles({
+export default function Setup({
   numbers,
   dispatch,
   isRoomMaster,
   isMobile,
-}: RolesProps) {
+}: SetupProps) {
   const [showRoles, setShowRoles] = useState(false);
 
   const handleButton = () => {

@@ -9,9 +9,11 @@ type UsersProps = {
 
 export default function Users({ users, isMobile }: UsersProps) {
   const [showUsers, setShowUsers] = useState(false);
+
   const handleButton = () => {
     setShowUsers(!showUsers);
   };
+  
   return (
     <>
       <button className="btn h-[48px] absolute left-[10px] bottom-[10px] md:hidden" onClick={handleButton}>

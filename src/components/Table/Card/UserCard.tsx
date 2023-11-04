@@ -21,14 +21,14 @@ export default function UserCard({
     >
       <img className={
           !(flipped || done)
-          ? "card-cover"
-          : "card-cover card-cover-flipped"
+          ? "card-cover mb-0"
+          : "card-cover card-cover-flipped mb-0"
         } src={require("../../../assets/cover.png")} alt="Card" />
       <img
         className={
           flipped || done
-          ? "card"
-          : "card card-flipped"
+          ? "card mb-0"
+          : "card card-flipped mb-0"
         }
         src={require(`../../../assets/roles/${role}.jpg`)}
         alt="Card"

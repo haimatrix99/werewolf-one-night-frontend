@@ -17,6 +17,7 @@ import Clock from "./Clock/Clock";
 import Voice from "../Voice/Voice";
 import Messages from "./Messages/Messages";
 import Roles from "./Roles/Roles";
+import Alert from "../Alert/Alert";
 
 type TableProps = {
   code: string;
@@ -54,6 +55,9 @@ export default function Table({
   const indexesFlip = useRef<Set<number>>(new Set<number>());
   const refTroublemaker = useRef<Set<User>>(new Set<User>());
   const refSeer = useRef(0);
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   const werewolfCanDo =
     users.filter((user) => user.role === Role.Werewolf).length === 1;
@@ -148,7 +152,11 @@ export default function Table({
               refTroublemaker.current.clear();
             }
           } else {
-            alert(`Bạn đã chọn ${card.name}`);
+            setShowAlert(true);
+            setTimeout(() => {
+              setShowAlert(false);
+            }, 3000);
+            setAlertMessage(`Bạn đã chọn ${card.name}`);
           }
         } else {
         }
@@ -217,9 +225,10 @@ export default function Table({
   };
   return (
     <>
-      <Roles roles={roles}/>
+      {showAlert && <Alert message={alertMessage} />}
+      <Roles roles={roles} />
       <Voice />
-      <Messages code={code} name={currentUser.name}/>
+      <Messages code={code} name={currentUser.name} />
       <div className="grid grid-cols-5 grid-rows-3 h-full">
         <div className="col-span-1 col-start-1 row-span-3 row-start-1 m-auto">
           <PlayerCard
@@ -258,7 +267,7 @@ export default function Table({
             indexesFlip={Array.from(indexesFlip.current.values())}
             done={done}
           />
-          <Clock done={done} second={counter}/>
+          <Clock done={done} second={counter} />
         </div>
         <div className="col-span-3 mt-[90px]">
           <UserCard

@@ -16,7 +16,8 @@ export default function Messages({ code, name }: MessagesProps) {
   const [sendButton, setSendButton] = useState(false);
   const [showMessages, setShowMessages] = useState(false);
   const { socket } = useSocket();
-
+  const { messages } = useChatSocket({ messageKey: "message" });
+  
   const sendMessage = (event: React.KeyboardEvent<HTMLInputElement> | null) => {
     if (event) {
       event.preventDefault();
@@ -26,8 +27,6 @@ export default function Messages({ code, name }: MessagesProps) {
       socket.emit("user-message", messageToSend, () => setMessage(""));
     }
   };
-
-  const { messages } = useChatSocket({ messageKey: "message" });
 
   const handleButton = () => {
     setShowMessages(!showMessages);

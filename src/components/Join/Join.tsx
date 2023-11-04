@@ -5,22 +5,19 @@ import { useNavigate } from "react-router-dom";
 import queryString from "query-string";
 import { useUserSocket } from "../../hooks/use-user-socket";
 import Users from "./Users/Users";
-import Roles from "./Roles/Roles";
+import Setup from "./Setup/Setup";
 import { MAX_PLAYERS, MIN_PLAYERS } from "../../lib/constants";
 import { pickRandomItems } from "../../handlers/pickRandomItems";
 import { useGameSocket } from "../../hooks/use-game-socket";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import {
-  ConnectionDetails,
-  ConnectionDetailsBody,
-  User,
-} from "../../lib/types";
+import { User } from "../../lib/types";
 import { Role } from "../../lib/enums";
 import { useStartGameSocket } from "../../hooks/use-start-game-socket";
 import { AudioConference, LiveKitRoom } from "@livekit/components-react";
 import { WebAudioContext } from "../../providers/audio-provider";
 import Voice from "../Voice/Voice";
 import { useMediaQuery } from "react-responsive";
+import { useVoiceConnection } from "../../hooks/use-voice-connection";
 
 const initialValue = {
   rolesPool: [],
@@ -40,49 +37,8 @@ export default function Join() {
   const [rolesPlayer, setRolesPlayer] = useState<User[]>([]);
   const [threeRemainCard, setThreeRemainCard] = useState<Role[]>([]);
   const [signal, setSignal] = useState(false);
-
-  const [connectionDetails, setConnectionDetails] =
-    useState<ConnectionDetails | null>(null);
-  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
-
   const isMobile = useMediaQuery({ query: "(max-width: 640px)" });
-
-  useEffect(() => {
-    setAudioContext(new AudioContext());
-    return () => {
-      setAudioContext((prev) => {
-        prev?.close();
-        return null;
-      });
-    };
-  }, []);
-
-  useEffect(() => {
-    if (connectionDetails === null) {
-      (async (code: string, name: string) => {
-        const body: ConnectionDetailsBody = {
-          code,
-          name,
-        };
-        const response = await fetch(
-          `${
-            process.env.REACT_APP_ENDPOINT ||
-            "https://werewolf-one-night-backend-j4pyzzodnq-as.a.run.app"
-          }/api/voice/connection`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
-          }
-        );
-
-        if (response.status === 200) {
-          const connectionDetails = await response.json();
-          setConnectionDetails(connectionDetails);
-        }
-      })(code, name);
-    }
-  }, [code, name, connectionDetails]);
+  const { audioContext, connectionDetails } = useVoiceConnection(code, name);
 
   const handleStartGame = () => {
     const canStartGame =
@@ -162,7 +118,7 @@ export default function Join() {
                   Start Game
                 </button>
               )}
-              <Roles
+              <Setup
                 numbers={numbers}
                 dispatch={dispatch}
                 isRoomMaster={isRoomMaster}
@@ -172,7 +128,7 @@ export default function Join() {
             </>
           ) : (
             <div className="flex h-full w-full gap-6 items-center">
-              <Roles
+              <Setup
                 numbers={numbers}
                 dispatch={dispatch}
                 isRoomMaster={isRoomMaster}

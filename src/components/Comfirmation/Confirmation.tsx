@@ -1,8 +1,4 @@
 import * as React from "react";
-
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-
 import { confirmable, ConfirmDialogProps } from "react-confirm";
 
 export interface Props {
@@ -13,27 +9,38 @@ export interface Props {
 }
 
 const Confirmation: React.FC<ConfirmDialogProps<Props, boolean>> = (props) => (
-  <div className="static-modal">
-    <Modal
-      animation={false}
-      show={props.show}
-      onHide={() => props.proceed(false)}
-      backdrop={false}
+  <>
+    <div
+      id="modal"
+      className="z-10 center flex flex-col w-full bg-white p-2 rounded-lg md:w-1/5"
     >
-      <Modal.Header>
-        <Modal.Title>{props.title}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>{props.confirmation}</Modal.Body>
-      <Modal.Footer>
-        <Button onClick={() => props.proceed(false)}>
+      <p className="my-2 text-xl text-black text-center font-semibold">
+        {props.confirmation}
+      </p>
+      <div className="flex justify-end gap-2 mx-2">
+        <button
+          className="btn bg-slate-800"
+          onClick={() => {
+            props.proceed(false);
+            const modal = document.getElementById("modal") as HTMLElement;
+            modal.style.display = "none";
+          }}
+        >
           {props.cancelLabel || "cancel"}
-        </Button>
-        <Button className="button-l" onClick={() => props.proceed(true)}>
+        </button>
+        <button
+          className="btn"
+          onClick={() => {
+            props.proceed(true);
+            const modal = document.getElementById("modal") as HTMLElement;
+            modal.style.display = "none";
+          }}
+        >
           {props.okLabel || "ok"}
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  </div>
+        </button>
+      </div>
+    </div>
+  </>
 );
 
 export default confirmable(Confirmation);
