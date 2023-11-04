@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { User } from "../../../lib/types";
 import { FaUsers } from "react-icons/fa";
+import { useParticipants } from "@livekit/components-react";
+import { BiMicrophone, BiSolidMicrophone } from "react-icons/bi";
 
 type UsersProps = {
   users: User[];
@@ -8,15 +10,19 @@ type UsersProps = {
 };
 
 export default function Users({ users, isMobile }: UsersProps) {
+  const participants = useParticipants();
   const [showUsers, setShowUsers] = useState(false);
 
   const handleButton = () => {
     setShowUsers(!showUsers);
   };
-  
+
   return (
     <>
-      <button className="btn h-[48px] absolute left-[10px] bottom-[10px] md:hidden" onClick={handleButton}>
+      <button
+        className="btn h-[48px] absolute left-[10px] bottom-[10px] md:hidden"
+        onClick={handleButton}
+      >
         <FaUsers />
       </button>
       {(showUsers || !isMobile) && (
@@ -28,9 +34,16 @@ export default function Users({ users, isMobile }: UsersProps) {
             {users.map((user, index) => (
               <div
                 key={index}
-                className="basis-full border-2 border-solid border-white rounded-lg px-2"
+                className="flex justify-between items-center basis-full border-2 border-solid border-white rounded-lg px-2"
               >
                 <li>{user.name}</li>
+                {participants.filter(
+                  (participant) => participant.identity === user.name
+                )[0]?.isSpeaking ? (
+                  <BiSolidMicrophone />
+                ) : (
+                  <BiMicrophone />
+                )}
               </div>
             ))}
           </ul>

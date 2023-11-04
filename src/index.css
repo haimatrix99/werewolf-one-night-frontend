@@ -58,7 +58,7 @@
 
   /* Homepage component */
   .btn {
-    @apply rounded-lg px-4 py-2 bg-indigo-500 hover:bg-indigo-800 hover:scale-105;
+    @apply rounded-lg px-4 py-2 bg-indigo-500 text-white hover:bg-indigo-800 hover:scale-105;
   }
 
   .input-homepage {

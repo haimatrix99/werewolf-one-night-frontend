@@ -1,4 +1,4 @@
-const MIN_PLAYERS = 1;
+const MIN_PLAYERS = 3;
 const MAX_PLAYERS = 10;
 
 const ROLE_CARD: { [key: string]: number }  = {
@@ -9,7 +9,7 @@ const ROLE_CARD: { [key: string]: number }  = {
   // "Mason": 2,
   // "Minion": 1,
   "Robber": 1,
-  "Seer": 4,
+  "Seer": 1,
   // "Tanner": 1,
   "Troublemaker": 1,
   "Villager": 3,

@@ -1,5 +1,7 @@
 import React from "react";
 import { User } from "../../../lib/types";
+import { BiMicrophone, BiSolidMicrophone } from "react-icons/bi";
+import { useParticipants } from "@livekit/components-react";
 
 type PlayerCardProps = {
   position: string;
@@ -16,10 +18,16 @@ export default function PlayerCard({
   userFlipped,
   done,
 }: PlayerCardProps) {
+  const participants = useParticipants();
+
   return (
     <div className={position}>
       {users.map((user, index) => (
-        <div key={index} className="relative flex flex-col justify-center items-center" onClick={() => onClick(user)}>
+        <div
+          key={index}
+          className="relative flex flex-col justify-center items-center"
+          onClick={() => onClick(user)}
+        >
           <img
             className={
               !(userFlipped?.name === user.name || done)
@@ -38,7 +46,18 @@ export default function PlayerCard({
             src={require(`../../../assets/roles/${user.role}.jpg`)}
             alt="Card"
           />
-          <p className="text-sm text-white  text-center font-semibold px-4 py-1 border border-solid rounded-lg bg-indigo-500">{user.name}</p>
+          <div className="flex justify-center items-center gap-2">
+            <p className="text-sm text-white text-center font-semibold px-4 py-1 border border-solid rounded-lg bg-indigo-500">
+              {user.name}
+            </p>
+            {participants.filter(
+              (participant) => participant.identity === user.name
+            )[0]?.isSpeaking ? (
+              <BiSolidMicrophone className="text-indigo-500 text-xl border border-solid rounded-lg"/>
+            ) : (
+              <BiMicrophone className="text-indigo-500 text-xl border border-solid rounded-lg"/>
+            )}
+          </div>
         </div>
       ))}
     </div>
