@@ -13,7 +13,7 @@ export const handleActionRobber = (
     player !== currentUser
   ) {
     socket.emit("update-role-player", {
-      code: code.toLowerCase(),
+      code: code,
       player1: currentUser,
       player2: player,
       currentUser
@@ -36,7 +36,7 @@ export const handleActionTroublemaker = (
     players[1] !== currentUser
   ) {
     socket.emit("update-role-player", {
-      code: code.toLowerCase(),
+      code: code,
       player1: players[0],
       player2: players[1],
       currentUser,
@@ -54,7 +54,7 @@ export const handleActionDrunk = (
 ) => {
   if (currentUser.firstRole === Role.Drunk && index !== -1) {
     socket.emit("update-role-card", {
-      code: code.toLowerCase(),
+      code: code,
       player: currentUser,
       index,
     });

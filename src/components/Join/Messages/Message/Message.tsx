@@ -13,9 +13,8 @@ export default function Message({
   name,
 }: MessageProps) {
   let isSentByCurrentUser = false;
-  const trimmedName = name.trim().toLowerCase();
 
-  if (user === trimmedName) {
+  if (user === name) {
     isSentByCurrentUser = true;
   }
   return isSentByCurrentUser ? (

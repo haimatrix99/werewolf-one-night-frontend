@@ -182,7 +182,7 @@ export default function Table({
           if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
             indexesFlip.current.add(card);
             socket.emit("update-status-action", {
-              code: code.toLowerCase(),
+              code: code,
               user: currentUser,
             });
           } else {
@@ -201,7 +201,7 @@ export default function Table({
             indexesFlip.current.add(card);
             if (refSeer.current === 2) {
               socket.emit("update-status-action", {
-                code: code.toLowerCase(),
+                code: code,
                 user: currentUser,
               });
             }
@@ -212,7 +212,7 @@ export default function Table({
             if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
               useFlipped.current = card;
               socket.emit("update-status-action", {
-                code: code.toLowerCase(),
+                code: code,
                 user: currentUser,
               });
             } else {

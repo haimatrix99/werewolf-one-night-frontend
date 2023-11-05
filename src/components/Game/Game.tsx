@@ -14,11 +14,11 @@ export default function Game() {
   const params = queryString.parse(window.location.search);
   const code = params.code as string;
   const name = params.name as string;
-  
-  const { audioContext, connectionDetails} = useVoiceConnection(code, name)
+
+  const { audioContext, connectionDetails } = useVoiceConnection(code, name);
   const { rolesPlayer, threeRemainCard } = useRoleGameSocket({
     roleKey: "game-info",
-    code: code.toLowerCase(),
+    code: code,
   });
 
   let totalTurn: number = 1;
@@ -56,7 +56,7 @@ export default function Game() {
   if (!audioContext || connectionDetails === null) {
     return (
       <div className="h-screen flex flex-col flex-1 justify-center items-center">
-        <AiOutlineLoading3Quarters className="text-3xl animation-spin"/>
+        <AiOutlineLoading3Quarters className="text-3xl animation-spin" />
         <h1 className="text-3xl">Loading</h1>
       </div>
     );
