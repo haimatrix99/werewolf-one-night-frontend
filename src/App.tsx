@@ -9,13 +9,13 @@ function App() {
   return (
     <div className="relative h-screen bg-slate-200 overflow-x-hidden">
       <SocketProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/room" element={<Join />} />
-            <Route path="/game" element={<Game />} />
-          </Routes>
-        </BrowserRouter>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Homepage />} />
+              <Route path="/room" element={<Join />} />
+              <Route path="/game" element={<Game />} />
+            </Routes>
+          </BrowserRouter>
       </SocketProvider>
     </div>
   );

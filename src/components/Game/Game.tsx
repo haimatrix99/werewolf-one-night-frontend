@@ -9,11 +9,14 @@ import { WebAudioContext } from "../../providers/audio-provider";
 import { AudioConference, LiveKitRoom } from "@livekit/components-react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useVoiceConnection } from "../../hooks/use-voice-connection";
+import { useLocation } from "react-router-dom";
 
 export default function Game() {
   const params = queryString.parse(window.location.search);
   const code = params.code as string;
   const name = params.name as string;
+
+  const { state } = useLocation();
 
   const { audioContext, connectionDetails } = useVoiceConnection(code, name);
   const { rolesPlayer, threeRemainCard } = useRoleGameSocket({
@@ -77,9 +80,13 @@ export default function Game() {
         options={{ expWebAudioMix: { audioContext } }}
         className="h-[90%] w-full"
       >
+        <></>
         <WebAudioContext.Provider value={audioContext}>
           <AudioConference className="hidden" />
-          <ClockProvider totalTurn={totalTurn}>
+          <ClockProvider
+            totalTurn={totalTurn}
+            discussTime={Number(state.discussTime) * 60}
+          >
             {rolesPlayer.length > 0 && (
               <Table
                 code={code}

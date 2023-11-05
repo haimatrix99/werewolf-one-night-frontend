@@ -35,9 +35,11 @@ function useInterval(callback: () => void, delay: number) {
 export const ClockProvider = ({
   children,
   totalTurn,
+  discussTime
 }: {
   children: React.ReactNode;
   totalTurn: number;
+  discussTime: number
 }) => {
   const initialTimer = 15;
   const [turn, setTurn] = useState(0);
@@ -49,7 +51,7 @@ export const ClockProvider = ({
     if (counter === 0) {
       setTurn(prevTurn => prevTurn + 1);
       if (turn === totalTurn - 1) {
-        setCounter(300);
+        setCounter(discussTime);
       } else if (turn === totalTurn) {
         setDone(true);
       } else {

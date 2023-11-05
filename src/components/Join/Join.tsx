@@ -40,6 +40,7 @@ export default function Join() {
   const [signal, setSignal] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-width: 640px)" });
   const { audioContext, connectionDetails } = useVoiceConnection(code, name);
+  const [discussTime, setDiscussTime] = useState("10");
 
   const handleStartGame = () => {
     const canStartGame =
@@ -78,9 +79,11 @@ export default function Join() {
 
   useEffect(() => {
     if (startGame) {
-      navigate(`/game?code=${code}&name=${name}`, { replace: true });
+      navigate(`/game?code=${code}&name=${name}`, { state: {
+        discussTime
+      } });
     }
-  }, [startGame, code, name, navigate]);
+  }, [startGame, code, name, navigate, discussTime]);
 
   if (!audioContext || connectionDetails === null) {
     return (
@@ -107,7 +110,7 @@ export default function Join() {
         className="h-[90%] w-full flex flex-col items-center"
       >
         <WebAudioContext.Provider value={audioContext}>
-          <AudioConference className="hidden" />
+          <AudioConference className="hidden"/>
           <div className="w-full h-full md:flex md:justify-center md:items-center gap-6">
             <div className="w-full h-[90%] flex flex-col justify-center items-center md:order-2 md:w-[60%]">
               <Messages name={name} code={code} />
@@ -123,6 +126,8 @@ export default function Join() {
             <Setup
               numbers={numbers}
               dispatch={dispatch}
+              discussTime={discussTime}
+              onDiscussTimeChange={setDiscussTime}
               isRoomMaster={isRoomMaster}
               isMobile={isMobile}
             />

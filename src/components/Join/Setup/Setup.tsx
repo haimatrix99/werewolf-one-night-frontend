@@ -10,13 +10,19 @@ const roles: string[] = Object.values(Role);
 type SetupProps = {
   numbers: number[];
   dispatch: React.Dispatch<Action>;
+  discussTime: string;
+  onDiscussTimeChange: React.Dispatch<React.SetStateAction<string>>;
   isRoomMaster: boolean;
   isMobile: boolean;
 };
 
+const discussTimeOptions: string[] = ["5", "10", "15", "30"];
+
 export default function Setup({
   numbers,
   dispatch,
+  discussTime,
+  onDiscussTimeChange,
   isRoomMaster,
   isMobile,
 }: SetupProps) {
@@ -28,7 +34,10 @@ export default function Setup({
 
   return (
     <>
-      <button className="btn h-[48px] absolute left-[70px] bottom-[10px] md:hidden" onClick={handleButton}>
+      <button
+        className="btn h-[48px] absolute left-[70px] bottom-[10px] md:hidden"
+        onClick={handleButton}
+      >
         <FaUserSecret />
       </button>
       {(showRoles || !isMobile) && (
@@ -39,7 +48,7 @@ export default function Setup({
           <ul className="flex flex-col gap-1">
             {roles.map((role, index) => (
               <div key={index} className="flex gap-1">
-                <div className="basis-full border-2 border-solid border-white rounded-lg px-2">
+                <div className="text-lg basis-full border-2 border-solid border-white rounded-lg px-2 md:text-xl">
                   <li>{role}</li>
                 </div>
                 {isRoomMaster && (
@@ -53,7 +62,11 @@ export default function Setup({
                         numbers[index] >= ROLE_CARD[role] ? true : false
                       }
                       onClick={() => {
-                        dispatch({ roles: roles, index: index, type: "plus" });
+                        dispatch({
+                          roles: roles,
+                          index: index,
+                          type: "plus",
+                        });
                       }}
                     >
                       <AiOutlinePlusCircle />
@@ -62,7 +75,11 @@ export default function Setup({
                       className="hover:scale-105"
                       disabled={numbers[index] <= 0 ? true : false}
                       onClick={() => {
-                        dispatch({ roles: roles, index: index, type: "minus" });
+                        dispatch({
+                          roles: roles,
+                          index: index,
+                          type: "minus",
+                        });
                       }}
                     >
                       <AiOutlineMinusCircle />
@@ -72,6 +89,25 @@ export default function Setup({
               </div>
             ))}
           </ul>
+          {isRoomMaster && (
+            <div className="flex justify-center items-center mt-4 gap-2 ">
+              <label htmlFor="discussTime" className="text-lg w-fit md:text-xl">
+                Thời gian thảo luận
+              </label>
+              <select
+                name="discussTime"
+                defaultValue={discussTime}
+                className="text-lg bg-indigo-500 border-2 border-solid border-white rounded-lg px-2 py-1 md:text-xl"
+                onChange={(e) => onDiscussTimeChange(e.currentTarget.value)}
+              >
+                {discussTimeOptions.map((discussTime) => (
+                  <option key={discussTime} value={discussTime}>
+                    {discussTime} phút
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
       )}
     </>
