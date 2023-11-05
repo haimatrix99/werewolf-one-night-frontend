@@ -63,7 +63,7 @@ export default function Game() {
   }
 
   return (
-    <div className="h-screen w-full">
+    <div className="h-full w-full">
       <h1 className="py-2 text-center font-semibold text-3xl text-slate-500">
         Werewolf One Night
       </h1>

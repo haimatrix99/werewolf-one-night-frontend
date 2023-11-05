@@ -76,6 +76,7 @@ export default function Table({
       currentUser.firstRole === Role.Werewolf
     ) {
       indexesFlip.current.clear();
+      useFlipped.current = undefined;
     }
     if (turnCall[turn] !== "Seer" && currentUser.firstRole === Role.Seer) {
       indexesFlip.current.clear();
@@ -229,8 +230,8 @@ export default function Table({
       <Roles roles={roles} />
       <Voice />
       <Messages code={code} name={currentUser.name} />
-      <div className="grid grid-cols-5 grid-rows-3 h-full">
-        <div className="col-span-1 col-start-1 row-span-3 row-start-1 m-auto">
+      <div className="grid grid-cols-5 grid-rows-3 h-full md:w-1/2 md:mx-auto">
+        <div className="col-span-1 col-start-1 row-span-3 row-start-1 my-auto">
           <PlayerCard
             position="table-left"
             users={leftUsers.map((user) => user)}
@@ -248,7 +249,7 @@ export default function Table({
             done={done}
           />
         </div>
-        <div className="col-span-1 col-start-5 row-span-3 row-start-1 m-auto">
+        <div className="col-span-1 col-start-5 row-span-3 row-start-1 my-auto">
           <PlayerCard
             position="table-right"
             users={rightUsers.map((user) => user)}
@@ -258,7 +259,7 @@ export default function Table({
           />
         </div>
         <div className="col-span-3 m-auto">
-          <h1 className="w-fit mx-auto my-2 text-xl text-white text-center bg-indigo-500 font-semibold px-4 py-1 border border-solid rounded-lg mt-2">
+          <h1 className="w-fit mx-auto my-2 px-2 py-1 text-lg text-white text-center bg-indigo-500 font-semibold border border-solid rounded-lg md:text-2xl">
             {turnCall[turn] ? "Turn " + turnCall[turn] : "Thảo luận"}
           </h1>
           <ThreeRemainCard
@@ -269,7 +270,7 @@ export default function Table({
           />
           <Clock done={done} second={counter} />
         </div>
-        <div className="col-span-3 mt-[90px]">
+        <div className="col-span-3 mt-[20px] md:mt-[90px]">
           <UserCard
             role={currentUser?.role}
             onClick={handleClick}

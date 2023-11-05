@@ -46,8 +46,8 @@ export default function PlayerCard({
             src={require(`../../../assets/roles/${user.role}.jpg`)}
             alt="Card"
           />
-          <div className="flex justify-center items-center gap-2">
-            <p className="text-sm text-white text-center font-semibold px-4 py-1 border border-solid rounded-lg bg-indigo-500">
+          <div className="flex justify-center items-center gap-2 flex-col md:flex-row">
+            <p className="text-sm text-white text-center font-semibold px-2 py-1 border border-solid rounded-lg bg-indigo-500 md:text-lg">
               {user.name}
             </p>
             {participants.filter(

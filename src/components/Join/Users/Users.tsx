@@ -26,7 +26,7 @@ export default function Users({ users, isMobile }: UsersProps) {
         <FaUsers />
       </button>
       {(showUsers || !isMobile) && (
-        <div className="center bg-indigo-500 border-2 border-solid border-gray rounded-lg p-2 text-white md:static md:h-fit md:translate-x-0 md:translate-y-0 md:mr-4 md:order-3">
+        <div className="w-[55%] center bg-indigo-500 border-2 border-solid border-gray rounded-lg p-2 text-white md:static md:h-fit md:translate-x-0 md:translate-y-0 md:mr-4 md:order-3 md:w-fit">
           <p className="font-semibold text-xl border-b-2 border-solid border-white mb-2">
             Danh sách người chơi
           </p>
@@ -34,7 +34,7 @@ export default function Users({ users, isMobile }: UsersProps) {
             {users.map((user, index) => (
               <div
                 key={index}
-                className="flex justify-between items-center basis-full border-2 border-solid border-white rounded-lg px-2"
+                className="flex justify-between items-center border-2 border-solid border-white rounded-lg px-2"
               >
                 <li>{user.name}</li>
                 {participants.filter(

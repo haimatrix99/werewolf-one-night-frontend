@@ -71,11 +71,11 @@
 
   /* Table components */
   .card {
-    @apply rounded-[10%] w-16 h-24 m-2 md:w-24 md:h-32;
+    @apply rounded-[10%] w-16 h-24 m-2 md:w-20 md:h-28;
   }
 
   .card-cover {
-    @apply absolute top-0 rounded-[10%] w-16 h-24 m-2 md:w-24 md:h-32;
+    @apply absolute top-0 rounded-[10%] w-16 h-24 m-2 md:w-20 md:h-28;
   }
 
   .table-left {
@@ -95,7 +95,7 @@
   }
 
   .table-bottom {
-    @apply flex flex-col justify-center items-end;
+    @apply flex flex-col justify-center items-start;
   }
 
   .table-three-card {

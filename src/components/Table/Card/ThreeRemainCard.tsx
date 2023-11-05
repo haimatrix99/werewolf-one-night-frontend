@@ -15,9 +15,9 @@ export default function ThreeRemainCard({
   done,
 }: ThreeRemainCardProps) {
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center gap-3">
       {roles.map((role, index) => (
-        <div key={index} className="relative flex flex-col justify-center items-center" onClick={() => onClick(index)}>
+        <div key={index} className="w-fit relative flex flex-col justify-center items-center" onClick={() => onClick(index)}>
           <img
             className={
               !(indexesFlip.includes(index) || done)
@@ -36,7 +36,7 @@ export default function ThreeRemainCard({
             src={require(`../../../assets/roles/${role}.jpg`)}
             alt="Card"
           />
-          <p className="text-sm text-white font-semibold px-3 py-1 border border-solid bg-indigo-500 rounded-lg">Card {index + 1}</p>
+          <p className="w-16 text-center text-sm text-white font-semibold px-2 py-1 border border-solid bg-indigo-500 rounded-lg md:text-lg md:w-24">Card {index + 1}</p>
         </div>
       ))}
     </div>

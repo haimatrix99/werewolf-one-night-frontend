@@ -108,8 +108,8 @@ export default function Join() {
       >
         <WebAudioContext.Provider value={audioContext}>
           <AudioConference className="hidden" />
-          <div className="w-full h-screen md:flex md:justify-center md:items-center gap-6">
-            <div className="w-full h-full flex flex-col justify-center items-center md:order-2">
+          <div className="w-full h-full md:flex md:justify-center md:items-center gap-6">
+            <div className="w-full h-[90%] flex flex-col justify-center items-center md:order-2 md:w-[60%]">
               <Messages name={name} code={code} />
               {isRoomMaster && (
                 <button
@@ -127,8 +127,8 @@ export default function Join() {
               isMobile={isMobile}
             />
             <Users users={users} isMobile={isMobile} />
+            <Voice />
           </div>
-          <Voice />
         </WebAudioContext.Provider>
       </LiveKitRoom>
     </div>

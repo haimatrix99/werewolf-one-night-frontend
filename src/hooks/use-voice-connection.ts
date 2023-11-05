@@ -39,7 +39,7 @@ export const useVoiceConnection = (code: string, name: string) => {
           const connectionDetails = await response.json();
           setConnectionDetails(connectionDetails);
         }
-      })(code, name);
+      })(code, name.trim().toLowerCase());
     }
   }, [code, name, connectionDetails]);
 
