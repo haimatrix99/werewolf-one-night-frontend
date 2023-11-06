@@ -12,7 +12,7 @@ type MessagesProps = {
 };
 
 export default function Messages({ name, code }: MessagesProps) {
-  const [messageToSend, setMessage] = useState("");
+  const [message, setMessage] = useState("");
   const [sendButton, setSendButton] = useState(false);
   const { socket } = useSocket();
 
@@ -21,8 +21,10 @@ export default function Messages({ name, code }: MessagesProps) {
       event.preventDefault();
     }
 
-    if (messageToSend) {
-      socket.emit("user-message", messageToSend, () => setMessage(""));
+    if (message) {
+      socket.emit("user-message", { code, message }, () =>
+        setMessage("")
+      );
     }
   };
 
@@ -62,10 +64,10 @@ export default function Messages({ name, code }: MessagesProps) {
             type="text"
             className="basis-full"
             placeholder="Type message..."
-            value={messageToSend}
+            value={message}
             onChange={({ target: { value } }) => setMessage(value)}
             onKeyPress={(event) =>
-              event.key === "Enter" && messageToSend !== ""
+              event.key === "Enter" && message !== ""
                 ? sendMessage(event)
                 : null
             }
@@ -76,7 +78,7 @@ export default function Messages({ name, code }: MessagesProps) {
               setSendButton(!sendButton);
               sendMessage(null);
             }}
-            disabled={messageToSend === "" ? true : false}
+            disabled={message === "" ? true : false}
           >
             <BiMessageSquareDetail />
           </button>

@@ -1,60 +1,32 @@
 import React from "react";
 import queryString from "query-string";
 import Table from "../Table/Table";
-import { useRoleGameSocket } from "../../hooks/use-role-game-socket";
+import { useStatusGameSocket } from "../../hooks/use-status-game-socket";
 import { shuffle } from "../../handlers/shuffleArray";
 import { ClockProvider } from "../../providers/clock-provider";
-import { Role } from "../../lib/enums";
 import { WebAudioContext } from "../../providers/audio-provider";
 import { AudioConference, LiveKitRoom } from "@livekit/components-react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useVoiceConnection } from "../../hooks/use-voice-connection";
-import { useLocation } from "react-router-dom";
+import { getTurn } from "../../util/getTurn";
 
 export default function Game() {
   const params = queryString.parse(window.location.search);
   const code = params.code as string;
   const name = params.name as string;
 
-  const { state } = useLocation();
-
   const { audioContext, connectionDetails } = useVoiceConnection(code, name);
-  const { rolesPlayer, threeRemainCard } = useRoleGameSocket({
+  const { players, threeRemainCard, discussTime, isEnded } = useStatusGameSocket({
     roleKey: "game-info",
     code: code,
   });
 
-  let totalTurn: number = 1;
-  const turnCall: string[] = ["check card"];
   const roles = shuffle([
     ...threeRemainCard,
-    ...rolesPlayer.map((user) => user.role),
+    ...players.map((player) => player.role),
   ]);
 
-  if (roles.includes(Role.Werewolf)) {
-    totalTurn++;
-    turnCall.push("Werewolf");
-  }
-  if (roles.includes(Role.Seer)) {
-    totalTurn++;
-    turnCall.push("Seer");
-  }
-  if (roles.includes(Role.Robber)) {
-    totalTurn++;
-    turnCall.push("Robber");
-  }
-  if (roles.includes(Role.Troublemaker)) {
-    totalTurn++;
-    turnCall.push("Troublemaker");
-  }
-  if (roles.includes(Role.Drunk)) {
-    totalTurn++;
-    turnCall.push("Drunk");
-  }
-  if (roles.includes(Role.Insomniac)) {
-    totalTurn++;
-    turnCall.push("Insomniac");
-  }
+  const { totalTurn, turnCall } = getTurn(roles);
 
   if (!audioContext || connectionDetails === null) {
     return (
@@ -83,20 +55,18 @@ export default function Game() {
         <></>
         <WebAudioContext.Provider value={audioContext}>
           <AudioConference className="hidden" />
-          <ClockProvider
-            totalTurn={totalTurn}
-            discussTime={Number(state.discussTime) * 60}
-          >
-            {rolesPlayer.length > 0 && (
+          <ClockProvider totalTurn={totalTurn} discussTime={discussTime}>
+            {players.length > 0 && (
               <Table
                 code={code}
                 roles={roles}
-                users={rolesPlayer}
+                players={players}
                 currentUser={
-                  rolesPlayer.filter((user) => user.name === name)[0]
+                  players.filter((player) => player.name === name)[0]
                 }
                 threeRemainCard={threeRemainCard}
                 turnCall={turnCall}
+                isEnded={isEnded}
               />
             )}
           </ClockProvider>

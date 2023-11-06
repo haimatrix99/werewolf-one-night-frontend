@@ -12,7 +12,7 @@ export default function Roles({ roles }: RolesProps) {
   const handleButton = () => {
     setShowRoles(!showRoles);
   };
-  
+
   return (
     <>
       <button

@@ -4,18 +4,25 @@ import { useSocket } from "../providers/socket-provider";
 import { User } from "../lib/types";
 import { Role } from "../lib/enums";
 
-type RoleGameSocketProps = {
+type StatusGameSocketProps = {
   roleKey: string;
   code: string;
 };
 
-export const useRoleGameSocket = ({
+export const useStatusGameSocket = ({
   roleKey,
   code,
-}: RoleGameSocketProps): { rolesPlayer: User[]; threeRemainCard: Role[] } => {
+}: StatusGameSocketProps): {
+  players: User[];
+  threeRemainCard: Role[];
+  discussTime: number;
+  isEnded: boolean;
+} => {
   const { socket } = useSocket();
-  const [rolesPlayer, setRolesPlayer] = useState<User[]>([]);
+  const [players, setPlayers] = useState<User[]>([]);
   const [threeRemainCard, setThreeRemainCard] = useState<Role[]>([]);
+  const [discussTime, setDiscussTime] = useState(0);
+  const [isEnded, setIsEnded] = useState(false);
   useEffect(() => {
     if (!socket) {
       return;
@@ -23,9 +30,11 @@ export const useRoleGameSocket = ({
     socket.emit("get-game-info", { code });
 
     socket.on(roleKey, (payload: any) => {
-      const { rolesPlayer, threeRemainCard } = payload.game;
-      setRolesPlayer(rolesPlayer);
+      const { players, threeRemainCard, discussTime, isEnded } = payload.game;
+      setPlayers(players);
       setThreeRemainCard(threeRemainCard);
+      setDiscussTime(discussTime);
+      setIsEnded(isEnded);
     });
 
     return () => {
@@ -33,7 +42,9 @@ export const useRoleGameSocket = ({
     };
   }, [roleKey, socket, code]);
   return {
-    rolesPlayer,
+    players,
     threeRemainCard,
+    discussTime,
+    isEnded,
   };
 };

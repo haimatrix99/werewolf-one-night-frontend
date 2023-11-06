@@ -11,16 +11,27 @@ export type State = {
   numbers: number[];
 };
 
-export type User =  {
+export type Game = {
+  code: string;
+  rolesPlayer: User[];
+  threeRemainCard: Role[];
+  discussTime: number;
+  isVoted?: boolean;
+  isEnded?: boolean;
+};
+
+export type User = {
   id: string;
   name: string;
   code: string;
   master: boolean;
   role: Role;
-  firstRole: Role;
+  numberVoted?: number;
+  voted?: string;
+  firstRole?: Role;
   error?: string;
   action?: boolean;
-}
+};
 
 export type MessageInfo = {
   user: string;

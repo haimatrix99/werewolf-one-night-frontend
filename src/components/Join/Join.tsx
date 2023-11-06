@@ -18,24 +18,23 @@ import { WebAudioContext } from "../../providers/audio-provider";
 import Voice from "../Voice/Voice";
 import { useMediaQuery } from "react-responsive";
 import { useVoiceConnection } from "../../hooks/use-voice-connection";
-
-const initialValue = {
-  rolesPool: [],
-  numbers: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-};
+import SocketIndicator from "../SocketIndicator/SocketIndicator";
 
 export default function Join() {
   const params = queryString.parse(window.location.search);
   const code = params.code as string;
   const name = params.name as string;
 
-  const [{ rolesPool, numbers }, dispatch] = useReducer(reducer, initialValue);
+  const [{ rolesPool, numbers }, dispatch] = useReducer(reducer, {
+    rolesPool: [],
+    numbers: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  });
+
   const navigate = useNavigate();
   const { users } = useUserSocket({ userKey: "users-online" });
   const roomMaster = users.filter((user) => user.master === true);
-  const isRoomMaster =
-    roomMaster[0]?.name === name ? true : false;
-  const [rolesPlayer, setRolesPlayer] = useState<User[]>([]);
+  const isRoomMaster = roomMaster[0]?.name === name ? true : false;
+  const [players, setPlayers] = useState<User[]>([]);
   const [threeRemainCard, setThreeRemainCard] = useState<Role[]>([]);
   const [signal, setSignal] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-width: 640px)" });
@@ -59,7 +58,7 @@ export default function Join() {
           firstRole: rolesPlayerPool[index],
         };
       });
-      setRolesPlayer(rolesPlayer);
+      setPlayers(rolesPlayer);
       setThreeRemainCard(threeRemainCard);
       setSignal(true);
     } else {
@@ -68,22 +67,21 @@ export default function Join() {
       );
     }
   };
-
   useStartGameSocket({
     gameKey: "game",
     signal,
-    rolesPlayer,
+    code,
+    players,
     threeRemainCard,
+    discussTime: Number(discussTime) * 60,
   });
   const { startGame } = useGameSocket({ gameKey: "start-game" });
 
   useEffect(() => {
     if (startGame) {
-      navigate(`/game?code=${code}&name=${name}`, { state: {
-        discussTime
-      } });
+      navigate(`/game?code=${code}&name=${name}`);
     }
-  }, [startGame, code, name, navigate, discussTime]);
+  }, [startGame, code, name, navigate]);
 
   if (!audioContext || connectionDetails === null) {
     return (
@@ -96,6 +94,7 @@ export default function Join() {
 
   return (
     <div className="h-screen w-full">
+      <SocketIndicator />
       <h1 className="py-2 text-center font-semibold text-3xl text-slate-500">
         Werewolf One Night
       </h1>
@@ -110,7 +109,7 @@ export default function Join() {
         className="h-[90%] w-full flex flex-col items-center"
       >
         <WebAudioContext.Provider value={audioContext}>
-          <AudioConference className="hidden"/>
+          <AudioConference className="hidden" />
           <div className="w-full h-full md:flex md:justify-center md:items-center gap-6">
             <div className="w-full h-[90%] flex flex-col justify-center items-center md:order-2 md:w-[60%]">
               <Messages name={name} code={code} />

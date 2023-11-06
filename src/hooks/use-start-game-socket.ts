@@ -7,15 +7,19 @@ import { Role } from "../lib/enums";
 type StartGameSocketProps = {
   gameKey: string;
   signal: boolean;
-  rolesPlayer: User[];
+  code: string;
+  players: User[];
   threeRemainCard: Role[];
+  discussTime: number;
 };
 
 export const useStartGameSocket = ({
   gameKey,
   signal,
-  rolesPlayer,
-  threeRemainCard
+  code,
+  players,
+  threeRemainCard,
+  discussTime,
 }: StartGameSocketProps) => {
   const { socket } = useSocket();
   useEffect(() => {
@@ -23,11 +27,11 @@ export const useStartGameSocket = ({
       return;
     }
     if (signal) {
-      socket.emit("game", {rolesPlayer, threeRemainCard});
+      socket.emit("game", { code, players, threeRemainCard, discussTime });
     }
 
     return () => {
       socket.off(gameKey);
     };
-  }, [gameKey, socket, signal, rolesPlayer, threeRemainCard]);
+  }, [gameKey, socket, signal, code, players, threeRemainCard, discussTime]);
 };

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../providers/socket-provider";
 import ThreeRemainCard from "./Card/ThreeRemainCard";
 import UserCard from "./Card/UserCard";
@@ -10,6 +11,7 @@ import {
   handleActionDrunk,
   handleActionRobber,
   handleActionTroublemaker,
+  handleActionVoted,
 } from "../../handlers/actions";
 import { useClock } from "../../providers/clock-provider";
 import { confirm } from "../../util/confirm";
@@ -18,33 +20,42 @@ import Voice from "../Voice/Voice";
 import Messages from "./Messages/Messages";
 import Roles from "./Roles/Roles";
 import Alert from "../Alert/Alert";
+import SocketIndicator from "../SocketIndicator/SocketIndicator";
+import SkipVote from "./SkipVote/SkipVote";
+import Votes from "./Votes/Votes";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 type TableProps = {
   code: string;
   roles: Role[];
-  users: User[];
+  players: User[];
   currentUser: User;
   threeRemainCard: Role[];
   turnCall: string[];
+  isEnded: boolean;
 };
 
 export default function Table({
   code,
   roles,
-  users,
+  players,
   currentUser,
   threeRemainCard,
   turnCall,
+  isEnded,
 }: TableProps) {
-  let currentUserIndex = users.findIndex(
-    (user) => user.name === currentUser.name
+  let currentUserIndex = players.findIndex(
+    (player) => player.name === currentUser.name
   );
   if (currentUserIndex === -1) {
-    currentUserIndex = users.length;
+    currentUserIndex = players.length;
   }
 
-  const userBeforeCurrentUser = users.slice(0, currentUserIndex);
-  const userAfterCurrentUser = users.slice(currentUserIndex + 1, users.length);
+  const userBeforeCurrentUser = players.slice(0, currentUserIndex);
+  const userAfterCurrentUser = players.slice(
+    currentUserIndex + 1,
+    players.length
+  );
   const userRemain = [...userAfterCurrentUser, ...userBeforeCurrentUser];
   const [leftUsers, topUsers, rightUsers] = splitUser(userRemain);
 
@@ -60,9 +71,12 @@ export default function Table({
   const [alertMessage, setAlertMessage] = useState("");
 
   const werewolfCanDo =
-    users.filter((user) => user.role === Role.Werewolf).length === 1;
+    players.filter((player) => player.role === Role.Werewolf).length === 1;
 
   useEffect(() => {
+    if (turn === 0) {
+      setFlipped(true);
+    }
     if (
       turn !== 0 &&
       turnCall[turn] !== "Robber" &&
@@ -101,16 +115,20 @@ export default function Table({
       turnCall[turn] === "Werewolf" &&
       !werewolfCanDo
     ) {
-      useFlipped.current = users.filter(
-        (user) => user.role === Role.Werewolf && user.name !== currentUser.name
+      useFlipped.current = players.filter(
+        (player) =>
+          player.role === Role.Werewolf && player.name !== currentUser.name
       )[0];
+      setFlipped(true);
     }
-  }, [turn, turnCall, users, currentUser, werewolfCanDo]);
+  }, [turn, turnCall, players, currentUser, werewolfCanDo]);
 
   const handleClick = async (card: any) => {
-    if (turn === 0) {
-      if (typeof card === "string") {
-        setFlipped(true);
+    if (turnCall[turn] === undefined && typeof card === "object" && !isEnded) {
+      if (await confirm(`Bạn xác nhận muốn vote ${card.name} không?`)) {
+        handleActionVoted(socket, code, currentUser, card.name);
+      } else {
+        return;
       }
     }
     if (!currentUser.action) {
@@ -125,7 +143,7 @@ export default function Table({
             )
           ) {
             setFlipped(true);
-            handleActionRobber(socket, currentUser, code, card);
+            handleActionRobber(socket, currentUser, code, card.name);
           } else {
             return;
           }
@@ -140,7 +158,9 @@ export default function Table({
           if (refTroublemaker.current.size === 2) {
             if (
               await confirm(
-                `Bạn xác nhận muốn đối vị trí lá bài của 2 người này không?`
+                `Bạn xác nhận muốn đối vị trí lá bài của ${
+                  Array.from(refTroublemaker.current.values())[0].name
+                } với ${card.name} không?`
               )
             ) {
               handleActionTroublemaker(
@@ -224,12 +244,59 @@ export default function Table({
       }
     }
   };
+
+  const navigate = useNavigate();
+
+  const handleButtonBackToRoom = () => {
+    if (currentUser.master) {
+      socket.emit("restart-game", { code }, () => {});
+      socket.emit(
+        "create-room",
+        { name: currentUser.name, code },
+        (result: User) => {}
+      );
+      navigate(`/room?code=${code}&name=${currentUser.name}`);
+    } else {
+      socket.emit(
+        "join",
+        { name: currentUser.name, code },
+        (result: User | string) => {
+          if (result === "Username is taken.") {
+            alert(result);
+            navigate("/", { replace: true });
+          }
+        }
+      );
+      navigate(`/room?code=${code}&name=${currentUser.name}`, {
+        replace: true,
+      });
+    }
+  };
+
   return (
     <>
       {showAlert && <Alert message={alertMessage} />}
       <Roles roles={roles} />
       <Voice />
       <Messages code={code} name={currentUser.name} />
+      {turnCall[turn] === undefined && (
+        <>
+          <SkipVote socket={socket} code={code} currentUser={currentUser} isEnded={isEnded} />
+          <Votes players={players} />
+        </>
+      )}
+      {(isEnded || done) && (
+        <>
+          <Alert message="Game ended" />
+          <button
+            className="h-[24px] flex justify-center items-center btn absolute right-0 top-0 mr-2 mt-2"
+            onClick={handleButtonBackToRoom}
+          >
+            <IoMdArrowRoundBack />
+          </button>
+        </>
+      )}
+      <SocketIndicator />
       <div className="grid grid-cols-5 grid-rows-3 h-full md:w-1/2 md:mx-auto">
         <div className="col-span-1 col-start-1 row-span-3 row-start-1 my-auto">
           <PlayerCard
@@ -237,7 +304,7 @@ export default function Table({
             users={leftUsers.map((user) => user)}
             onClick={handleClick}
             userFlipped={useFlipped.current}
-            done={done}
+            done={done || isEnded}
           />
         </div>
         <div className="col-span-3 m-auto">
@@ -246,7 +313,7 @@ export default function Table({
             users={topUsers.map((user) => user)}
             onClick={handleClick}
             userFlipped={useFlipped.current}
-            done={done}
+            done={done || isEnded}
           />
         </div>
         <div className="col-span-1 col-start-5 row-span-3 row-start-1 my-auto">
@@ -255,7 +322,7 @@ export default function Table({
             users={rightUsers.map((user) => user)}
             onClick={handleClick}
             userFlipped={useFlipped.current}
-            done={done}
+            done={done || isEnded}
           />
         </div>
         <div className="col-span-3 m-auto">
@@ -266,16 +333,16 @@ export default function Table({
             roles={threeRemainCard}
             onClick={handleClick}
             indexesFlip={Array.from(indexesFlip.current.values())}
-            done={done}
+            done={done || isEnded}
           />
-          <Clock done={done} second={counter} />
+          <Clock done={done || isEnded} second={counter} />
         </div>
         <div className="col-span-3 mt-[20px] md:mt-[90px]">
           <UserCard
             role={currentUser?.role}
             onClick={handleClick}
             flipped={flipped}
-            done={done}
+            done={done || isEnded}
           />
         </div>
       </div>

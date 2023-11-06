@@ -19,16 +19,18 @@ export default function UserCard({
       className="relative flex flex-col justify-center items-center"
       onClick={() => onClick(role)}
     >
-      <img className={
-          !(flipped || done)
-          ? "card-cover md:mb-0"
-          : "card-cover card-cover-flipped md:mb-0"
-        } src={require("../../../assets/cover.png")} alt="Card" />
       <img
         className={
-          flipped || done
-          ? "card md:mb-0"
-          : "card card-flipped md:mb-0"
+          !(flipped || done)
+            ? "card-cover md:mb-0"
+            : "card-cover card-cover-flipped md:mb-0"
+        }
+        src={require("../../../assets/cover.png")}
+        alt="Card"
+      />
+      <img
+        className={
+          flipped || done ? "card md:mb-0" : "card card-flipped md:mb-0"
         }
         src={require(`../../../assets/roles/${role}.jpg`)}
         alt="Card"

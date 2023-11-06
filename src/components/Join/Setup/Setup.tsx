@@ -57,7 +57,7 @@ export default function Setup({
                       {numbers[index]}
                     </div>
                     <button
-                      className="hover:scale-105"
+                      className="hover:scale-105 disabled:opacity-20"
                       disabled={
                         numbers[index] >= ROLE_CARD[role] ? true : false
                       }
@@ -72,7 +72,7 @@ export default function Setup({
                       <AiOutlinePlusCircle />
                     </button>
                     <button
-                      className="hover:scale-105"
+                      className="hover:scale-105 disabled:opacity-20"
                       disabled={numbers[index] <= 0 ? true : false}
                       onClick={() => {
                         dispatch({

@@ -53,9 +53,9 @@ export default function PlayerCard({
             {participants.filter(
               (participant) => participant.identity === user.name
             )[0]?.isSpeaking ? (
-              <BiSolidMicrophone className="text-indigo-500 text-xl border border-solid rounded-lg"/>
+              <BiSolidMicrophone className="text-indigo-500 text-xl border border-solid rounded-lg" />
             ) : (
-              <BiMicrophone className="text-indigo-500 text-xl border border-solid rounded-lg"/>
+              <BiMicrophone className="text-indigo-500 text-xl border border-solid rounded-lg" />
             )}
           </div>
         </div>

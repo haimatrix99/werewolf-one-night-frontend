@@ -4,7 +4,6 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 import { useChatSocket } from "../../../hooks/use-chat-socket";
 import { useSocket } from "../../../providers/socket-provider";
 import { BiSolidMessageAltDetail } from "react-icons/bi";
-import { BsFillClipboard2Fill } from "react-icons/bs";
 
 type MessagesProps = {
   code: string;
@@ -12,19 +11,21 @@ type MessagesProps = {
 };
 
 export default function Messages({ code, name }: MessagesProps) {
-  const [messageToSend, setMessage] = useState("");
+  const [message, setMessage] = useState("");
   const [sendButton, setSendButton] = useState(false);
   const [showMessages, setShowMessages] = useState(false);
   const { socket } = useSocket();
   const { messages } = useChatSocket({ messageKey: "message" });
-  
+
   const sendMessage = (event: React.KeyboardEvent<HTMLInputElement> | null) => {
     if (event) {
       event.preventDefault();
     }
 
-    if (messageToSend) {
-      socket.emit("user-message", messageToSend, () => setMessage(""));
+    if (message) {
+      socket.emit("user-message", { code, message }, () =>
+        setMessage("")
+      );
     }
   };
 
@@ -59,10 +60,10 @@ export default function Messages({ code, name }: MessagesProps) {
               type="text"
               className="basis-full"
               placeholder="Type a message..."
-              value={messageToSend}
+              value={message}
               onChange={({ target: { value } }) => setMessage(value)}
               onKeyPress={(event) =>
-                event.key === "Enter" && messageToSend !== ""
+                event.key === "Enter" && message !== ""
                   ? sendMessage(event)
                   : null
               }
@@ -73,7 +74,7 @@ export default function Messages({ code, name }: MessagesProps) {
                 setSendButton(!sendButton);
                 sendMessage(null);
               }}
-              disabled={messageToSend === "" ? true : false}
+              disabled={message === "" ? true : false}
             >
               <BiMessageSquareDetail />
             </button>
