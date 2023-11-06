@@ -77,6 +77,9 @@ export default function Table({
     if (turn === 0) {
       setFlipped(true);
     }
+    if (turn !== 0) {
+      setFlipped(false);
+    }
     if (
       turn !== 0 &&
       turnCall[turn] !== "Robber" &&
@@ -105,8 +108,7 @@ export default function Table({
     }
     if (
       turnCall[turn] === "Insomniac" &&
-      currentUser.firstRole === Role.Insomniac &&
-      currentUser.action
+      currentUser.firstRole === Role.Insomniac
     ) {
       setFlipped(true);
     }
@@ -143,7 +145,7 @@ export default function Table({
             )
           ) {
             setFlipped(true);
-            handleActionRobber(socket, currentUser, code, card.name);
+            handleActionRobber(socket, currentUser, code, card);
           } else {
             return;
           }
@@ -198,6 +200,7 @@ export default function Table({
         werewolfCanDo &&
         turn === turnCall.indexOf(Role.Werewolf)
       ) {
+        setFlipped(true)
         if (typeof card === "number") {
           if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
             indexesFlip.current.add(card);
@@ -255,7 +258,9 @@ export default function Table({
         { name: currentUser.name, code },
         (result: User) => {}
       );
-      navigate(`/room?code=${code}&name=${currentUser.name}`);
+      navigate(`/room?code=${code}&name=${currentUser.name}`, {
+        replace: true,
+      });
     } else {
       socket.emit(
         "join",
@@ -281,7 +286,12 @@ export default function Table({
       <Messages code={code} name={currentUser.name} />
       {turnCall[turn] === undefined && (
         <>
-          <SkipVote socket={socket} code={code} currentUser={currentUser} isEnded={isEnded} />
+          <SkipVote
+            socket={socket}
+            code={code}
+            currentUser={currentUser}
+            isEnded={isEnded}
+          />
           <Votes players={players} />
         </>
       )}

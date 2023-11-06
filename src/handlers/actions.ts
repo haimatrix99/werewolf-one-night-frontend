@@ -18,8 +18,6 @@ export const handleActionRobber = (
       player2: player,
       currentUser,
     });
-  } else {
-    alert("Bạn không thể thực hiện hành động này!");
   }
 };
 
@@ -41,8 +39,6 @@ export const handleActionTroublemaker = (
       player2: players[1],
       currentUser,
     });
-  } else {
-    alert("Bạn không thể thực hiện hành động này!");
   }
 };
 
@@ -58,8 +54,6 @@ export const handleActionDrunk = (
       player: currentUser,
       index,
     });
-  } else {
-    alert("Bạn không thể thực hiện hành động này!");
   }
 };
 
