@@ -19,6 +19,7 @@ import Voice from "../Voice/Voice";
 import { useMediaQuery } from "react-responsive";
 import { useVoiceConnection } from "../../hooks/use-voice-connection";
 import SocketIndicator from "../SocketIndicator/SocketIndicator";
+import { useGameSetupSocket } from "../../hooks/use-game-setup";
 
 export default function Join() {
   const params = queryString.parse(window.location.search);
@@ -35,6 +36,7 @@ export default function Join() {
   const [discussTime, setDiscussTime] = useState("10");
 
   const { users } = useUserSocket({ userKey: "users-online" });
+  const { userDiscussTime, userNumbers } = useGameSetupSocket("game-setup");
   const roomMaster = users.filter((user) => user.master === true);
   const isRoomMaster = roomMaster[0]?.name === name ? true : false;
   const [players, setPlayers] = useState<User[]>([]);
@@ -130,6 +132,8 @@ export default function Join() {
               onDiscussTimeChange={setDiscussTime}
               isRoomMaster={isRoomMaster}
               isMobile={isMobile}
+              userDiscussTime={userDiscussTime}
+              userNumbers={userNumbers}
             />
             <Users users={users} isMobile={isMobile} />
             <Voice />

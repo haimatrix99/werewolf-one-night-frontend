@@ -5,7 +5,6 @@ import { FaUserSecret } from "react-icons/fa";
 import { Role } from "../../../lib/enums";
 import { Action } from "../../../lib/types";
 import { useSocket } from "../../../providers/socket-provider";
-import { useGameSetupSocket } from "../../../hooks/use-game-setup";
 
 const roles: string[] = Object.values(Role);
 
@@ -17,6 +16,8 @@ type SetupProps = {
   onDiscussTimeChange: React.Dispatch<React.SetStateAction<string>>;
   isRoomMaster: boolean;
   isMobile: boolean;
+  userNumbers: number[];
+  userDiscussTime: string;
 };
 
 const discussTimeOptions: string[] = ["5", "10", "15", "30"];
@@ -29,10 +30,11 @@ export default function Setup({
   onDiscussTimeChange,
   isRoomMaster,
   isMobile,
+  userNumbers,
+  userDiscussTime,
 }: SetupProps) {
   const [showRoles, setShowRoles] = useState(false);
   const { socket } = useSocket();
-  const { userDiscussTime, userNumbers } = useGameSetupSocket("game-setup");
 
   const handleButton = () => {
     setShowRoles(!showRoles);
