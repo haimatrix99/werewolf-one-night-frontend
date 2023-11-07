@@ -24,22 +24,22 @@ export default function Join() {
   const params = queryString.parse(window.location.search);
   const code = params.code as string;
   const name = params.name as string;
+  const navigate = useNavigate();
+  const isMobile = useMediaQuery({ query: "(max-width: 640px)" });
+  const { audioContext, connectionDetails } = useVoiceConnection(code, name);
 
   const [{ rolesPool, numbers }, dispatch] = useReducer(reducer, {
     rolesPool: [],
     numbers: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   });
+  const [discussTime, setDiscussTime] = useState("10");
 
-  const navigate = useNavigate();
   const { users } = useUserSocket({ userKey: "users-online" });
   const roomMaster = users.filter((user) => user.master === true);
   const isRoomMaster = roomMaster[0]?.name === name ? true : false;
   const [players, setPlayers] = useState<User[]>([]);
   const [threeRemainCard, setThreeRemainCard] = useState<Role[]>([]);
   const [signal, setSignal] = useState(false);
-  const isMobile = useMediaQuery({ query: "(max-width: 640px)" });
-  const { audioContext, connectionDetails } = useVoiceConnection(code, name);
-  const [discussTime, setDiscussTime] = useState("10");
 
   const handleStartGame = () => {
     const canStartGame =
@@ -123,6 +123,7 @@ export default function Join() {
               )}
             </div>
             <Setup
+              code={code}
               numbers={numbers}
               dispatch={dispatch}
               discussTime={discussTime}

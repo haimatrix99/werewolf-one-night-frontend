@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ROLE_CARD } from "../../../lib/constants";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { FaUserSecret } from "react-icons/fa";
 import { Role } from "../../../lib/enums";
 import { Action } from "../../../lib/types";
+import { useSocket } from "../../../providers/socket-provider";
+import { useGameSetupSocket } from "../../../hooks/use-game-setup";
 
 const roles: string[] = Object.values(Role);
 
 type SetupProps = {
+  code: string;
   numbers: number[];
   dispatch: React.Dispatch<Action>;
   discussTime: string;
@@ -19,6 +22,7 @@ type SetupProps = {
 const discussTimeOptions: string[] = ["5", "10", "15", "30"];
 
 export default function Setup({
+  code,
   numbers,
   dispatch,
   discussTime,
@@ -27,10 +31,34 @@ export default function Setup({
   isMobile,
 }: SetupProps) {
   const [showRoles, setShowRoles] = useState(false);
+  const { socket } = useSocket();
+  const { userDiscussTime, userNumbers } = useGameSetupSocket("game-setup");
 
   const handleButton = () => {
     setShowRoles(!showRoles);
   };
+
+  const handleButtonPlus = (index: number) => {
+    dispatch({
+      roles: roles,
+      index: index,
+      type: "plus",
+    });
+  };
+
+  const handleButtonMinus = (index: number) => {
+    dispatch({
+      roles: roles,
+      index: index,
+      type: "minus",
+    });
+  };
+
+  useEffect(() => {
+    if (isRoomMaster) {
+      socket.emit("get-game-setup", { code, numbers, discussTime });
+    }
+  }, [socket, code, isRoomMaster, numbers, discussTime]);
 
   return (
     <>
@@ -51,7 +79,7 @@ export default function Setup({
                 <div className="text-lg basis-full border-2 border-solid border-white rounded-lg px-2 md:text-xl">
                   <li>{role}</li>
                 </div>
-                {isRoomMaster && (
+                {isRoomMaster ? (
                   <>
                     <div className="min-w-[32px] border-2 border-solid border-white rounded-lg px-2 text-center">
                       {numbers[index]}
@@ -61,39 +89,33 @@ export default function Setup({
                       disabled={
                         numbers[index] >= ROLE_CARD[role] ? true : false
                       }
-                      onClick={() => {
-                        dispatch({
-                          roles: roles,
-                          index: index,
-                          type: "plus",
-                        });
-                      }}
+                      onClick={() => handleButtonPlus(index)}
                     >
                       <AiOutlinePlusCircle />
                     </button>
                     <button
                       className="hover:scale-105 disabled:opacity-20"
                       disabled={numbers[index] <= 0 ? true : false}
-                      onClick={() => {
-                        dispatch({
-                          roles: roles,
-                          index: index,
-                          type: "minus",
-                        });
-                      }}
+                      onClick={() => handleButtonMinus(index)}
                     >
                       <AiOutlineMinusCircle />
                     </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="min-w-[32px] border-2 border-solid border-white rounded-lg px-2 text-center">
+                      {userNumbers[index]}
+                    </div>
                   </>
                 )}
               </div>
             ))}
           </ul>
-          {isRoomMaster && (
-            <div className="flex justify-center items-center mt-4 gap-2 ">
-              <label htmlFor="discussTime" className="text-lg w-fit md:text-xl">
-                Thời gian thảo luận
-              </label>
+          <div className="flex justify-center items-center mt-4 gap-2 ">
+            <label htmlFor="discussTime" className="text-lg w-fit md:text-xl">
+              Thời gian thảo luận
+            </label>
+            {isRoomMaster ? (
               <select
                 name="discussTime"
                 defaultValue={discussTime}
@@ -106,8 +128,12 @@ export default function Setup({
                   </option>
                 ))}
               </select>
-            </div>
-          )}
+            ) : (
+              <div className="text-lg bg-indigo-500 border-2 border-solid border-white rounded-lg px-2 py-1 md:text-xl">
+                {userDiscussTime} phút
+              </div>
+            )}
+          </div>
         </div>
       )}
     </>
