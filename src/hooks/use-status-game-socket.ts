@@ -5,13 +5,15 @@ import { User } from "../lib/types";
 import { Role } from "../lib/enums";
 
 type StatusGameSocketProps = {
-  roleKey: string;
+  gameKey: string;
   code: string;
+  name: string;
 };
 
 export const useStatusGameSocket = ({
-  roleKey,
+  gameKey,
   code,
+  name,
 }: StatusGameSocketProps): {
   players: User[];
   threeRemainCard: Role[];
@@ -27,9 +29,9 @@ export const useStatusGameSocket = ({
     if (!socket) {
       return;
     }
-    socket.emit("get-game-info", { code });
+    socket.emit("game:get:info", { code, name });
 
-    socket.on(roleKey, (payload: any) => {
+    socket.on(gameKey, (payload: any) => {
       const { players, threeRemainCard, discussTime, isEnded } = payload.game;
       setPlayers(players);
       setThreeRemainCard(threeRemainCard);
@@ -38,9 +40,9 @@ export const useStatusGameSocket = ({
     });
 
     return () => {
-      socket.off(roleKey);
+      socket.off(gameKey);
     };
-  }, [roleKey, socket, code]);
+  }, [gameKey, socket, code, name]);
   return {
     players,
     threeRemainCard,

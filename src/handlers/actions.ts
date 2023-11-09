@@ -12,7 +12,7 @@ export const handleActionRobber = (
     player !== undefined &&
     player !== currentUser
   ) {
-    socket.emit("update-role-player", {
+    socket.emit("game:patch:role-player", {
       code,
       player1: currentUser,
       player2: player,
@@ -33,7 +33,7 @@ export const handleActionTroublemaker = (
     players[0] !== currentUser &&
     players[1] !== currentUser
   ) {
-    socket.emit("update-role-player", {
+    socket.emit("game:patch:role-player", {
       code,
       player1: players[0],
       player2: players[1],
@@ -49,7 +49,7 @@ export const handleActionDrunk = (
   index: number
 ) => {
   if (currentUser.firstRole === Role.Drunk && index !== -1) {
-    socket.emit("update-role-card", {
+    socket.emit("game:patch:role-card", {
       code,
       player: currentUser,
       index,
@@ -63,7 +63,7 @@ export const handleActionVoted = (
   currentUser: User,
   name: string
 ) => {
-  socket.emit("update-status-voted", {
+  socket.emit("game:patch:status-voted", {
     code,
     currentUser,
     name,

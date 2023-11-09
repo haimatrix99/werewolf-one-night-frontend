@@ -8,6 +8,7 @@ type StartGameSocketProps = {
   gameKey: string;
   signal: boolean;
   code: string;
+  name: string;
   players: User[];
   threeRemainCard: Role[];
   discussTime: number;
@@ -17,6 +18,7 @@ export const useStartGameSocket = ({
   gameKey,
   signal,
   code,
+  name,
   players,
   threeRemainCard,
   discussTime,
@@ -27,11 +29,26 @@ export const useStartGameSocket = ({
       return;
     }
     if (signal) {
-      socket.emit("game", { code, players, threeRemainCard, discussTime });
+      socket.emit(gameKey, {
+        code,
+        name,
+        players,
+        threeRemainCard,
+        discussTime,
+      });
     }
 
     return () => {
       socket.off(gameKey);
     };
-  }, [gameKey, socket, signal, code, players, threeRemainCard, discussTime]);
+  }, [
+    gameKey,
+    socket,
+    signal,
+    code,
+    name,
+    players,
+    threeRemainCard,
+    discussTime,
+  ]);
 };

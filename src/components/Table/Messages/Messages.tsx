@@ -23,7 +23,7 @@ export default function Messages({ code, name }: MessagesProps) {
     }
 
     if (message) {
-      socket.emit("user-message", { code, message }, () =>
+      socket.emit("user-message", { code, name, message }, () =>
         setMessage("")
       );
     }

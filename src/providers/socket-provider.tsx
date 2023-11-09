@@ -32,7 +32,10 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       setIsConnected(true);
     });
 
-    socketInstance.on("disconnect", () => {
+    socketInstance.on("disconnect", (reason: string) => {
+      if (reason === "io client disconnect") {
+        socketInstance.connect();
+      }
       setIsConnected(false);
     });
 

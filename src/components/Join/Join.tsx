@@ -20,6 +20,8 @@ import { useMediaQuery } from "react-responsive";
 import { useVoiceConnection } from "../../hooks/use-voice-connection";
 import SocketIndicator from "../SocketIndicator/SocketIndicator";
 import { useGameSetupSocket } from "../../hooks/use-game-setup";
+import { useSocket } from "../../providers/socket-provider";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 export default function Join() {
   const params = queryString.parse(window.location.search);
@@ -33,12 +35,14 @@ export default function Join() {
     rolesPool: [],
     numbers: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   });
-  const [discussTime, setDiscussTime] = useState("10");
-
-  const { users } = useUserSocket({ userKey: "users-online" });
-  const { userDiscussTime, userNumbers } = useGameSetupSocket("game-setup");
+  
+  const { socket, isConnected } = useSocket();
+  const { users } = useUserSocket({ userKey: "room:users" });
   const roomMaster = users.filter((user) => user.master === true);
   const isRoomMaster = roomMaster[0]?.name === name ? true : false;
+
+  const [discussTime, setDiscussTime] = useState("10");
+  const { userDiscussTime, userNumbers } = useGameSetupSocket("game:get:setup");
   const [players, setPlayers] = useState<User[]>([]);
   const [threeRemainCard, setThreeRemainCard] = useState<Role[]>([]);
   const [signal, setSignal] = useState(false);
@@ -70,20 +74,26 @@ export default function Join() {
     }
   };
   useStartGameSocket({
-    gameKey: "game",
+    gameKey: "game:initial",
     signal,
     code,
+    name,
     players,
     threeRemainCard,
     discussTime: Number(discussTime) * 60,
   });
-  const { startGame } = useGameSocket({ gameKey: "start-game" });
+  const { startGame } = useGameSocket({ gameKey: "game:start" });
 
   useEffect(() => {
     if (startGame) {
-      navigate(`/game?code=${code}&name=${name}`);
+      navigate(`/game?code=${code}&name=${name}`, { replace: true });
     }
-  }, [startGame, code, name, navigate]);
+  }, [startGame, code, name, navigate, isConnected]);
+
+  const handleButtonBackToRoom = () => {
+    socket.disconnect();
+    navigate("/", { replace: true });
+  };
 
   if (!audioContext || connectionDetails === null) {
     return (
@@ -97,6 +107,12 @@ export default function Join() {
   return (
     <div className="h-screen w-full">
       <SocketIndicator />
+      <button
+        className="h-[24px] flex justify-center items-center btn absolute right-0 top-0 mr-2 mt-2"
+        onClick={handleButtonBackToRoom}
+      >
+        <IoMdArrowRoundBack />
+      </button>
       <h1 className="py-2 text-center font-semibold text-3xl text-slate-500">
         Werewolf One Night
       </h1>
@@ -126,6 +142,7 @@ export default function Join() {
             </div>
             <Setup
               code={code}
+              name={name}
               numbers={numbers}
               dispatch={dispatch}
               discussTime={discussTime}

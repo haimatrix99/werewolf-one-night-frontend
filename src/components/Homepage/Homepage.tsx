@@ -15,7 +15,7 @@ export default function Homepage() {
       alert("Username must not be empty");
     } else {
       const code = randomCodeGenerate(6);
-      socket.emit("create-room", { name, code }, (result: User) => {});
+      socket.emit("room:create", { name, code }, (result: User) => {});
       navigate(`/room?code=${code}&name=${name}`);
     }
   };
@@ -24,8 +24,11 @@ export default function Homepage() {
     if (name === "" || code === "") {
       alert("Username or code must not be empty");
     } else {
-      socket.emit("join", { name, code }, (result: User | string) => {
-        if (result === "Username is taken.") {
+      socket.emit("room:join", { name, code }, (result: User | string) => {
+        if (
+          result === "Username is taken." ||
+          result === "Code is not be exist."
+        ) {
           alert(result);
           navigate("/", { replace: true });
         }

@@ -22,13 +22,13 @@ export default function Messages({ name, code }: MessagesProps) {
     }
 
     if (message) {
-      socket.emit("user-message", { code, message }, () =>
+      socket.emit("room:user-message", { code, name, message }, () =>
         setMessage("")
       );
     }
   };
 
-  const { messages } = useChatSocket({ messageKey: "message" });
+  const { messages } = useChatSocket({ messageKey: "room:message" });
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const copy = () => {

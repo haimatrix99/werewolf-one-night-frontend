@@ -2,7 +2,6 @@ import React from "react";
 import queryString from "query-string";
 import Table from "../Table/Table";
 import { useStatusGameSocket } from "../../hooks/use-status-game-socket";
-import { shuffle } from "../../handlers/shuffleArray";
 import { ClockProvider } from "../../providers/clock-provider";
 import { WebAudioContext } from "../../providers/audio-provider";
 import { AudioConference, LiveKitRoom } from "@livekit/components-react";
@@ -16,15 +15,17 @@ export default function Game() {
   const name = params.name as string;
 
   const { audioContext, connectionDetails } = useVoiceConnection(code, name);
-  const { players, threeRemainCard, discussTime, isEnded } = useStatusGameSocket({
-    roleKey: "game-info",
-    code: code,
-  });
+  const { players, threeRemainCard, discussTime, isEnded } =
+    useStatusGameSocket({
+      gameKey: "game:info",
+      code,
+      name
+    });
 
-  const roles = shuffle([
+  const roles = [
     ...threeRemainCard,
     ...players.map((player) => player.role),
-  ]);
+  ].sort();
 
   const { totalTurn, turnCall } = getTurn(roles);
 

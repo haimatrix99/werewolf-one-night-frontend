@@ -59,7 +59,7 @@ export default function Table({
   const userRemain = [...userAfterCurrentUser, ...userBeforeCurrentUser];
   const [leftUsers, topUsers, rightUsers] = splitUser(userRemain);
 
-  const { socket } = useSocket();
+  const { socket, isConnected } = useSocket();
   const { turn, done, counter } = useClock();
   const [flipped, setFlipped] = useState(false);
   const useFlipped = useRef<User>();
@@ -114,8 +114,7 @@ export default function Table({
     }
     if (
       currentUser.firstRole === Role.Werewolf &&
-      turnCall[turn] === "Werewolf" &&
-      !werewolfCanDo
+      turnCall[turn] === "Werewolf"
     ) {
       useFlipped.current = players.filter(
         (player) =>
@@ -200,11 +199,10 @@ export default function Table({
         werewolfCanDo &&
         turn === turnCall.indexOf(Role.Werewolf)
       ) {
-        setFlipped(true)
         if (typeof card === "number") {
           if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
             indexesFlip.current.add(card);
-            socket.emit("update-status-action", {
+            socket.emit("game:patch:status-action", {
               code: code,
               user: currentUser,
             });
@@ -223,7 +221,7 @@ export default function Table({
             refSeer.current = refSeer.current + 1;
             indexesFlip.current.add(card);
             if (refSeer.current === 2) {
-              socket.emit("update-status-action", {
+              socket.emit("game:patch:status-action", {
                 code: code,
                 user: currentUser,
               });
@@ -234,7 +232,7 @@ export default function Table({
           if (refSeer.current === 0) {
             if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
               useFlipped.current = card;
-              socket.emit("update-status-action", {
+              socket.emit("game:patch:status-action", {
                 code: code,
                 user: currentUser,
               });
@@ -252,9 +250,9 @@ export default function Table({
 
   const handleButtonBackToRoom = () => {
     if (currentUser.master) {
-      socket.emit("restart-game", { code }, () => {});
+      socket.emit("game:restart", { code }, () => {});
       socket.emit(
-        "create-room",
+        "room:create",
         { name: currentUser.name, code },
         (result: User) => {}
       );
@@ -263,7 +261,7 @@ export default function Table({
       });
     } else {
       socket.emit(
-        "join",
+        "room:join",
         { name: currentUser.name, code },
         (result: User | string) => {
           if (result === "Username is taken.") {
@@ -277,6 +275,12 @@ export default function Table({
       });
     }
   };
+
+  useEffect(() => {
+    if (!isConnected) {
+      navigate("/", { replace: true });
+    }
+  }, [isConnected, navigate]);
 
   return (
     <>

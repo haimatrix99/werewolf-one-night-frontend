@@ -10,6 +10,7 @@ const roles: string[] = Object.values(Role);
 
 type SetupProps = {
   code: string;
+  name: string;
   numbers: number[];
   dispatch: React.Dispatch<Action>;
   discussTime: string;
@@ -24,6 +25,7 @@ const discussTimeOptions: string[] = ["5", "10", "15", "30"];
 
 export default function Setup({
   code,
+  name,
   numbers,
   dispatch,
   discussTime,
@@ -58,9 +60,9 @@ export default function Setup({
 
   useEffect(() => {
     if (isRoomMaster) {
-      socket.emit("get-game-setup", { code, numbers, discussTime });
+      socket.emit("game:patch:setup", { code, name, numbers, discussTime });
     }
-  }, [socket, code, isRoomMaster, numbers, discussTime]);
+  }, [socket, code, name, isRoomMaster, numbers, discussTime]);
 
   return (
     <>
