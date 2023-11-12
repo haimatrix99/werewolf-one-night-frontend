@@ -265,8 +265,7 @@ export default function Table({
         { name: currentUser.name, code },
         (result: User | string) => {
           if (result === "Username is taken.") {
-            alert(result);
-            navigate("/", { replace: true });
+            alert("Room is not be recreated by master yet!");
           }
         }
       );
