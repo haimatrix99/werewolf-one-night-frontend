@@ -35,7 +35,7 @@ export default function Join() {
     rolesPool: [],
     numbers: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   });
-  
+
   const { socket, isConnected } = useSocket();
   const { users } = useUserSocket({ userKey: "room:users" });
   const roomMaster = users.filter((user) => user.master === true);
@@ -91,7 +91,7 @@ export default function Join() {
   }, [startGame, code, name, navigate, isConnected]);
 
   const handleButtonBackToRoom = () => {
-    socket.disconnect();
+    socket.emit("room:leave");
     navigate("/", { replace: true });
   };
 

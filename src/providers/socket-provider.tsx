@@ -21,7 +21,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const socketInstance = new (ClientIO as any)(
-      process.env.REACT_APP_ENDPOINT || "https://werewolf-one-night-backend-j4pyzzodnq-as.a.run.app",
+      process.env.REACT_APP_ENDPOINT ||
+        "https://werewolf-one-night-backend-qkzbmq5uba-as.a.run.app",
       {
         path: "/api/socket/io",
         addTrailingSlash: false,
@@ -33,9 +34,6 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     socketInstance.on("disconnect", (reason: string) => {
-      if (reason === "io client disconnect") {
-        socketInstance.connect();
-      }
       setIsConnected(false);
     });
 
