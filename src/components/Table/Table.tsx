@@ -59,7 +59,7 @@ export default function Table({
   const userRemain = [...userAfterCurrentUser, ...userBeforeCurrentUser];
   const [leftUsers, topUsers, rightUsers] = splitUser(userRemain);
 
-  const { socket, isConnected } = useSocket();
+  const { socket } = useSocket();
   const { turn, done, counter } = useClock();
   const [flipped, setFlipped] = useState(false);
   const useFlipped = useRef<User>();
@@ -251,11 +251,7 @@ export default function Table({
   const handleButtonBackToRoom = () => {
     if (currentUser.master) {
       socket.emit("game:restart", { code }, () => {});
-      socket.emit(
-        "room:create",
-        { name: currentUser.name, code },
-        (result: User) => {}
-      );
+      socket.emit("room:create", { name: currentUser.name, code }, () => {});
       navigate(`/room?code=${code}&name=${currentUser.name}`, {
         replace: true,
       });
@@ -266,6 +262,7 @@ export default function Table({
         (result: User | string) => {
           if (result === "Username is taken.") {
             alert("Room is not be recreated by master yet!");
+            navigate("/", { replace: true });
           }
         }
       );
@@ -274,12 +271,6 @@ export default function Table({
       });
     }
   };
-
-  useEffect(() => {
-    if (!isConnected) {
-      navigate("/", { replace: true });
-    }
-  }, [isConnected, navigate]);
 
   return (
     <>

@@ -29,7 +29,6 @@ export type User = {
   numberVoted?: number;
   voted?: string;
   firstRole?: Role;
-  error?: string;
   action?: boolean;
 };
 

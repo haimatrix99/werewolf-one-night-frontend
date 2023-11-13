@@ -38,9 +38,8 @@ export default function Join() {
 
   const { socket, isConnected } = useSocket();
   const { users } = useUserSocket({ userKey: "room:users" });
-  const roomMaster = users.filter((user) => user.master === true);
-  const isRoomMaster = roomMaster[0]?.name === name ? true : false;
-
+  const roomMaster = users.filter((user) => user.master === true)[0];
+  const isRoomMaster = roomMaster?.name === name ? true : false;
   const [discussTime, setDiscussTime] = useState("10");
   const { userDiscussTime, userNumbers } = useGameSetupSocket("game:get:setup");
   const [players, setPlayers] = useState<User[]>([]);
@@ -91,7 +90,7 @@ export default function Join() {
   }, [startGame, code, name, navigate, isConnected]);
 
   const handleButtonBackToRoom = () => {
-    socket.emit("room:leave");
+    socket.emit("room:leave", { code, name });
     navigate("/", { replace: true });
   };
 

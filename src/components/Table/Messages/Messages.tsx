@@ -15,7 +15,7 @@ export default function Messages({ code, name }: MessagesProps) {
   const [sendButton, setSendButton] = useState(false);
   const [showMessages, setShowMessages] = useState(false);
   const { socket } = useSocket();
-  const { messages } = useChatSocket({ messageKey: "message" });
+  const { messages } = useChatSocket({ messageKey: "room:message" });
 
   const sendMessage = (event: React.KeyboardEvent<HTMLInputElement> | null) => {
     if (event) {
@@ -23,7 +23,7 @@ export default function Messages({ code, name }: MessagesProps) {
     }
 
     if (message) {
-      socket.emit("user-message", { code, name, message }, () =>
+      socket.emit("room:user-message", { code, name, message }, () =>
         setMessage("")
       );
     }
