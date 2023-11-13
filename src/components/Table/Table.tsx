@@ -250,22 +250,13 @@ export default function Table({
 
   const handleButtonBackToRoom = () => {
     if (currentUser.master) {
-      socket.emit("game:restart", { code }, () => {});
-      socket.emit("room:create", { name: currentUser.name, code }, () => {});
+      socket.emit("game:restart", { code });
+      socket.emit("room:create", { name: currentUser.name, code });
       navigate(`/room?code=${code}&name=${currentUser.name}`, {
         replace: true,
       });
     } else {
-      socket.emit(
-        "room:join",
-        { name: currentUser.name, code },
-        (result: User | string) => {
-          if (result === "Username is taken.") {
-            alert("Room is not be recreated by master yet!");
-            navigate("/", { replace: true });
-          }
-        }
-      );
+      socket.emit("room:rejoin", { name: currentUser.name, code });
       navigate(`/room?code=${code}&name=${currentUser.name}`, {
         replace: true,
       });
