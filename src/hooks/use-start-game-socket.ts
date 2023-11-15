@@ -11,7 +11,7 @@ type StartGameSocketProps = {
   name: string;
   players: User[];
   threeRemainCard: Role[];
-  discussTime: number;
+  discussTime: string;
 };
 
 export const useStartGameSocket = ({

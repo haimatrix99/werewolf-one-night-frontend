@@ -39,7 +39,7 @@ export default function ThreeRemainCard({
             alt="Card"
           />
           <p className="w-16 text-center text-sm text-white font-semibold px-2 py-1 border border-solid bg-indigo-500 rounded-lg md:text-lg md:w-24">
-            Card {index + 1}
+            Bài {index + 1}
           </p>
         </div>
       ))}

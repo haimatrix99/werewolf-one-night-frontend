@@ -46,7 +46,7 @@ export default function Messages({ name, code }: MessagesProps) {
       <div className="flex flex-col mx-auto w-full h-[85%] min-h-[85%] bg-indigo-500 rounded-lg border-2 border-solid border-white">
         <div className="basic-[10%] px-4 py-2 border-b-2 border-white flex gap-4">
           <span className="text-white font-semibold text-lg">
-            Room ID: {code}
+            ID Phòng: {code}
           </span>
           <button className="text-white text-2xl" onClick={copy}>
             <BsFillClipboard2Fill />
@@ -63,7 +63,7 @@ export default function Messages({ name, code }: MessagesProps) {
           <input
             type="text"
             className="basis-full"
-            placeholder="Type message..."
+            placeholder="Nhập tin nhắn..."
             value={message}
             onChange={({ target: { value } }) => setMessage(value)}
             onKeyPress={(event) =>

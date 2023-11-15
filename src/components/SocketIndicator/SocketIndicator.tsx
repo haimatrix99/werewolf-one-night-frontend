@@ -11,7 +11,7 @@ export default function SocketIndicator() {
           <div className="flex justify-between items-center px-2 py-1 gap-2 md:border-2 md:border-solid md:border-white md:rounded-lg  md:bg-indigo-500">
             <span className="w-4 h-4 rounded-full border border-solid bg-green-500"></span>
             <span className="text-lg text-white font-semibold hidden md:inline-block">
-              Connected
+              Đã kết nối
             </span>
           </div>
         </div>
@@ -20,7 +20,7 @@ export default function SocketIndicator() {
           <div className="flex justify-between items-center px-2 py-1 gap-2 md:border-2 md:border-solid md:border-white md:rounded-lg  md:bg-indigo-500">
             <span className="w-4 h-4 rounded-full border border-solid bg-red-500"></span>
             <span className="text-lg text-white font-semibold hidden md:inline-block">
-              Disconnected
+              Mất kết nối
             </span>
           </div>
         </div>

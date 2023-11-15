@@ -79,7 +79,7 @@ export default function Join() {
     name,
     players,
     threeRemainCard,
-    discussTime: Number(discussTime) * 60,
+    discussTime,
   });
   const { startGame } = useGameSocket({ gameKey: "game:start" });
 
@@ -94,7 +94,7 @@ export default function Join() {
     navigate("/", { replace: true });
   };
 
-  if (!audioContext || connectionDetails === null) {
+  if (!audioContext || connectionDetails === null || users.length === 0) {
     return (
       <div className="h-screen flex flex-col flex-1 justify-center items-center">
         <AiOutlineLoading3Quarters className="text-3xl animation-spin" />
@@ -135,7 +135,7 @@ export default function Join() {
                   className="btn mt-3 text-xl text-white font-semibold"
                   onClick={handleStartGame}
                 >
-                  Start Game
+                  Bắt đầu trò chơi
                 </button>
               )}
             </div>
@@ -151,7 +151,7 @@ export default function Join() {
               userDiscussTime={userDiscussTime}
               userNumbers={userNumbers}
             />
-            <Users users={users} isMobile={isMobile} />
+            <Users users={users.sort()} isMobile={isMobile} />
             <Voice />
           </div>
         </WebAudioContext.Provider>

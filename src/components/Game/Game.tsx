@@ -19,7 +19,7 @@ export default function Game() {
     useStatusGameSocket({
       gameKey: "game:info",
       code,
-      name
+      name,
     });
 
   const roles = [
@@ -31,10 +31,15 @@ export default function Game() {
 
   if (!audioContext || connectionDetails === null) {
     return (
-      <div className="h-screen flex flex-col flex-1 justify-center items-center">
-        <AiOutlineLoading3Quarters className="text-3xl animation-spin" />
-        <h1 className="text-3xl">Loading</h1>
-      </div>
+      <ClockProvider
+        totalTurn={totalTurn}
+        discussTime={Number(discussTime) * 60}
+      >
+        <div className="h-screen flex flex-col flex-1 justify-center items-center">
+          <AiOutlineLoading3Quarters className="text-3xl animation-spin" />
+          <h1 className="text-3xl">Loading</h1>
+        </div>
+      </ClockProvider>
     );
   }
 
@@ -56,7 +61,10 @@ export default function Game() {
         <></>
         <WebAudioContext.Provider value={audioContext}>
           <AudioConference className="hidden" />
-          <ClockProvider totalTurn={totalTurn} discussTime={discussTime}>
+          <ClockProvider
+            totalTurn={totalTurn}
+            discussTime={Number(discussTime) * 60}
+          >
             {players.length > 0 && (
               <Table
                 code={code}

@@ -34,7 +34,7 @@ export default function Roles({ players }: VotesProps) {
                     {player.voted !== undefined
                       ? player.voted
                         ? " đã vote " + player.voted
-                        : " đã skip vote"
+                        : " đã vote không sói"
                       : " chưa vote"}
                   </li>
                 </div>

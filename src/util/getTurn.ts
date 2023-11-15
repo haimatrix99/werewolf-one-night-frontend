@@ -2,30 +2,30 @@ import { Role } from "../lib/enums";
 
 export const getTurn = (roles: Role[]) => {
   let totalTurn: number = 1;
-  const turnCall: string[] = ["check card"];
+  const turnCall: string[] = ["kiểm tra bài"];
   if (roles.includes(Role.Werewolf)) {
     totalTurn++;
-    turnCall.push("Werewolf");
+    turnCall.push(Role.Werewolf);
   }
   if (roles.includes(Role.Seer)) {
     totalTurn++;
-    turnCall.push("Seer");
+    turnCall.push(Role.Seer);
   }
   if (roles.includes(Role.Robber)) {
     totalTurn++;
-    turnCall.push("Robber");
+    turnCall.push(Role.Robber);
   }
   if (roles.includes(Role.Troublemaker)) {
     totalTurn++;
-    turnCall.push("Troublemaker");
+    turnCall.push(Role.Troublemaker);
   }
   if (roles.includes(Role.Drunk)) {
     totalTurn++;
-    turnCall.push("Drunk");
+    turnCall.push(Role.Drunk);
   }
   if (roles.includes(Role.Insomniac)) {
     totalTurn++;
-    turnCall.push("Insomniac");
+    turnCall.push(Role.Insomniac);
   }
 
   return {

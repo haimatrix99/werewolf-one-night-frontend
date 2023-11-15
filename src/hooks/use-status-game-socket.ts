@@ -17,14 +17,21 @@ export const useStatusGameSocket = ({
 }: StatusGameSocketProps): {
   players: User[];
   threeRemainCard: Role[];
-  discussTime: number;
+  discussTime: string;
   isEnded: boolean;
 } => {
   const { socket } = useSocket();
-  const [players, setPlayers] = useState<User[]>([]);
-  const [threeRemainCard, setThreeRemainCard] = useState<Role[]>([]);
-  const [discussTime, setDiscussTime] = useState(0);
-  const [isEnded, setIsEnded] = useState(false);
+  const [game, setGame] = useState<{
+    players: User[];
+    threeRemainCard: Role[];
+    discussTime: string;
+    isEnded: boolean;
+  }>({
+    players: [],
+    threeRemainCard: [],
+    discussTime: "10",
+    isEnded: false,
+  });
   useEffect(() => {
     if (!socket) {
       return;
@@ -33,20 +40,17 @@ export const useStatusGameSocket = ({
 
     socket.on(gameKey, (payload: any) => {
       const { players, threeRemainCard, discussTime, isEnded } = payload.game;
-      setPlayers(players);
-      setThreeRemainCard(threeRemainCard);
-      setDiscussTime(discussTime);
-      setIsEnded(isEnded);
+      setGame({
+        players,
+        threeRemainCard,
+        discussTime,
+        isEnded,
+      });
     });
 
     return () => {
       socket.off(gameKey);
     };
   }, [gameKey, socket, code, name]);
-  return {
-    players,
-    threeRemainCard,
-    discussTime,
-    isEnded,
-  };
+  return game;
 };

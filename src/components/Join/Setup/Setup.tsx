@@ -73,7 +73,7 @@ export default function Setup({
         <FaUserSecret />
       </button>
       {(showRoles || !isMobile) && (
-        <div className="center bg-indigo-500 border-2 border-solid border-white rounded-lg p-2 text-white md:static md:h-fit md:translate-x-0 md:translate-y-0 md:ml-4 md:order-1">
+        <div className="center w-[60%] bg-indigo-500 border-2 border-solid border-white rounded-lg p-2 text-white md:static md:h-fit md:w-fit md:translate-x-0 md:translate-y-0 md:ml-4 md:order-1">
           <p className="font-semibold text-xl border-b-2 border-solid border-white mb-2">
             Danh sách chức năng
           </p>

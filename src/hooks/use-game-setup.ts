@@ -9,10 +9,10 @@ export const useGameSetupSocket = (
   userDiscussTime: string;
 } => {
   const { socket } = useSocket();
-  const [userDiscussTime, setUserDiscussTime] = useState("10");
-  const [userNumbers, setUserNumbers] = useState([
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  ]);
+  const [gameSetup, setGameSetup] = useState({
+    userDiscussTime: "10",
+    userNumbers: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  });
 
   useEffect(() => {
     if (!socket) {
@@ -21,8 +21,7 @@ export const useGameSetupSocket = (
 
     socket.on(gameKey, (payload: any) => {
       const { numbers, discussTime } = payload;
-      setUserDiscussTime(discussTime);
-      setUserNumbers(numbers);
+      setGameSetup({ userNumbers: numbers, userDiscussTime: discussTime });
     });
 
     return () => {
@@ -30,8 +29,5 @@ export const useGameSetupSocket = (
     };
   }, [gameKey, socket]);
 
-  return {
-    userNumbers,
-    userDiscussTime,
-  };
+  return gameSetup;
 };

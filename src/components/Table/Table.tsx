@@ -82,39 +82,39 @@ export default function Table({
     }
     if (
       turn !== 0 &&
-      turnCall[turn] !== "Robber" &&
-      turnCall[turn] !== "Insomniac" &&
-      turnCall[turn] !== "Drunk"
+      turnCall[turn] !== Role.Robber &&
+      turnCall[turn] !== Role.Insomniac &&
+      turnCall[turn] !== Role.Drunk
     ) {
       setFlipped(false);
     }
     if (
-      turnCall[turn] !== "Werewolf" &&
+      turnCall[turn] !== Role.Werewolf &&
       currentUser.firstRole === Role.Werewolf
     ) {
       indexesFlip.current.clear();
       useFlipped.current = undefined;
     }
-    if (turnCall[turn] !== "Seer" && currentUser.firstRole === Role.Seer) {
+    if (turnCall[turn] !== Role.Seer && currentUser.firstRole === Role.Seer) {
       indexesFlip.current.clear();
       useFlipped.current = undefined;
     }
     if (
-      turnCall[turn] === "Robber" &&
+      turnCall[turn] === Role.Robber &&
       currentUser.firstRole === Role.Robber &&
       currentUser.action
     ) {
       setFlipped(true);
     }
     if (
-      turnCall[turn] === "Insomniac" &&
+      turnCall[turn] === Role.Insomniac &&
       currentUser.firstRole === Role.Insomniac
     ) {
       setFlipped(true);
     }
     if (
-      currentUser.firstRole === Role.Werewolf &&
-      turnCall[turn] === "Werewolf"
+      turnCall[turn] === Role.Werewolf &&
+      currentUser.firstRole === Role.Werewolf
     ) {
       useFlipped.current = players.filter(
         (player) =>
@@ -143,8 +143,7 @@ export default function Table({
               `Bạn xác nhận muốn đổi lá bài với ${card.name} không?`
             )
           ) {
-            setFlipped(true);
-            handleActionRobber(socket, currentUser, code, card);
+            handleActionRobber(socket, currentUser, code, card, setFlipped);
           } else {
             return;
           }
@@ -322,7 +321,7 @@ export default function Table({
         </div>
         <div className="col-span-3 m-auto">
           <h1 className="w-fit mx-auto my-2 px-2 py-1 text-lg text-white text-center bg-indigo-500 font-semibold border border-solid rounded-lg md:text-2xl">
-            {turnCall[turn] ? "Turn " + turnCall[turn] : "Thảo luận"}
+            {turnCall[turn] ? "Lượt " + turnCall[turn] : "Thảo luận"}
           </h1>
           <ThreeRemainCard
             roles={threeRemainCard}
