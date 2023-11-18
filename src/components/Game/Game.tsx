@@ -8,6 +8,7 @@ import { AudioConference, LiveKitRoom } from "@livekit/components-react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useVoiceConnection } from "../../hooks/use-voice-connection";
 import { getTurn } from "../../util/getTurn";
+import { User } from "../../lib/types";
 
 export default function Game() {
   const params = queryString.parse(window.location.search);
@@ -21,7 +22,7 @@ export default function Game() {
       code,
       name,
     });
-
+    
   const roles = [
     ...threeRemainCard,
     ...players.map((player) => player.role),
@@ -29,7 +30,7 @@ export default function Game() {
 
   const { totalTurn, turnCall } = getTurn(roles);
 
-  if (!audioContext || connectionDetails === null) {
+  if (!audioContext || connectionDetails === null || players.length === 0) {
     return (
       <ClockProvider
         totalTurn={totalTurn}
@@ -65,19 +66,17 @@ export default function Game() {
             totalTurn={totalTurn}
             discussTime={Number(discussTime) * 60}
           >
-            {players.length > 0 && (
-              <Table
-                code={code}
-                roles={roles}
-                players={players}
-                currentUser={
-                  players.filter((player) => player.name === name)[0]
-                }
-                threeRemainCard={threeRemainCard}
-                turnCall={turnCall}
-                isEnded={isEnded}
-              />
-            )}
+            <Table
+              code={code}
+              roles={roles}
+              players={players}
+              currentUser={
+                players.find((player) => player.name === name) as User
+              }
+              threeRemainCard={threeRemainCard}
+              turnCall={turnCall}
+              isEnded={isEnded}
+            />
           </ClockProvider>
         </WebAudioContext.Provider>
       </LiveKitRoom>

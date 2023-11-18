@@ -1,7 +1,7 @@
 import { Role } from "./enums";
 
 export type Action = {
-  roles: string[]
+  roles: string[];
   index: number;
   type: "plus" | "minus";
 };
@@ -12,12 +12,10 @@ export type State = {
 };
 
 export type Game = {
-  code: string;
-  rolesPlayer: User[];
+  players: User[];
   threeRemainCard: Role[];
-  discussTime: number;
-  isVoted?: boolean;
-  isEnded?: boolean;
+  discussTime: string;
+  isEnded: boolean;
 };
 
 export type User = {
@@ -25,11 +23,11 @@ export type User = {
   name: string;
   code: string;
   master: boolean;
+  firstRole: Role;
   role: Role;
-  numberVoted?: number;
-  voted?: string;
-  firstRole?: Role;
-  action?: boolean;
+  doppelgangerRole: Role;
+  voted: string;
+  action: boolean;
 };
 
 export type MessageInfo = {

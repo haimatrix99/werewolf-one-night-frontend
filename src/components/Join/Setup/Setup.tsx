@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { ROLE_CARD } from "../../../lib/constants";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { FaUserSecret } from "react-icons/fa";
@@ -19,6 +19,8 @@ type SetupProps = {
   isMobile: boolean;
   userNumbers: number[];
   userDiscussTime: string;
+  show: boolean;
+  onClickButton: () => void;
 };
 
 const discussTimeOptions: string[] = ["5", "10", "15", "30"];
@@ -34,13 +36,10 @@ export default function Setup({
   isMobile,
   userNumbers,
   userDiscussTime,
+  show,
+  onClickButton,
 }: SetupProps) {
-  const [showRoles, setShowRoles] = useState(false);
   const { socket } = useSocket();
-
-  const handleButton = () => {
-    setShowRoles(!showRoles);
-  };
 
   const handleButtonPlus = (index: number) => {
     dispatch({
@@ -68,13 +67,13 @@ export default function Setup({
     <>
       <button
         className="btn h-[48px] absolute left-[70px] bottom-[10px] md:hidden"
-        onClick={handleButton}
+        onClick={onClickButton}
       >
         <FaUserSecret />
       </button>
-      {(showRoles || !isMobile) && (
-        <div className="center w-[60%] bg-indigo-500 border-2 border-solid border-white rounded-lg p-2 text-white md:static md:h-fit md:w-fit md:translate-x-0 md:translate-y-0 md:ml-4 md:order-1">
-          <p className="font-semibold text-xl border-b-2 border-solid border-white mb-2">
+      {(show || !isMobile) && (
+        <div className="z-10 center w-[60%] bg-indigo-500 border-2 border-solid border-white rounded-lg p-2 text-white md:static md:h-fit md:w-fit md:translate-x-0 md:translate-y-0 md:ml-4 md:order-1">
+          <p className="font-semibold text-center text-xl border-b-2 border-solid border-white mb-2">
             Danh sách chức năng
           </p>
           <ul className="flex flex-col gap-1">

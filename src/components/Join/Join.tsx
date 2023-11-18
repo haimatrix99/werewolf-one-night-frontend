@@ -38,7 +38,11 @@ export default function Join() {
 
   const { socket, isConnected } = useSocket();
   const { users } = useUserSocket({ userKey: "room:users" });
-  const roomMaster = users.filter((user) => user.master === true)[0];
+  const [show, setShow] = useState({
+    users: false,
+    setup: false,
+  });
+  const roomMaster = users.find((user) => user.master === true);
   const isRoomMaster = roomMaster?.name === name ? true : false;
   const [discussTime, setDiscussTime] = useState("10");
   const { userDiscussTime, userNumbers } = useGameSetupSocket("game:get:setup");
@@ -88,6 +92,20 @@ export default function Join() {
       navigate(`/game?code=${code}&name=${name}`, { replace: true });
     }
   }, [startGame, code, name, navigate, isConnected]);
+
+  const handleButtonUsers = () => {
+    setShow({
+      users: !show.users,
+      setup: false,
+    });
+  };
+
+  const handleButtonSetup = () => {
+    setShow({
+      setup: !show.setup,
+      users: false,
+    });
+  };
 
   const handleButtonBackToRoom = () => {
     socket.emit("room:leave", { code, name });
@@ -150,8 +168,19 @@ export default function Join() {
               isMobile={isMobile}
               userDiscussTime={userDiscussTime}
               userNumbers={userNumbers}
+              show={show.setup}
+              onClickButton={handleButtonSetup}
             />
-            <Users users={users.sort()} isMobile={isMobile} />
+            <Users
+              users={users.sort((a, b) => {
+                if (a.name < b.name) return -1;
+                if (a.name > b.name) return 1;
+                return 0;
+              })}
+              isMobile={isMobile}
+              show={show.users}
+              onClickButton={handleButtonUsers}
+            />
             <Voice />
           </div>
         </WebAudioContext.Provider>

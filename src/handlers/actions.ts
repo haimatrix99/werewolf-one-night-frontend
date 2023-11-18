@@ -1,4 +1,3 @@
-import { Role } from "../lib/enums";
 import { User } from "../lib/types";
 
 export const handleActionRobber = (
@@ -8,11 +7,7 @@ export const handleActionRobber = (
   player: User | undefined,
   callback: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-  if (
-    currentUser.firstRole === Role.Robber &&
-    player !== undefined &&
-    player !== currentUser
-  ) {
+  if (player !== undefined && player !== currentUser) {
     socket.emit(
       "game:patch:role-player",
       {
@@ -35,7 +30,6 @@ export const handleActionTroublemaker = (
   players: User[]
 ) => {
   if (
-    currentUser.firstRole === Role.Troublemaker &&
     players.length === 2 &&
     players[0] !== currentUser &&
     players[1] !== currentUser
@@ -59,15 +53,12 @@ export const handleActionDrunk = (
   code: string,
   index: number
 ) => {
-  if (currentUser.firstRole === Role.Drunk && index !== -1) {
-    socket.emit(
-      "game:patch:role-card",
-      {
-        code,
-        player: currentUser,
-        index,
-      }
-    );
+  if (index !== -1) {
+    socket.emit("game:patch:role-card", {
+      code,
+      player: currentUser,
+      index,
+    });
   }
 };
 

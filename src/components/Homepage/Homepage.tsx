@@ -15,7 +15,7 @@ export default function Homepage() {
       alert("Username must not be empty");
     } else {
       const code = randomCodeGenerate(6);
-      socket.emit("room:create", { name, code }, (result: User) => {});
+      socket.emit("room:create", { name, code });
       navigate(`/room?code=${code}&name=${name}`);
     }
   };
@@ -53,14 +53,14 @@ export default function Homepage() {
         <input
           className="input-homepage"
           type="text"
-          placeholder="Enter name"
+          placeholder="Nhập tên"
           onChange={(event) => setName(event.target.value)}
         />
         <div className="flex flex-col justify-center items-center">
           <input
             className="input-homepage"
             type="text"
-            placeholder="Enter code"
+            placeholder="Nhập ID phòng"
             onChange={(event) => setCode(event.target.value)}
           />
           <button className="btn" onClick={handleButtonJoin}>

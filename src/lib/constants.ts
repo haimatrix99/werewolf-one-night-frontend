@@ -9,11 +9,11 @@ const ROLE_CARD: { [key: string]: number }  = {
   "Kẻ gây rối": 1,
   "Bợm nhậu": 1,
   "Cú đêm": 1,
-  "Kẻ mạo danh": 0,
-  "Thợ săn": 0,
-  "Thợ hồ": 0,
-  "Kẻ phản bội": 0,
-  "Kẻ chán đời": 0,
+  "Kẻ mạo danh": 1,
+  "Thợ săn": 1,
+  "Thợ hồ": 2,
+  "Kẻ phản bội": 1,
+  "Kẻ chán đời": 1,
 };
 
 export { MIN_PLAYERS, MAX_PLAYERS, ROLE_CARD };

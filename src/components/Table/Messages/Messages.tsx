@@ -8,12 +8,18 @@ import { BiSolidMessageAltDetail } from "react-icons/bi";
 type MessagesProps = {
   code: string;
   name: string;
+  show: boolean;
+  onClickButton: () => void;
 };
 
-export default function Messages({ code, name }: MessagesProps) {
+export default function Messages({
+  code,
+  name,
+  show,
+  onClickButton,
+}: MessagesProps) {
   const [message, setMessage] = useState("");
   const [sendButton, setSendButton] = useState(false);
-  const [showMessages, setShowMessages] = useState(false);
   const { socket } = useSocket();
   const { messages } = useChatSocket({ messageKey: "room:message" });
 
@@ -29,20 +35,16 @@ export default function Messages({ code, name }: MessagesProps) {
     }
   };
 
-  const handleButton = () => {
-    setShowMessages(!showMessages);
-  };
-
   return (
     <>
       <button
         className="h-[48px] btn absolute right-[70px] bottom-[10px]"
-        onClick={handleButton}
+        onClick={onClickButton}
       >
         <BiSolidMessageAltDetail />
       </button>
-      {showMessages && (
-        <div className="z-50 center flex flex-col mx-auto w-full h-[80%] min-h-[80%] bg-indigo-500 rounded-lg border-2 border-solid border-white md:w-[60%]">
+      {show && (
+        <div className="z-10 center flex flex-col mx-auto w-full h-[80%] min-h-[80%] bg-indigo-500 rounded-lg border-2 border-solid border-white md:w-[60%]">
           <div className="basic-[10%] px-4 py-2 border-b-2 border-white flex gap-4">
             <span className="text-white font-semibold text-lg">
               Room ID: {code}

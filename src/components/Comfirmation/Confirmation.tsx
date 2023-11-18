@@ -12,7 +12,7 @@ const Confirmation: React.FC<ConfirmDialogProps<Props, boolean>> = (props) => (
   <>
     <div
       id="modal"
-      className="z-10 center flex flex-col w-full bg-white p-2 rounded-lg md:w-1/5"
+      className="z-20 center flex flex-col w-full bg-white p-2 rounded-lg md:w-1/5"
     >
       <p className="my-2 text-xl text-black text-center font-semibold">
         {props.confirmation}

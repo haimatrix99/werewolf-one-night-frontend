@@ -1,29 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { Role } from "../../../lib/enums";
 import { FaUserSecret } from "react-icons/fa";
 
 type RolesProps = {
   roles: Role[];
+  show: boolean;
+  onClickButton: () => void;
 };
 
-export default function Roles({ roles }: RolesProps) {
-  const [showRoles, setShowRoles] = useState(false);
-
-  const handleButton = () => {
-    setShowRoles(!showRoles);
-  };
-
+export default function Roles({ roles, show, onClickButton }: RolesProps) {
   return (
     <>
       <button
         className="h-[48px] btn absolute right-[130px] bottom-[10px]"
-        onClick={handleButton}
+        onClick={onClickButton}
       >
         <FaUserSecret />
       </button>
-      {showRoles && (
-        <div className="z-50 center bg-indigo-500 border-2 border-solid border-white rounded-lg p-2 text-white">
-          <p className="font-semibold text-xl border-b-2 border-solid border-white mb-2">
+      {show && (
+        <div className="z-10 w-[80%] center bg-indigo-500 border-2 border-solid border-white rounded-lg p-2 text-white md:w-fit">
+          <p className="font-semibold text-center text-xl border-b-2 border-solid border-white mb-2">
             Danh sách chức năng
           </p>
           <ul className="flex flex-col gap-1">

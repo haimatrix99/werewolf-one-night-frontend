@@ -8,6 +8,7 @@ type PlayerCardProps = {
   users: User[];
   onClick: (action: any) => void;
   userFlipped?: User;
+  user2Flipped?: User;
   done: boolean;
 };
 
@@ -16,6 +17,7 @@ export default function PlayerCard({
   users,
   onClick,
   userFlipped,
+  user2Flipped,
   done,
 }: PlayerCardProps) {
   const participants = useParticipants();
@@ -30,7 +32,7 @@ export default function PlayerCard({
         >
           <img
             className={
-              !(userFlipped?.name === user.name || done)
+              !(userFlipped?.name === user.name || user2Flipped?.name === user.name || done)
                 ? "card-cover"
                 : "card-cover card-cover-flipped"
             }
@@ -39,7 +41,7 @@ export default function PlayerCard({
           />
           <img
             className={
-              userFlipped?.name === user.name || done
+              userFlipped?.name === user.name || user2Flipped?.name === user.name || done
                 ? "card"
                 : "card card-flipped"
             }

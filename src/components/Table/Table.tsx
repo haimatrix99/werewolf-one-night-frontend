@@ -59,10 +59,17 @@ export default function Table({
   const userRemain = [...userAfterCurrentUser, ...userBeforeCurrentUser];
   const [leftUsers, topUsers, rightUsers] = splitUser(userRemain);
 
+  const navigate = useNavigate();
   const { socket } = useSocket();
+  const [show, setShow] = useState({
+    roles: false,
+    messages: false,
+    votes: false,
+  });
   const { turn, done, counter } = useClock();
   const [flipped, setFlipped] = useState(false);
-  const useFlipped = useRef<User>();
+  const userFlipped = useRef<User>();
+  const user2Flipped = useRef<User>();
   const indexesFlip = useRef<Set<number>>(new Set<number>());
   const refTroublemaker = useRef<Set<User>>(new Set<User>());
   const refSeer = useRef(0);
@@ -93,11 +100,31 @@ export default function Table({
       currentUser.firstRole === Role.Werewolf
     ) {
       indexesFlip.current.clear();
-      useFlipped.current = undefined;
+      userFlipped.current = undefined;
+      user2Flipped.current = undefined;
+    }
+    if (turnCall[turn] !== Role.Mason && currentUser.firstRole === Role.Mason) {
+      userFlipped.current = undefined;
+      user2Flipped.current = undefined;
+    }
+    if (
+      turnCall[turn] !== Role.Doppelganger &&
+      currentUser.firstRole === Role.Doppelganger
+    ) {
+      userFlipped.current = undefined;
+      user2Flipped.current = undefined;
+      indexesFlip.current.clear();
+    }
+    if (
+      turnCall[turn] !== Role.Minion &&
+      currentUser.firstRole === Role.Minion
+    ) {
+      userFlipped.current = undefined;
+      user2Flipped.current = undefined;
     }
     if (turnCall[turn] !== Role.Seer && currentUser.firstRole === Role.Seer) {
       indexesFlip.current.clear();
-      useFlipped.current = undefined;
+      userFlipped.current = undefined;
     }
     if (
       turnCall[turn] === Role.Robber &&
@@ -116,10 +143,74 @@ export default function Table({
       turnCall[turn] === Role.Werewolf &&
       currentUser.firstRole === Role.Werewolf
     ) {
-      useFlipped.current = players.filter(
+      userFlipped.current = players.find(
         (player) =>
-          player.role === Role.Werewolf && player.name !== currentUser.name
-      )[0];
+          player.firstRole === Role.Werewolf && player.name !== currentUser.name
+      );
+      user2Flipped.current = players.find(
+        (player) =>
+          player.doppelgangerRole === Role.Werewolf &&
+          player.name !== currentUser.name
+      );
+      setFlipped(true);
+    }
+    if (
+      turnCall[turn] === Role.Werewolf &&
+      currentUser.firstRole === Role.Doppelganger &&
+      currentUser.doppelgangerRole === Role.Werewolf
+    ) {
+      const werewolfs = players.filter(
+        (player) => player.role === Role.Werewolf
+      );
+      userFlipped.current = werewolfs[0];
+      user2Flipped.current = werewolfs[1];
+    }
+    if (turnCall[turn] === Role.Mason && currentUser.firstRole === Role.Mason) {
+      userFlipped.current = players.find(
+        (player) =>
+          player.firstRole === Role.Mason && player.name !== currentUser.name
+      );
+      user2Flipped.current = players.find(
+        (player) =>
+          player.doppelgangerRole === Role.Mason &&
+          player.name !== currentUser.name
+      );
+      setFlipped(true);
+    }
+    if (
+      turnCall[turn] === Role.Mason &&
+      currentUser.firstRole === Role.Doppelganger &&
+      currentUser.doppelgangerRole === Role.Mason
+    ) {
+      const masons = players.filter(
+        (player) =>
+          player.role === Role.Mason && player.name !== currentUser.name
+      );
+      userFlipped.current = masons[0];
+      user2Flipped.current = masons[1];
+      setFlipped(true);
+    }
+    if (
+      turnCall[turn] === Role.Minion &&
+      currentUser.firstRole === Role.Minion
+    ) {
+      const werewolfs = players.filter(
+        (player) => player.role === Role.Werewolf
+      );
+      userFlipped.current = werewolfs[0];
+      user2Flipped.current = werewolfs[1];
+      setFlipped(true);
+    }
+    if (
+      turnCall[turn] === Role.Werewolf &&
+      currentUser.firstRole === Role.Doppelganger &&
+      currentUser.doppelgangerRole === Role.Minion
+    ) {
+      const werewolfs = players.filter(
+        (player) => player.role === Role.Werewolf
+      );
+      userFlipped.current = werewolfs[0];
+      user2Flipped.current = werewolfs[1];
       setFlipped(true);
     }
   }, [turn, turnCall, players, currentUser, werewolfCanDo]);
@@ -128,124 +219,126 @@ export default function Table({
     if (turnCall[turn] === undefined && typeof card === "object" && !isEnded) {
       if (await confirm(`Bạn xác nhận muốn vote ${card.name} không?`)) {
         handleActionVoted(socket, code, currentUser, card.name);
-      } else {
-        return;
       }
     }
-    if (!currentUser.action) {
-      if (
-        currentUser.firstRole === Role.Robber &&
-        turn === turnCall.indexOf(Role.Robber)
-      ) {
-        if (typeof card === "object") {
+    if (currentUser.action) {
+      return;
+    }
+    if (
+      (currentUser.firstRole === Role.Robber &&
+        turn === turnCall.indexOf(Role.Robber)) ||
+      currentUser.doppelgangerRole === Role.Robber
+    ) {
+      if (typeof card === "object") {
+        if (
+          await confirm(`Bạn xác nhận muốn đổi lá bài với ${card.name} không?`)
+        ) {
+          handleActionRobber(socket, currentUser, code, card, setFlipped);
+        }
+      }
+    } else if (
+      (currentUser.firstRole === Role.Troublemaker &&
+        turn === turnCall.indexOf(Role.Troublemaker)) ||
+      currentUser.doppelgangerRole === Role.Troublemaker
+    ) {
+      if (refTroublemaker.current.size < 2 && typeof card === "object") {
+        refTroublemaker.current.add(card as User);
+        if (refTroublemaker.current.size === 2) {
           if (
             await confirm(
-              `Bạn xác nhận muốn đổi lá bài với ${card.name} không?`
+              `Bạn xác nhận muốn đối vị trí lá bài của ${
+                Array.from(refTroublemaker.current.values())[0].name
+              } với ${card.name} không?`
             )
           ) {
-            handleActionRobber(socket, currentUser, code, card, setFlipped);
+            handleActionTroublemaker(
+              socket,
+              currentUser,
+              code,
+              Array.from(refTroublemaker.current.values())
+            );
           } else {
-            return;
+            refTroublemaker.current.clear();
           }
         } else {
+          setShowAlert(true);
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 3000);
+          setAlertMessage(`Bạn đã chọn ${card.name}`);
         }
-      } else if (
-        currentUser.firstRole === Role.Troublemaker &&
-        turn === turnCall.indexOf(Role.Troublemaker)
-      ) {
-        if (refTroublemaker.current.size < 2 && typeof card === "object") {
-          refTroublemaker.current.add(card as User);
-          if (refTroublemaker.current.size === 2) {
-            if (
-              await confirm(
-                `Bạn xác nhận muốn đối vị trí lá bài của ${
-                  Array.from(refTroublemaker.current.values())[0].name
-                } với ${card.name} không?`
-              )
-            ) {
-              handleActionTroublemaker(
-                socket,
-                currentUser,
-                code,
-                Array.from(refTroublemaker.current.values())
-              );
-            } else {
-              refTroublemaker.current.clear();
-            }
-          } else {
-            setShowAlert(true);
-            setTimeout(() => {
-              setShowAlert(false);
-            }, 3000);
-            setAlertMessage(`Bạn đã chọn ${card.name}`);
-          }
-        } else {
+      }
+    } else if (
+      (currentUser.firstRole === Role.Drunk &&
+        turn === turnCall.indexOf(Role.Drunk)) ||
+      currentUser.doppelgangerRole === Role.Drunk
+    ) {
+      if (typeof card === "number") {
+        if (await confirm("Bạn xác nhận muốn đổi lá bài này không?")) {
+          handleActionDrunk(socket, currentUser, code, card);
         }
-      } else if (
-        currentUser.firstRole === Role.Drunk &&
-        turn === turnCall.indexOf(Role.Drunk)
-      ) {
-        if (typeof card === "number") {
-          if (await confirm("Bạn xác nhận muốn đổi lá bài này không?")) {
-            handleActionDrunk(socket, currentUser, code, card);
-          } else {
-            return;
-          }
-        } else {
+      }
+    } else if (
+      currentUser.firstRole === Role.Werewolf &&
+      werewolfCanDo &&
+      turn === turnCall.indexOf(Role.Werewolf)
+    ) {
+      if (typeof card === "number") {
+        if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
+          indexesFlip.current.add(card);
+          socket.emit("game:patch:status-action", {
+            code: code,
+            user: currentUser,
+          });
         }
-      } else if (
-        currentUser.firstRole === Role.Werewolf &&
-        werewolfCanDo &&
-        turn === turnCall.indexOf(Role.Werewolf)
-      ) {
-        if (typeof card === "number") {
-          if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
-            indexesFlip.current.add(card);
+      }
+    } else if (
+      (currentUser.firstRole === Role.Seer &&
+        turn === turnCall.indexOf(Role.Seer)) ||
+      currentUser.doppelgangerRole === Role.Seer
+    ) {
+      if (typeof card === "number") {
+        if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
+          refSeer.current = refSeer.current + 1;
+          indexesFlip.current.add(card);
+          if (refSeer.current === 2) {
             socket.emit("game:patch:status-action", {
               code: code,
               user: currentUser,
             });
-          } else {
-            return;
           }
-        } else {
-          return;
         }
-      } else if (
-        currentUser.firstRole === Role.Seer &&
-        turn === turnCall.indexOf(Role.Seer)
-      ) {
-        if (typeof card === "number") {
+      } else if (typeof card === "object" && card.name !== currentUser.name) {
+        if (refSeer.current === 0) {
           if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
-            refSeer.current = refSeer.current + 1;
-            indexesFlip.current.add(card);
-            if (refSeer.current === 2) {
-              socket.emit("game:patch:status-action", {
-                code: code,
-                user: currentUser,
-              });
-            }
-          } else {
+            userFlipped.current = card;
+            socket.emit("game:patch:status-action", {
+              code: code,
+              user: currentUser,
+            });
           }
-        } else if (typeof card === "object" && card.name !== currentUser.name) {
-          if (refSeer.current === 0) {
-            if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
-              useFlipped.current = card;
-              socket.emit("game:patch:status-action", {
-                code: code,
-                user: currentUser,
-              });
-            } else {
-              return;
-            }
-          }
-        } else {
+        }
+      }
+    } else if (
+      currentUser.firstRole === Role.Doppelganger &&
+      turn === turnCall.indexOf(Role.Doppelganger)
+    ) {
+      if (
+        typeof card === "object" &&
+        card.name !== currentUser.name &&
+        currentUser.doppelgangerRole === undefined
+      ) {
+        if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
+          userFlipped.current = card;
+          socket.emit("game:patch:status-action-doppelganger", {
+            code: code,
+            user: currentUser,
+            role: card.firstRole,
+          });
         }
       }
     }
   };
-
-  const navigate = useNavigate();
 
   const handleButtonBackToRoom = () => {
     if (currentUser.master) {
@@ -262,12 +355,45 @@ export default function Table({
     }
   };
 
+  const handleButtonRoles = () => {
+    setShow({
+      roles: !show.roles,
+      votes: false,
+      messages: false,
+    });
+  };
+
+  const handleButtonVotes = () => {
+    setShow({
+      roles: false,
+      votes: !show.votes,
+      messages: false,
+    });
+  };
+
+  const handleButtonMessages = () => {
+    setShow({
+      roles: false,
+      votes: false,
+      messages: !show.messages,
+    });
+  };
+
   return (
     <>
       {showAlert && <Alert message={alertMessage} />}
-      <Roles roles={roles} />
+      <Roles
+        roles={roles}
+        show={show.roles}
+        onClickButton={handleButtonRoles}
+      />
       <Voice />
-      <Messages code={code} name={currentUser.name} />
+      <Messages
+        code={code}
+        name={currentUser.name}
+        show={show.messages}
+        onClickButton={handleButtonMessages}
+      />
       {turnCall[turn] === undefined && (
         <>
           <SkipVote
@@ -276,7 +402,11 @@ export default function Table({
             currentUser={currentUser}
             isEnded={isEnded}
           />
-          <Votes players={players} />
+          <Votes
+            players={players}
+            show={show.votes}
+            onClickButton={handleButtonVotes}
+          />
         </>
       )}
       {(isEnded || done) && (
@@ -297,7 +427,8 @@ export default function Table({
             position="table-left"
             users={leftUsers.map((user) => user)}
             onClick={handleClick}
-            userFlipped={useFlipped.current}
+            userFlipped={userFlipped.current}
+            user2Flipped={user2Flipped.current}
             done={done || isEnded}
           />
         </div>
@@ -306,7 +437,8 @@ export default function Table({
             position="table-top"
             users={topUsers.map((user) => user)}
             onClick={handleClick}
-            userFlipped={useFlipped.current}
+            userFlipped={userFlipped.current}
+            user2Flipped={user2Flipped.current}
             done={done || isEnded}
           />
         </div>
@@ -315,7 +447,8 @@ export default function Table({
             position="table-right"
             users={rightUsers.map((user) => user)}
             onClick={handleClick}
-            userFlipped={useFlipped.current}
+            userFlipped={userFlipped.current}
+            user2Flipped={user2Flipped.current}
             done={done || isEnded}
           />
         </div>
@@ -333,7 +466,7 @@ export default function Table({
         </div>
         <div className="col-span-3 mt-[20px] md:mt-[90px]">
           <UserCard
-            role={currentUser?.role}
+            role={currentUser.role}
             onClick={handleClick}
             flipped={flipped}
             done={done || isEnded}

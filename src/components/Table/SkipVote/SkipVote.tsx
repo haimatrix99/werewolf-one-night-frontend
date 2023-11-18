@@ -20,8 +20,6 @@ export default function SkipVote({
   const handleButton = async () => {
     if (await confirm(`Bạn xác nhận muốn vote không có sói trong bàn không?`)) {
       handleActionVoted(socket, code, currentUser, "");
-    } else {
-      return;
     }
   };
   return !isEnded ? (

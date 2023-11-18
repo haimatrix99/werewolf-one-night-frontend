@@ -3,9 +3,21 @@ import { Role } from "../lib/enums";
 export const getTurn = (roles: Role[]) => {
   let totalTurn: number = 1;
   const turnCall: string[] = ["kiểm tra bài"];
+  if (roles.includes(Role.Doppelganger)) {
+    totalTurn++;
+    turnCall.push(Role.Doppelganger);
+  }
   if (roles.includes(Role.Werewolf)) {
     totalTurn++;
     turnCall.push(Role.Werewolf);
+  }
+  if (roles.includes(Role.Minion)) {
+    totalTurn++;
+    turnCall.push(Role.Minion);
+  }
+  if (roles.includes(Role.Mason)) {
+    totalTurn++;
+    turnCall.push(Role.Mason);
   }
   if (roles.includes(Role.Seer)) {
     totalTurn++;
