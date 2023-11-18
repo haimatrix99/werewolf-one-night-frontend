@@ -3,6 +3,7 @@ import randomCodeGenerate from "../../handlers/randomCodeGenerator";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../providers/socket-provider";
 import { User } from "../../lib/types";
+import Footer from "../Footer/Footer";
 
 export default function Homepage() {
   const [code, setCode] = useState("");
@@ -38,40 +39,43 @@ export default function Homepage() {
   };
 
   return (
-    <div className="relative center w-full bg-slate-600 text-center border rounded-lg border-solid p-6 md:w-fit">
-      <div className="mb-[36px]">
-        <h1 className="font-semibold text-[36px] text-white">
-          Werewolf One Night
-        </h1>
-        <img
-          className="absolute left-1/2 top-[20px] h-8 icon"
-          src={require("../../assets/icon.png")}
-          alt="Icon"
-        />
-      </div>
-      <div className="flex flex-col justify-center items-center md:flex-row md:space-x-2">
-        <input
-          className="input-homepage"
-          type="text"
-          placeholder="Nhập tên"
-          onChange={(event) => setName(event.target.value)}
-        />
-        <div className="flex flex-col justify-center items-center">
+    <>
+      <div className="relative center w-full bg-slate-600 text-center border rounded-lg border-solid p-6 md:w-fit">
+        <div className="mb-[36px]">
+          <h1 className="font-semibold text-[36px] text-white">
+            Werewolf One Night
+          </h1>
+          <img
+            className="absolute left-1/2 top-[20px] h-8 icon"
+            src={require("../../assets/icon.png")}
+            alt="Icon"
+          />
+        </div>
+        <div className="flex flex-col justify-center items-center md:flex-row md:space-x-2">
           <input
             className="input-homepage"
             type="text"
-            placeholder="Nhập ID phòng"
-            onChange={(event) => setCode(event.target.value)}
+            placeholder="Nhập tên"
+            onChange={(event) => setName(event.target.value)}
           />
-          <button className="btn" onClick={handleButtonJoin}>
-            Join
+          <div className="flex flex-col justify-center items-center">
+            <input
+              className="input-homepage"
+              type="text"
+              placeholder="Nhập ID phòng"
+              onChange={(event) => setCode(event.target.value)}
+            />
+            <button className="btn" onClick={handleButtonJoin}>
+              Join
+            </button>
+          </div>
+          <p className="uppercase font-semibold text-2xl text-white my-2">Or</p>
+          <button className="btn" onClick={handleButtonCreate}>
+            Create
           </button>
         </div>
-        <p className="uppercase font-semibold text-2xl text-white my-2">Or</p>
-        <button className="btn" onClick={handleButtonCreate}>
-          Create
-        </button>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }

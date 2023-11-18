@@ -28,7 +28,7 @@ export default function Users({
         <FaUsers />
       </button>
       {(show || !isMobile) && (
-        <div className="z-10 w-[55%] center bg-indigo-500 border-2 border-solid border-gray rounded-lg p-2 text-white md:static md:h-fit md:translate-x-0 md:translate-y-0 md:mr-4 md:order-3 md:w-fit">
+        <div className="z-10 w-[70%] center bg-indigo-500 border-2 border-solid border-gray rounded-lg p-2 text-white md:static md:h-fit md:translate-x-0 md:translate-y-0 md:mr-4 md:order-3 md:w-fit">
           <p className="font-semibold text-center text-xl border-b-2 border-solid border-white mb-2">
             Danh sách người chơi
           </p>
