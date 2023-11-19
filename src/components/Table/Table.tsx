@@ -27,7 +27,6 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 
 type TableProps = {
   code: string;
-  roles: Role[];
   players: User[];
   currentUser: User;
   threeRemainCard: Role[];
@@ -37,7 +36,6 @@ type TableProps = {
 
 export default function Table({
   code,
-  roles,
   players,
   currentUser,
   threeRemainCard,
@@ -383,7 +381,7 @@ export default function Table({
     <>
       {showAlert && <Alert message={alertMessage} />}
       <Roles
-        roles={roles}
+        roles={turnCall}
         show={show.roles}
         onClickButton={handleButtonRoles}
       />

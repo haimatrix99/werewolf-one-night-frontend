@@ -26,7 +26,7 @@ export default function Game() {
   const roles = [
     ...threeRemainCard,
     ...players.map((player) => player.role),
-  ].sort();
+  ];
 
   const { totalTurn, turnCall } = getTurn(roles);
 
@@ -68,7 +68,6 @@ export default function Game() {
           >
             <Table
               code={code}
-              roles={roles}
               players={players}
               currentUser={
                 players.find((player) => player.name === name) as User

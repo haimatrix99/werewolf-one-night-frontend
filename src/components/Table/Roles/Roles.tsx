@@ -1,9 +1,8 @@
 import React from "react";
-import { Role } from "../../../lib/enums";
 import { FaUserSecret } from "react-icons/fa";
 
 type RolesProps = {
-  roles: Role[];
+  roles: string[];
   show: boolean;
   onClickButton: () => void;
 };
