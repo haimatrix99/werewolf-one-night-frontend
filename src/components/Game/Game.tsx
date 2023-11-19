@@ -22,13 +22,10 @@ export default function Game() {
       code,
       name,
     });
-    
-  const roles = [
-    ...threeRemainCard,
-    ...players.map((player) => player.role),
-  ];
 
-  const { totalTurn, turnCall } = getTurn(roles);
+  const roles = [...threeRemainCard, ...players.map((player) => player.role)];
+
+  const { totalTurn, turnCall, soundCall } = getTurn(roles);
 
   if (!audioContext || connectionDetails === null || players.length === 0) {
     return (
@@ -65,6 +62,8 @@ export default function Game() {
           <ClockProvider
             totalTurn={totalTurn}
             discussTime={Number(discussTime) * 60}
+            soundCall={soundCall}
+            isEnded={isEnded}
           >
             <Table
               code={code}
