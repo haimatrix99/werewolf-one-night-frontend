@@ -57,7 +57,7 @@ export default function PlayerCard({
               alt="Card"
             />
             {playerVotes[user.name] && (
-              <p className="center text-lg text-white font-semibold">
+              <p className="center text-center text-lg text-white font-semibold">
                 {playerVotes[user.name] > 1
                   ? playerVotes[user.name] + " votes"
                   : playerVotes[user.name] + " vote"}

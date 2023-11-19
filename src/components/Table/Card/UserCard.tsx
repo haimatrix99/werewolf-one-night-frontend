@@ -38,7 +38,7 @@ export default function UserCard({
         alt="Card"
       />
       {voted !== 0 && (
-        <p className="center text-lg text-white font-semibold">
+        <p className="center text-center text-lg text-white font-semibold">
           {voted > 1 ? voted + " votes" : voted + " vote"}
         </p>
       )}
