@@ -381,7 +381,7 @@ export default function Table({
     <>
       {showAlert && <Alert message={alertMessage} />}
       <Roles
-        roles={turnCall}
+        roles={turnCall.slice(1)}
         show={show.roles}
         onClickButton={handleButtonRoles}
       />
