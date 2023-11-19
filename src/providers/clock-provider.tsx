@@ -56,7 +56,7 @@ export const ClockProvider = ({
     if (soundCall) {
       const roleCall = soundCall.at(turn);
       if (roleCall) {
-        audio.current = new Audio("%PUBLIC_URL%" + SOUNDS[roleCall]);
+        audio.current = new Audio(SOUNDS[roleCall]);
         audio.current.play();
       } else if (
         roleCall === undefined &&
@@ -64,7 +64,7 @@ export const ClockProvider = ({
         !done &&
         !isEnded
       ) {
-        audio.current = new Audio("%PUBLIC_URL%" + SOUNDS["Thảo luận"]);
+        audio.current = new Audio(SOUNDS["Thảo luận"]);
         audio.current.play();
       }
     }
