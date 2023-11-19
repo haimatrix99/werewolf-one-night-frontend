@@ -68,6 +68,7 @@ export default function Game() {
           >
             <Table
               code={code}
+              roles={roles}
               players={players}
               currentUser={
                 players.find((player) => player.name === name) as User

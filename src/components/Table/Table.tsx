@@ -27,6 +27,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 
 type TableProps = {
   code: string;
+  roles: Role[];
   players: User[];
   currentUser: User;
   threeRemainCard: Role[];
@@ -36,6 +37,7 @@ type TableProps = {
 
 export default function Table({
   code,
+  roles,
   players,
   currentUser,
   threeRemainCard,
@@ -64,6 +66,8 @@ export default function Table({
     messages: false,
     votes: false,
   });
+  const [currentVoted, setCurrentVoted] = useState(0);
+  const playerVotes = useRef<{ [key: string]: number }>({});
   const { turn, done, counter } = useClock();
   const [flipped, setFlipped] = useState(false);
   const userFlipped = useRef<User>();
@@ -212,6 +216,28 @@ export default function Table({
       setFlipped(true);
     }
   }, [turn, turnCall, players, currentUser, werewolfCanDo]);
+
+  useEffect(() => {
+    if (turnCall[turn] === undefined) {
+      const currentVoted = players.filter(
+        (player) => player.voted === currentUser.name
+      ).length;
+      setCurrentVoted(currentVoted);
+    }
+  }, [turnCall, turn, players, currentUser]);
+
+  useEffect(() => {
+    const usersVotes: { [key: string]: number } = {};
+    if (turnCall[turn] === undefined) {
+      const votes = players
+        .filter((player) => player.voted !== undefined)
+        .map((player) => player.voted);
+      for (const player of votes) {
+        usersVotes[player] = usersVotes[player] ? usersVotes[player] + 1 : 1;
+      }
+      playerVotes.current = usersVotes;
+    }
+  }, [turnCall, turn, players]);
 
   const handleClick = async (card: any) => {
     if (turnCall[turn] === undefined && typeof card === "object" && !isEnded) {
@@ -381,7 +407,7 @@ export default function Table({
     <>
       {showAlert && <Alert message={alertMessage} />}
       <Roles
-        roles={turnCall.slice(1)}
+        roles={roles}
         show={show.roles}
         onClickButton={handleButtonRoles}
       />
@@ -428,6 +454,7 @@ export default function Table({
             userFlipped={userFlipped.current}
             user2Flipped={user2Flipped.current}
             done={done || isEnded}
+            playerVotes={playerVotes.current}
           />
         </div>
         <div className="col-span-3 m-auto">
@@ -438,6 +465,7 @@ export default function Table({
             userFlipped={userFlipped.current}
             user2Flipped={user2Flipped.current}
             done={done || isEnded}
+            playerVotes={playerVotes.current}
           />
         </div>
         <div className="col-span-1 col-start-5 row-span-3 row-start-1 my-auto">
@@ -448,6 +476,7 @@ export default function Table({
             userFlipped={userFlipped.current}
             user2Flipped={user2Flipped.current}
             done={done || isEnded}
+            playerVotes={playerVotes.current}
           />
         </div>
         <div className="col-span-3 m-auto">
@@ -468,6 +497,7 @@ export default function Table({
             onClick={handleClick}
             flipped={flipped}
             done={done || isEnded}
+            voted={currentVoted}
           />
         </div>
       </div>

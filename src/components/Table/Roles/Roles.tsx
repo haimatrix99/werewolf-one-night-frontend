@@ -1,13 +1,34 @@
 import React from "react";
 import { FaUserSecret } from "react-icons/fa";
+import { Role } from "../../../lib/enums";
 
 type RolesProps = {
-  roles: string[];
+  roles: Role[];
   show: boolean;
   onClickButton: () => void;
 };
 
+const rolePriority: { [key: string]: number } = {
+  "Kẻ mạo danh": 1,
+  "Ma sói": 2,
+  "Kẻ phản bội": 3,
+  "Thợ hồ": 4,
+  "Tiên tri": 5,
+  "Đạo tặc": 6,
+  "Kẻ gây rối": 7,
+  "Bợm nhậu": 8,
+  "Cú đêm": 9,
+  "Dân làng": Number.MAX_VALUE,
+  "Thợ săn": Number.MAX_VALUE,
+  "Kẻ chán đời": Number.MAX_VALUE,
+};
+
 export default function Roles({ roles, show, onClickButton }: RolesProps) {
+  const roleSortByTurn = roles.sort((a, b) => {
+    if (rolePriority[a] < rolePriority[b]) return -1;
+    if (rolePriority[a] > rolePriority[b]) return 1;
+    return 0;
+  });
   return (
     <>
       <button
@@ -22,7 +43,7 @@ export default function Roles({ roles, show, onClickButton }: RolesProps) {
             Danh sách chức năng
           </p>
           <ul className="flex flex-col gap-1">
-            {roles.map((role, index) => (
+            {roleSortByTurn.map((role, index) => (
               <div className="flex gap-1" key={index}>
                 <div className="basis-full border-2 border-solid border-white rounded-lg px-2">
                   <li>{role}</li>

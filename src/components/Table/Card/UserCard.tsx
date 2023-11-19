@@ -6,6 +6,7 @@ type UserCardProps = {
   onClick: (action: any) => void;
   flipped?: boolean;
   done: boolean;
+  voted: number;
 };
 
 export default function UserCard({
@@ -13,6 +14,7 @@ export default function UserCard({
   onClick,
   flipped,
   done,
+  voted,
 }: UserCardProps) {
   return (
     <div
@@ -35,6 +37,11 @@ export default function UserCard({
         src={require(`../../../assets/roles/${role}.jpg`)}
         alt="Card"
       />
+      {voted !== 0 && (
+        <p className="center text-lg text-white font-semibold">
+          {voted > 1 ? voted + " votes" : voted + " vote"}
+        </p>
+      )}
     </div>
   );
 }
