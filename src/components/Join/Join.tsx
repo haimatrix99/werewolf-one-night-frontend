@@ -116,7 +116,7 @@ export default function Join() {
   if (!audioContext || connectionDetails === null || users.length === 0) {
     return (
       <div className="h-screen flex flex-col flex-1 justify-center items-center">
-        <AiOutlineLoading3Quarters className="text-3xl animation-spin" />
+        <AiOutlineLoading3Quarters className="text-3xl animate-spin" />
         <h1 className="text-3xl">Loading</h1>
       </div>
     );

@@ -34,7 +34,7 @@ export default function Game() {
         discussTime={Number(discussTime) * 60}
       >
         <div className="h-screen flex flex-col flex-1 justify-center items-center">
-          <AiOutlineLoading3Quarters className="text-3xl animation-spin" />
+          <AiOutlineLoading3Quarters className="text-3xl animate-spin" />
           <h1 className="text-3xl">Loading</h1>
         </div>
       </ClockProvider>
