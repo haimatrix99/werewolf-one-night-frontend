@@ -4,7 +4,7 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 import { useSocket } from "../../../providers/socket-provider";
 import { useChatSocket } from "../../../hooks/use-chat-socket";
 import { BsFillClipboard2Fill } from "react-icons/bs";
-import Alert from "../../Alert/Alert";
+import toast from "react-hot-toast";
 
 type MessagesProps = {
   name: string;
@@ -29,20 +29,13 @@ export default function Messages({ name, code }: MessagesProps) {
   };
 
   const { messages } = useChatSocket({ messageKey: "room:message" });
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
   const copy = () => {
     navigator.clipboard.writeText(code as string);
-    setShowAlert(true);
-    setTimeout(() => {
-      setShowAlert(false);
-    }, 3000);
-    setAlertMessage("Copied");
+    toast.success('Copied!')
   };
 
   return (
     <>
-      {showAlert && <Alert message={alertMessage} />}
       <div className="flex flex-col mx-auto w-full h-[85%] min-h-[85%] bg-indigo-500 rounded-lg border-2 border-solid border-white">
         <div className="basic-[10%] px-4 py-2 border-b-2 border-white flex gap-4">
           <span className="text-white font-semibold text-lg">

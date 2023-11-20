@@ -19,11 +19,11 @@ import Clock from "./Clock/Clock";
 import Voice from "../Voice/Voice";
 import Messages from "./Messages/Messages";
 import Roles from "./Roles/Roles";
-import Alert from "../Alert/Alert";
 import SocketIndicator from "../SocketIndicator/SocketIndicator";
 import SkipVote from "./SkipVote/SkipVote";
 import Votes from "./Votes/Votes";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import toast from "react-hot-toast";
 
 type TableProps = {
   code: string;
@@ -75,9 +75,6 @@ export default function Table({
   const indexesFlip = useRef<Set<number>>(new Set<number>());
   const refTroublemaker = useRef<Set<User>>(new Set<User>());
   const refSeer = useRef(0);
-
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
 
   const werewolfCanDo =
     players.filter((player) => player.role === Role.Werewolf).length === 1;
@@ -259,6 +256,8 @@ export default function Table({
         ) {
           handleActionRobber(socket, currentUser, code, card, setFlipped);
         }
+      } else {
+        toast.error("Bạn không thể chọn lá bài này!");
       }
     } else if (
       (currentUser.firstRole === Role.Troublemaker &&
@@ -285,12 +284,10 @@ export default function Table({
             refTroublemaker.current.clear();
           }
         } else {
-          setShowAlert(true);
-          setTimeout(() => {
-            setShowAlert(false);
-          }, 3000);
-          setAlertMessage(`Bạn đã chọn ${card.name}`);
+          toast.success(`Bạn đã chọn ${card.name}`);
         }
+      } else {
+        toast.error("Bạn không thể chọn lá bài này!");
       }
     } else if (
       (currentUser.firstRole === Role.Drunk &&
@@ -298,9 +295,11 @@ export default function Table({
       currentUser.doppelgangerRole === Role.Drunk
     ) {
       if (typeof card === "number") {
-        if (await confirm("Bạn xác nhận muốn đổi lá bài này không?")) {
+        if (await confirm(`Bạn xác nhận muốn đổi lá bài ${card + 1} không?`)) {
           handleActionDrunk(socket, currentUser, code, card);
         }
+      } else {
+        toast.error("Bạn không thể chọn lá bài này!");
       }
     } else if (
       currentUser.firstRole === Role.Werewolf &&
@@ -308,13 +307,15 @@ export default function Table({
       turn === turnCall.indexOf(Role.Werewolf)
     ) {
       if (typeof card === "number") {
-        if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
+        if (await confirm(`Bạn xác nhận muốn xem lá bài ${card + 1} không?`)) {
           indexesFlip.current.add(card);
           socket.emit("game:patch:status-action", {
             code: code,
             user: currentUser,
           });
         }
+      } else {
+        toast.error("Bạn không thể chọn lá bài này!");
       }
     } else if (
       (currentUser.firstRole === Role.Seer &&
@@ -322,7 +323,7 @@ export default function Table({
       currentUser.doppelgangerRole === Role.Seer
     ) {
       if (typeof card === "number") {
-        if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
+        if (await confirm(`Bạn xác nhận muốn xem lá bài ${card + 1} không?`)) {
           refSeer.current = refSeer.current + 1;
           indexesFlip.current.add(card);
           if (refSeer.current === 2) {
@@ -334,7 +335,11 @@ export default function Table({
         }
       } else if (typeof card === "object" && card.name !== currentUser.name) {
         if (refSeer.current === 0) {
-          if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
+          if (
+            await confirm(
+              `Bạn xác nhận muốn xem lá bài của ${card.name} không?`
+            )
+          ) {
             userFlipped.current = card;
             socket.emit("game:patch:status-action", {
               code: code,
@@ -342,6 +347,8 @@ export default function Table({
             });
           }
         }
+      } else {
+        toast.error("Bạn không thể chọn lá bài này!");
       }
     } else if (
       currentUser.firstRole === Role.Doppelganger &&
@@ -352,7 +359,9 @@ export default function Table({
         card.name !== currentUser.name &&
         currentUser.doppelgangerRole === undefined
       ) {
-        if (await confirm("Bạn xác nhận muốn xem lá bài này không?")) {
+        if (
+          await confirm(`Bạn xác nhận muốn xem lá bài của ${card.name} không?`)
+        ) {
           userFlipped.current = card;
           socket.emit("game:patch:status-action-doppelganger", {
             code: code,
@@ -360,6 +369,8 @@ export default function Table({
             role: card.firstRole,
           });
         }
+      } else {
+        toast.error("Bạn không thể chọn lá bài này!");
       }
     }
   };
@@ -405,7 +416,6 @@ export default function Table({
 
   return (
     <>
-      {showAlert && <Alert message={alertMessage} />}
       <Roles
         roles={roles}
         show={show.roles}
@@ -435,7 +445,6 @@ export default function Table({
       )}
       {(isEnded || done) && (
         <>
-          <Alert message="Game ended" />
           <button
             className="h-[24px] flex justify-center items-center btn absolute right-0 top-0 mr-2 mt-2"
             onClick={handleButtonBackToRoom}

@@ -25,8 +25,7 @@ export const useVoiceConnection = (code: string, name: string) => {
         };
         const response = await fetch(
           `${
-            process.env.REACT_APP_ENDPOINT ||
-            "https://werewolf-one-night-backend-qkzbmq5uba-as.a.run.app"
+            process.env.REACT_APP_ENDPOINT || "https://api.werewolfonenight.com"
           }/api/voice/connection`,
           {
             method: "POST",
@@ -43,5 +42,5 @@ export const useVoiceConnection = (code: string, name: string) => {
     }
   }, [code, name, connectionDetails]);
 
-  return {audioContext, connectionDetails}
+  return { audioContext, connectionDetails };
 };

@@ -4,6 +4,7 @@ import Homepage from "./components/Homepage/Homepage";
 import Join from "./components/Join/Join";
 import Game from "./components/Game/Game";
 import { SocketProvider } from "./providers/socket-provider";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -17,6 +18,18 @@ function App() {
           </Routes>
         </BrowserRouter>
       </SocketProvider>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          className: "",
+          duration: 3000,
+          style: {
+            background: "#6366f1",
+            color: "#fff",
+          },
+        }}
+      />
     </div>
   );
 }

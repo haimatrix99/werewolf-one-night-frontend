@@ -51,21 +51,28 @@ export const ClockProvider = ({
   const [counter, setCounter] = useState(initialTimer);
   const [done, setDone] = useState(false);
   const audio = useRef<HTMLAudioElement>();
-  const play = useRef(false);
+  const playRoleCall = useRef(false);
+  const playDiscuss = useRef(false);
+  const prevTurn = useRef(0);
 
   useEffect(() => {
     if (soundCall) {
       const roleCall = soundCall.at(turn);
-      if (roleCall) {
+      if (roleCall && prevTurn.current === turn) {
         audio.current = new Audio(SOUNDS[roleCall]);
         audio.current.play();
-      } else if (roleCall === undefined && turn === totalTurn && !play.current) {
+        prevTurn.current = turn + 1;
+      } else if (
+        roleCall === undefined &&
+        turn === totalTurn &&
+        !playDiscuss.current
+      ) {
         audio.current = new Audio(SOUNDS["Thảo luận"]);
         audio.current.play();
-        play.current = true;
+        playDiscuss.current = true;
       }
     }
-  }, [soundCall, turn, totalTurn]);
+  }, [soundCall, turn, totalTurn, playRoleCall]);
 
   useInterval(() => {
     setCounter((prevCounter) => prevCounter - 1);

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../providers/socket-provider";
 import { User } from "../../lib/types";
 import Footer from "../Footer/Footer";
+import toast from "react-hot-toast";
 
 export default function Homepage() {
   const [code, setCode] = useState("");
@@ -13,7 +14,7 @@ export default function Homepage() {
 
   const handleButtonCreate = async () => {
     if (name === "") {
-      alert("Username must not be empty");
+      toast.error("Tên không được để trống khi tạo phòng!");
     } else {
       const code = randomCodeGenerate(6);
       socket.emit("room:create", { name, code });
@@ -23,14 +24,15 @@ export default function Homepage() {
 
   const handleButtonJoin = async () => {
     if (name === "" || code === "") {
-      alert("Username or code must not be empty");
+      toast.error("Tên hoặc ID phòng không được để trống khi tham gia vào phòng!");
     } else {
       socket.emit("room:join", { name, code }, (result: User | string) => {
-        if (
-          result === "Username is taken." ||
-          result === "Code is not be exist."
-        ) {
-          alert(result);
+        if (result === "Username is taken.") {
+          toast.error("Tên đã tồn tại trong phòng!");
+          navigate("/", { replace: true });
+        }
+        if (result === "Code is not be exist.") {
+          toast.error("ID phòng không tồn tại!");
           navigate("/", { replace: true });
         }
       });
@@ -47,7 +49,7 @@ export default function Homepage() {
           </h1>
           <img
             className="absolute left-1/2 top-[20px] h-8 icon"
-            src={require("../../assets/icon.png")}
+            src={"/images/icon.png"}
             alt="Icon"
           />
         </div>

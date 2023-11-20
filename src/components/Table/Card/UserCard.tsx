@@ -27,14 +27,14 @@ export default function UserCard({
             ? "card-cover md:mb-0"
             : "card-cover card-cover-flipped md:mb-0"
         }
-        src={require("../../../assets/cover.png")}
+        src={"/images/cover.png"}
         alt="Card"
       />
       <img
         className={
           flipped || done ? "card md:mb-0" : "card card-flipped md:mb-0"
         }
-        src={require(`../../../assets/roles/${role}.jpg`)}
+        src={`/images/roles/${role}.jpg`}
         alt="Card"
       />
       {voted !== 0 && (

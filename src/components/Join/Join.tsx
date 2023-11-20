@@ -22,6 +22,7 @@ import SocketIndicator from "../SocketIndicator/SocketIndicator";
 import { useGameSetupSocket } from "../../hooks/use-game-setup";
 import { useSocket } from "../../providers/socket-provider";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import toast from "react-hot-toast";
 
 export default function Join() {
   const params = queryString.parse(window.location.search);
@@ -71,7 +72,7 @@ export default function Join() {
       setThreeRemainCard(threeRemainCard);
       setSignal(true);
     } else {
-      alert(
+      toast.error(
         "Không thể bắt đầu game khi không đủ số lượng người chơi hoặc thẻ bài"
       );
     }

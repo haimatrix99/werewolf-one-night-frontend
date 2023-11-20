@@ -42,7 +42,7 @@ export default function PlayerCard({
                   ? "card-cover"
                   : "card-cover card-cover-flipped"
               }
-              src={require("../../../assets/cover.png")}
+              src={"/images/cover.png"}
               alt="Card"
             />
             <img
@@ -53,7 +53,7 @@ export default function PlayerCard({
                   ? "card"
                   : "card card-flipped"
               }
-              src={require(`../../../assets/roles/${user.role}.jpg`)}
+              src={`/images/roles/${user.role}.jpg`}
               alt="Card"
             />
             {playerVotes[user.name] && (
