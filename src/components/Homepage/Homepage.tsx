@@ -24,7 +24,9 @@ export default function Homepage() {
 
   const handleButtonJoin = async () => {
     if (name === "" || code === "") {
-      toast.error("Tên hoặc ID phòng không được để trống khi tham gia vào phòng!");
+      toast.error(
+        "Tên hoặc ID phòng không được để trống khi tham gia vào phòng!"
+      );
     } else {
       socket.emit("room:join", { name, code }, (result: User | string) => {
         if (result === "Username is taken.") {

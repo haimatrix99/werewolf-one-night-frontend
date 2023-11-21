@@ -17,41 +17,63 @@
   }
 }
 
-.flipped .card-flipped {
-  transform: rotateY(0deg);
+.card-flipped {
+  transform: rotateY(90deg);
   transition-delay: 0s;
 }
 
 .card-cover-flipped {
   transform: rotateY(90deg);
+  transition-delay: 0s;
 }
-
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
-.toast {
-  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
 
 /* Animations to fade the snackbar in and out */
 @-webkit-keyframes fadein {
-  from {top: 0; opacity: 0;}
-  to {top: 70px; opacity: 1;}
+  from {
+    top: 0;
+    opacity: 0;
+  }
+
+  to {
+    top: 70px;
+    opacity: 1;
+  }
 }
 
 @keyframes fadein {
-  from {top: 0; opacity: 0;}
-  to {top: 70px; opacity: 1;}
+  from {
+    top: 0;
+    opacity: 0;
+  }
+
+  to {
+    top: 70px;
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes fadeout {
-  from {top: 70px; opacity: 1;}
-  to {top: 0; opacity: 0;}
+  from {
+    top: 70px;
+    opacity: 1;
+  }
+
+  to {
+    top: 0;
+    opacity: 0;
+  }
 }
 
 @keyframes fadeout {
-  from {top: 70px; opacity: 1;}
-  to {top: 0; opacity: 0;}
+  from {
+    top: 70px;
+    opacity: 1;
+  }
+
+  to {
+    top: 0;
+    opacity: 0;
+  }
 }
 
 @layer components {
@@ -71,11 +93,11 @@
 
   /* Table components */
   .card {
-    @apply rounded-[10%] w-16 h-24 m-2 md:w-20 md:h-28;
+    @apply rounded-[10%] w-16 h-24 m-2 md:w-20 md:h-28 delay-200 transition-all ease-in;
   }
 
   .card-cover {
-    @apply absolute top-0 rounded-[10%] w-16 h-24 m-2 md:w-20 md:h-28;
+    @apply absolute top-0 rounded-[10%] w-16 h-24 m-2 md:w-20 md:h-28 delay-200 transition-all ease-in;
   }
 
   .table-left {
