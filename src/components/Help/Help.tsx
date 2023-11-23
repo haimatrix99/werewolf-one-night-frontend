@@ -15,11 +15,8 @@ export default function Help() {
           1. Giới thiệu về bộ bài Werewolf One Night
         </h2>
         <p>
-          Bộ bài Ma sói One Night có số quân và chức năng khác biệt nhiều so với
-          bộ bài Ma sói Characters. Một bộ bài đầy đủ bao gồm: <br />- 16 thẻ
-          bài lá với 12 chức năng (nhân vật) khác nhau. Chức năng của từng loại
-          quân bài sẽ được giới thiệu tại phần 2. <br />- 16 thẻ bài tròn cũng
-          với 12 chức năng khác nhau.
+          Một bộ bài đầy đủ bao gồm: <br />- 16 thẻ
+          bài lá với 12 chức năng (nhân vật) khác nhau
         </p>
         <h2 className="text-2xl font-semibold text-orange-500">
           2. Các nhân vật trong Werewolf One Night
@@ -37,7 +34,7 @@ export default function Help() {
               Dân làng (Villager)
             </span>
             : Dân làng không có chức năng đặc biệt nào cả và chiếm số đông trong
-            ngôi làng (có 3/16 lá bài là Dân làng). Nhân vật này ngủ suốt đêm.
+            ngôi làng. Nhân vật này ngủ suốt đêm.
           </p>
         </div>
         <div className="flex gap-2">
@@ -50,8 +47,8 @@ export default function Help() {
             <span className="text-black text-lg font-semibold">
               Tiên tri (Seer)
             </span>
-            : Ban đêm Tiên tri có thể nhìn lá bài của người khác hoặc là xem 2
-            lá bài ở giữa, nhưng không được phép di chuyển chúng
+            : Ban đêm, Tiên tri có thể nhìn lá bài của người khác hoặc là xem 2
+            lá bài ở giữa, nhưng không được phép di chuyển chúng.
           </p>
         </div>
         <div className="flex gap-2">
@@ -131,7 +128,7 @@ export default function Help() {
             <span className="text-black text-lg font-semibold">
               Ma sói (Werewolf)
             </span>
-            : Ban đêm tất cả Ma sói mở mắt và tìm những Ma sói khác. Nếu không
+            : Ban đêm, tất cả Ma sói mở mắt và tìm những Ma sói khác. Nếu không
             có Ma sói khác thì có nghĩa là quân Ma sói đang ở bộ bài thừa.
             <br />
             Nếu chỉ có duy nhất một Ma sói, Sói sẽ được xem 1 lá bài ở giữa nhằm
