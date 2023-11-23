@@ -24,6 +24,8 @@ import SkipVote from "./SkipVote/SkipVote";
 import Votes from "./Votes/Votes";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import toast from "react-hot-toast";
+import { FaRegQuestionCircle } from "react-icons/fa";
+import Help from "../Help/Help";
 
 type TableProps = {
   code: string;
@@ -65,6 +67,7 @@ export default function Table({
     roles: false,
     messages: false,
     votes: false,
+    help: false,
   });
   const [currentVoted, setCurrentVoted] = useState(0);
   const playerVotes = useRef<{ [key: string]: number }>({});
@@ -395,6 +398,7 @@ export default function Table({
       roles: !show.roles,
       votes: false,
       messages: false,
+      help: false,
     });
   };
 
@@ -403,6 +407,7 @@ export default function Table({
       roles: false,
       votes: !show.votes,
       messages: false,
+      help: false,
     });
   };
 
@@ -411,6 +416,16 @@ export default function Table({
       roles: false,
       votes: false,
       messages: !show.messages,
+      help: false,
+    });
+  };
+
+  const handleButtonHelp = () => {
+    setShow({
+      roles: false,
+      votes: false,
+      messages: false,
+      help: !show.help,
     });
   };
 
@@ -422,6 +437,13 @@ export default function Table({
         onClickButton={handleButtonRoles}
       />
       <Voice />
+      <button
+        className="h-[48px] btn absolute left-[10px] bottom-[10px]"
+        onClick={handleButtonHelp}
+      >
+        <FaRegQuestionCircle />
+      </button>
+      {show.help && <Help />}
       <Messages
         code={code}
         name={currentUser.name}

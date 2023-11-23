@@ -23,6 +23,8 @@ import { useGameSetupSocket } from "../../hooks/use-game-setup";
 import { useSocket } from "../../providers/socket-provider";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import toast from "react-hot-toast";
+import { FaRegQuestionCircle } from "react-icons/fa";
+import Help from "../Help/Help";
 
 export default function Join() {
   const params = queryString.parse(window.location.search);
@@ -42,6 +44,7 @@ export default function Join() {
   const [show, setShow] = useState({
     users: false,
     setup: false,
+    help: false,
   });
   const roomMaster = users.find((user) => user.master === true);
   const isRoomMaster = roomMaster?.name === name ? true : false;
@@ -98,6 +101,7 @@ export default function Join() {
     setShow({
       users: !show.users,
       setup: false,
+      help: false,
     });
   };
 
@@ -105,6 +109,15 @@ export default function Join() {
     setShow({
       setup: !show.setup,
       users: false,
+      help: false,
+    });
+  };
+
+  const handleButtonHelp = () => {
+    setShow({
+      setup: false,
+      users: false,
+      help: !show.help,
     });
   };
 
@@ -146,6 +159,13 @@ export default function Join() {
       >
         <WebAudioContext.Provider value={audioContext}>
           <AudioConference className="hidden" />
+          <button
+            className="h-[48px] btn absolute right-[70px] bottom-[10px]"
+            onClick={handleButtonHelp}
+          >
+            <FaRegQuestionCircle />
+          </button>
+          {show.help && <Help />}
           <div className="w-full h-full md:flex md:justify-center md:items-center gap-6">
             <div className="w-full h-[90%] flex flex-col justify-center items-center md:order-2 md:w-[60%]">
               <Messages name={name} code={code} />

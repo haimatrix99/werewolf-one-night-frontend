@@ -5,10 +5,13 @@ import { useSocket } from "../../providers/socket-provider";
 import { User } from "../../lib/types";
 import Footer from "../Footer/Footer";
 import toast from "react-hot-toast";
+import Help from "../Help/Help";
+import { FaRegQuestionCircle } from "react-icons/fa";
 
 export default function Homepage() {
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
+  const [showHelp, setShowHelp] = useState(false);
   const navigate = useNavigate();
   const { socket } = useSocket();
 
@@ -40,6 +43,10 @@ export default function Homepage() {
       });
       navigate(`/room?code=${code}&name=${name}`);
     }
+  };
+
+  const handleButtonHelp = () => {
+    setShowHelp(!showHelp);
   };
 
   return (
@@ -79,6 +86,13 @@ export default function Homepage() {
           </button>
         </div>
       </div>
+      <button
+        className="absolute top-1 right-1 text-2xl text-white border rounded-2xl bg-indigo-500 p-2"
+        onClick={handleButtonHelp}
+      >
+        <FaRegQuestionCircle />
+      </button>
+      {showHelp && <Help />}
       <Footer />
     </>
   );
