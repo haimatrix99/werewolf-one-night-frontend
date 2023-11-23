@@ -263,15 +263,15 @@ export default function Help() {
         </h3>
         <p>
           1.Kẻ mạo danh: nếu bộ bài có quân bài này. Kẻ mạo danh xem 1 lá bài
-          của người chơi khác và thực hiện chức năng phù hợp. 2.Ma sói: Các Ma
-          sói mở mắt và tìm kiếm đồng đội. Có thể không có ai cả. 3.Kẻ phản bội:
+          của người chơi khác và thực hiện chức năng phù hợp.<br />2.Ma sói: Các Ma
+          sói mở mắt và tìm kiếm đồng đội. Có thể không có ai cả.<br />3.Kẻ phản bội:
           Tỉnh dậy và kiểm tra xem ai là Ma Sói. Ma sói sẽ giơ 1 ngón cái lên
-          làm tín hiệu. 4.Thợ Hồ: Tỉnh dậy và tìm kiếm Thợ Hồ còn lại. 5.Tiên
+          làm tín hiệu.<br />4.Thợ Hồ: Tỉnh dậy và tìm kiếm Thợ Hồ còn lại.<br />5.Tiên
           tri: Tỉnh dậy và xem 1 lá bài của người khác hoặc xem 2 trong số 3 lá
-          ở giữa. 6.Đạo tặc: Hoán đổi một lá bài của người khác với mình và xem
-          lá bài đó. 7.Kẻ phá rối: Tỉnh dậy và hoán đổi 2 lá bài của 2 người
-          chơi 8.Bợm nhậu: Tỉnh dậy và tráo lá bài của mình lấy 1 lá bài từ bộ
-          bài ở giữa 9.Cú đêm: Dậy và xem lại lá bài của mình xem có bị tráo đổi
+          ở giữa.<br />6.Đạo tặc: Hoán đổi một lá bài của người khác với mình và xem
+          lá bài đó.<br />7.Kẻ phá rối: Tỉnh dậy và hoán đổi 2 lá bài của 2 người
+          chơi.<br />8.Bợm nhậu: Tỉnh dậy và tráo lá bài của mình lấy 1 lá bài từ bộ
+          bài ở giữa.<br />9.Cú đêm: Dậy và xem lại lá bài của mình xem có bị tráo đổi
           hay không.
         </p>
         <h3 className="text-xl font-semibold text-black">Phe dân thắng khi</h3>
