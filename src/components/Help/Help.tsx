@@ -36,9 +36,8 @@ export default function Help() {
             <span className="text-black text-lg font-semibold">
               Dân làng (Villager)
             </span>
-            : tương tự Ma sói Characters, dân làng trong Ma sói One Night cũng
-            không có chức năng đặc biệt nào cả và chiếm số đông trong ngôi làng
-            ( có 3/16 lá bài là Dân làng). Nhân vật này ngủ suốt đêm.
+            : Dân làng không có chức năng đặc biệt nào cả và chiếm số đông trong
+            ngôi làng (có 3/16 lá bài là Dân làng). Nhân vật này ngủ suốt đêm.
           </p>
         </div>
         <div className="flex gap-2">
@@ -51,7 +50,7 @@ export default function Help() {
             <span className="text-black text-lg font-semibold">
               Tiên tri (Seer)
             </span>
-            : ban đêm Tiên tri có thể nhìn lá bài của người khác hoặc là xem 2
+            : Ban đêm Tiên tri có thể nhìn lá bài của người khác hoặc là xem 2
             lá bài ở giữa, nhưng không được phép di chuyển chúng
           </p>
         </div>
@@ -70,7 +69,7 @@ export default function Help() {
             Người mang lá Đạo tặc cuối cùng sẽ theo Phe dân. Còn Đạo tặc sẽ theo
             phe lá bài mới mà mình lấy nhưng không được thực hiện chức năng vào
             Ban đêm. Đạo tặc có quyền không lấy lá bài của người chơi khác và
-            vẫn đóng vai Đạo tặawjc.
+            vẫn đóng vai Đạo tặc.
           </p>
         </div>
         <div className="flex gap-2">
@@ -83,10 +82,10 @@ export default function Help() {
             <span className="text-black text-lg font-semibold">
               Kẻ gây rối (Troublemaker)
             </span>
-            : Vào ban đêm, Kẻ gây rối có thể tráo 2 lá bài của hai người chơi
-            nhưng không được phép nhìn những lá bài này. Những người chơi bị
-            tráo bài sẽ thay đổi vai trò theo lá bài mới, mặc dù họ có thể không
-            biết cho đến cuối trò chơi.
+            : Ban đêm, Kẻ gây rối có thể tráo 2 lá bài của hai người chơi nhưng
+            không được phép nhìn những lá bài này. Những người chơi bị tráo bài
+            sẽ thay đổi vai trò theo lá bài mới, mặc dù họ có thể không biết cho
+            đến cuối trò chơi.
           </p>
         </div>
         <div className="flex gap-2">
@@ -132,11 +131,11 @@ export default function Help() {
             <span className="text-black text-lg font-semibold">
               Ma sói (Werewolf)
             </span>
-            : vào ban đêm tất cả Ma sói mở mắt và tìm những Ma sói khác. Nếu
-            không có Ma sói khác thì có nghĩa là quân Ma sói đang ở bộ bài thừa.
+            : Ban đêm tất cả Ma sói mở mắt và tìm những Ma sói khác. Nếu không
+            có Ma sói khác thì có nghĩa là quân Ma sói đang ở bộ bài thừa.
             <br />
-            Nếu chỉ có duy nhất một Ma sói ( Đơn sói ), Sói sẽ được xem 1 lá bài
-            ở giữa nhằm giúp Ma sói xác định vai trò những người chơi còn lại.
+            Nếu chỉ có duy nhất một Ma sói, Sói sẽ được xem 1 lá bài ở giữa nhằm
+            giúp Ma sói xác định vai trò những người chơi còn lại.
           </p>
         </div>
         <div className="flex gap-2">
@@ -171,7 +170,7 @@ export default function Help() {
             : Nhân vật này vô cùng lạ lùng. Một nhân vật chẳng thiết tha sống gì
             cả. Nếu nhân vật này chết mà không có Sói chết, thì anh ta thắng.
             Nếu nhân vật này chết và Sói chết, thì phe Dân làng thắng và anh ta
-            cũng thắng ( vì cũng là phe Dân làng). Nhưng nếu Kẻ sầu đời chết mà
+            cũng thắng (vì cũng là phe Dân làng). Nhưng nếu Kẻ sầu đời chết mà
             Sói đều nằm giữa, thì Dân làng thua. Có thể coi nhân vật này như một
             phe riêng.
           </p>
@@ -247,7 +246,7 @@ export default function Help() {
           ứng với các lá bài chơi được chọn.
         </p>
         <h2 className="text-2xl font-semibold text-orange-500">
-          4. Tiến trình chơi 1 ván Werewolf One Night``
+          4. Tiến trình chơi 1 ván Werewolf One Night
         </h2>
         <h3 className="text-xl font-semibold text-black">Bắt đầu trò chơi</h3>
         <p>
@@ -263,16 +262,28 @@ export default function Help() {
         </h3>
         <p>
           1.Kẻ mạo danh: nếu bộ bài có quân bài này. Kẻ mạo danh xem 1 lá bài
-          của người chơi khác và thực hiện chức năng phù hợp.<br />2.Ma sói: Các Ma
-          sói mở mắt và tìm kiếm đồng đội. Có thể không có ai cả.<br />3.Kẻ phản bội:
-          Tỉnh dậy và kiểm tra xem ai là Ma Sói. Ma sói sẽ giơ 1 ngón cái lên
-          làm tín hiệu.<br />4.Thợ Hồ: Tỉnh dậy và tìm kiếm Thợ Hồ còn lại.<br />5.Tiên
-          tri: Tỉnh dậy và xem 1 lá bài của người khác hoặc xem 2 trong số 3 lá
-          ở giữa.<br />6.Đạo tặc: Hoán đổi một lá bài của người khác với mình và xem
-          lá bài đó.<br />7.Kẻ phá rối: Tỉnh dậy và hoán đổi 2 lá bài của 2 người
-          chơi.<br />8.Bợm nhậu: Tỉnh dậy và tráo lá bài của mình lấy 1 lá bài từ bộ
-          bài ở giữa.<br />9.Cú đêm: Dậy và xem lại lá bài của mình xem có bị tráo đổi
-          hay không.
+          của người chơi khác và thực hiện chức năng phù hợp.
+          <br />
+          2.Ma sói: Các Ma sói mở mắt và tìm kiếm đồng đội. Có thể không có ai
+          cả.
+          <br />
+          3.Kẻ phản bội: Tỉnh dậy và kiểm tra xem ai là Ma Sói. Ma sói sẽ giơ 1
+          ngón cái lên làm tín hiệu.
+          <br />
+          4.Thợ Hồ: Tỉnh dậy và tìm kiếm Thợ Hồ còn lại.
+          <br />
+          5.Tiên tri: Tỉnh dậy và xem 1 lá bài của người khác hoặc xem 2 trong
+          số 3 lá ở giữa.
+          <br />
+          6.Đạo tặc: Hoán đổi một lá bài của người khác với mình và xem lá bài
+          đó.
+          <br />
+          7.Kẻ phá rối: Tỉnh dậy và hoán đổi 2 lá bài của 2 người chơi.
+          <br />
+          8.Bợm nhậu: Tỉnh dậy và tráo lá bài của mình lấy 1 lá bài từ bộ bài ở
+          giữa.
+          <br />
+          9.Cú đêm: Dậy và xem lại lá bài của mình xem có bị tráo đổi hay không.
         </p>
         <h3 className="text-xl font-semibold text-black">Phe dân thắng khi</h3>
         <p>
