@@ -5,8 +5,6 @@ import { useSocket } from "../../providers/socket-provider";
 import { User } from "../../lib/types";
 import Footer from "../Footer/Footer";
 import toast from "react-hot-toast";
-import Help from "../Help/Help";
-import { FaRegQuestionCircle } from "react-icons/fa";
 
 export default function Homepage() {
   const [code, setCode] = useState("");

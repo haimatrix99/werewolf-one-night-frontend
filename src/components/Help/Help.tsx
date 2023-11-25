@@ -258,7 +258,7 @@ export default function Help() {
           Thứ tự thức dậy bao gồm
         </h3>
         <p>
-          1.Kẻ mạo danh: nếu bộ bài có quân bài này. Kẻ mạo danh xem 1 lá bài
+          1.Kẻ mạo danh: Nếu bộ bài có quân bài này. Kẻ mạo danh xem 1 lá bài
           của người chơi khác và thực hiện chức năng phù hợp.
           <br />
           2.Ma sói: Các Ma sói mở mắt và tìm kiếm đồng đội. Có thể không có ai
