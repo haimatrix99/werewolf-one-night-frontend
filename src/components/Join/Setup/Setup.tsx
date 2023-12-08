@@ -122,7 +122,7 @@ export default function Setup({
               <select
                 name="discussTime"
                 defaultValue={discussTime}
-                className="text-lg bg-indigo-500 border-2 border-solid border-white rounded-lg px-2 py-1 md:text-xl"
+                className="text-lg bg-indigo-500 border-2 border-solid border-white rounded-lg px-2 py-1 focus-visible:outline-none md:text-xl"
                 onChange={(e) => onDiscussTimeChange(e.currentTarget.value)}
               >
                 {discussTimeOptions.map((discussTime) => (
