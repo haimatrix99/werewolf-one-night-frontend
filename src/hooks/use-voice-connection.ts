@@ -31,6 +31,7 @@ export const useVoiceConnection = (code: string, name: string) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
+            mode: "no-cors"
           }
         );
 
