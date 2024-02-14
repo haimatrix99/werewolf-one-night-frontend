@@ -21,7 +21,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const socketInstance = new (ClientIO as any)(
-      "https://api.werewolfonenight.com",
+      process.env.REACT_APP_ENDPOINT || "https://api.werewolfonenight.com",
       {
         path: "/api/socket/io",
         addTrailingSlash: false,

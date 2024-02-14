@@ -24,7 +24,9 @@ export const useVoiceConnection = (code: string, name: string) => {
           name,
         };
         const response = await fetch(
-          "https://api.werewolfonenight.com/api/voice/connection",
+          `${
+            process.env.REACT_APP_ENDPOINT || "https://api.werewolfonenight.com"
+          }/api/voice/connection`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
