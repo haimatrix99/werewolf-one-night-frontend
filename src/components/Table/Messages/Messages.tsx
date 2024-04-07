@@ -60,7 +60,7 @@ export default function Messages({
           <div className="basis-[10%] flex mt-[10px]">
             <input
               type="text"
-              className="basis-full"
+              className="pl-2 basis-full"
               placeholder="Type a message..."
               value={message}
               onChange={({ target: { value } }) => setMessage(value)}

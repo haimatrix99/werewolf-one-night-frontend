@@ -55,7 +55,7 @@ export default function Messages({ name, code }: MessagesProps) {
         <div className="basis-[10%] flex mt-[10px]">
           <input
             type="text"
-            className="basis-full"
+            className="pl-2 basis-full"
             placeholder="Nhập tin nhắn..."
             value={message}
             onChange={({ target: { value } }) => setMessage(value)}
